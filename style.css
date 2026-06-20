@@ -17,7 +17,9 @@ Version: 1.0
 
 body {
     font-family: 'Dana', sans-serif;
-    background-color: #EFDEF5 !important;
+    
+
+background-color: blue!important;
 }
 
 html {
