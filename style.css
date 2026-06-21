@@ -1,0 +1,32 @@
+/*
+Theme Name: Weblazem Theme
+Author: AmirAli Barasoud
+Description: آژانس طراحی سایت و سئو وب لازم
+Version: 1.0
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+    --main-color: #4F1E60;
+    --accent-color: #f59e0b;
+}
+
+
+body {
+    font-family: 'Dana', sans-serif;
+    background-color: #EFDEF5 !important;
+}
+
+html {
+    background-color: #EFDEF5 !important;
+}
+#preloader {
+    transition: opacity 0.5s ease;
+}
+.weblazem-home-hero {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
