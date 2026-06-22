@@ -1,46 +1,20 @@
 <?php
 /**
- * Archive template for portfolio post type.
+ * Archive fallback — redirect to the portfolio page when available.
  */
 
-get_header();
+$page_id = function_exists('weblazem_get_portfolio_page_id') ? weblazem_get_portfolio_page_id() : 0;
 
-$card_btn_text = get_option('weblazem_portfolio_card_button_text', 'مشاهده‌ی پروژه');
-$archive_url   = weblazem_get_portfolio_archive_url();
+if ($page_id) {
+    wp_safe_redirect(get_permalink($page_id));
+    exit;
+}
+
+get_header();
 ?>
 
-<main class="weblazem-portfolio-archive" dir="rtl">
-    <div class="container">
-        <div class="portfolio-archive-header">
-            <h1 class="archive-title"><?php post_type_archive_title(); ?></h1>
-            <p class="archive-description">همه نمونه کارهای طراحی و توسعه وب‌لازم</p>
-        </div>
-
-        <?php if (have_posts()) : ?>
-            <div class="portfolio-cards">
-                <?php
-                while (have_posts()) :
-                    the_post();
-                    weblazem_render_portfolio_card(array(
-                        'card_btn_text' => $card_btn_text,
-                        'heading_tag'   => 'h2',
-                    ));
-                endwhile;
-                ?>
-            </div>
-
-            <div class="portfolio-archive-pagination">
-                <?php the_posts_pagination(array(
-                    'mid_size'  => 2,
-                    'prev_text' => '&rarr; قبلی',
-                    'next_text' => 'بعدی &larr;',
-                )); ?>
-            </div>
-        <?php else : ?>
-            <p class="portfolio-section-empty">هنوز نمونه کاری ثبت نشده است.</p>
-            <a href="<?php echo esc_url(home_url('/')); ?>" class="portfolio-more-button" style="margin-top: 24px;">بازگشت به صفحه اصلی</a>
-        <?php endif; ?>
-    </div>
+<main class="weblazem-portfolio-page" dir="rtl">
+    <?php get_template_part('template-parts/portfolio/layout', 'main'); ?>
 </main>
 
 <?php get_footer(); ?>

@@ -28,6 +28,10 @@ require get_template_directory() . '/inc/customers-options.php';
 require get_template_directory() . '/inc/testimonials-options.php';
 require get_template_directory() . '/inc/faq-options.php';
 require_once get_template_directory() . '/inc/footer-options.php';
+require_once get_template_directory() . '/inc/internal-pages-options.php';
+require_once get_template_directory() . '/inc/portfolio-page-options.php';
+require_once get_template_directory() . '/inc/portfolio-page-setup.php';
+require_once get_template_directory() . '/inc/portfolio-menu.php';
 
 function weblazem_enqueue_assets() {
     // فونت‌ها
@@ -47,13 +51,26 @@ function weblazem_enqueue_assets() {
     );
 
     // استایل صفحه اصلی و بخش نمونه کارها
-    if (is_page_template('home-template.php') || is_post_type_archive('portfolio') || is_singular('portfolio')) {
+    $is_portfolio_listing = is_page_template('portfolio-template.php')
+        || (function_exists('weblazem_is_portfolio_listing_page') && weblazem_is_portfolio_listing_page())
+        || is_post_type_archive('portfolio');
+
+    if (is_page_template('home-template.php') || $is_portfolio_listing || is_singular('portfolio')) {
         wp_enqueue_style(
             'weblazem-home-style',
             get_template_directory_uri() . '/assets/css/home.css',
             [],
             null
         );
+
+        if ($is_portfolio_listing) {
+            wp_enqueue_style(
+                'weblazem-portfolio-page-style',
+                get_template_directory_uri() . '/assets/css/portfolio-page.css',
+                array('weblazem-home-style'),
+                null
+            );
+        }
         
         wp_enqueue_style( 
             'weblazem-footer-style',

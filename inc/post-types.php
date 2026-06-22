@@ -34,7 +34,7 @@ function weblazem_register_portfolio_post_type() {
         'query_var'          => true,
         'rewrite'            => array('slug' => 'namune-kar', 'with_front' => false),
         'capability_type'    => 'post',
-        'has_archive'        => true,
+        'has_archive'        => false,
         'hierarchical'       => false,
         'menu_position'      => 21,
         'menu_icon'          => 'dashicons-portfolio',

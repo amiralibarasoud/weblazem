@@ -56,7 +56,7 @@ $hero_text = get_option('weblazem_hero_text');
 $button_text = get_option('weblazem_hero_button_text');
 $button_url = get_option('weblazem_hero_button_url');
 $hero_image = get_option('weblazem_hero_image');
-$hero_background = get_option('weblazem_hero_background', 'https://localhost/weblazem/wp-content/uploads/2025/07/Rectangle-31.png');
+$hero_background = get_option('weblazem_hero_background', 'https://weblazem.com/wp-content/uploads/2025/07/Rectangle-31.png');
 
 $services_title = get_option('weblazem_services_title');
 $services_subtitle = get_option('weblazem_services_subtitle');

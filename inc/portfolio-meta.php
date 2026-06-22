@@ -29,7 +29,13 @@ function weblazem_portfolio_meta_box_render($post) {
                 <input type="text" id="weblazem_portfolio_subtitle" name="weblazem_portfolio_subtitle"
                        class="large-text" value="<?php echo esc_attr($subtitle); ?>"
                        placeholder="<?php echo esc_attr(get_the_title($post)); ?>" />
-                <p class="description">در صفحه اصلی زیر تصویر نمایش داده می‌شود. اگر خالی باشد، از عنوان پست استفاده می‌شود.</p>
+                <p class="description">در صفحه نمونه کارها زیر تصویر نمایش داده می‌شود. اگر خالی باشد، از عنوان پست استفاده می‌شود.</p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">خلاصه کارت</th>
+            <td>
+                <p class="description">از فیلد «چکیده» در ویرایشگر (Excerpt) برای متن کوتاه زیر عنوان کارت در صفحه نمونه کارها استفاده کنید.</p>
             </td>
         </tr>
         <tr>
@@ -112,36 +118,63 @@ function weblazem_get_portfolio_project_link($post_id = null) {
 }
 
 /**
+ * Short description for portfolio cards (excerpt or trimmed content).
+ */
+function weblazem_get_portfolio_card_description($post_id = null) {
+    $post_id = $post_id ? $post_id : get_the_ID();
+    $excerpt = get_post_field('post_excerpt', $post_id);
+
+    if (!empty($excerpt)) {
+        return wp_trim_words($excerpt, 18, '…');
+    }
+
+    $content = get_post_field('post_content', $post_id);
+
+    if (!empty($content)) {
+        return wp_trim_words(wp_strip_all_tags($content), 18, '…');
+    }
+
+    return '';
+}
+
+/**
  * Render a portfolio card with explicit template variables.
  *
  * @param array $args {
  *     @type string $card_title
+ *     @type string $card_description
  *     @type string $project_link
  *     @type string $card_btn_text
  *     @type bool   $external
  *     @type string $heading_tag h2|h3|h4
+ *     @type string $variant homepage|archive
  * }
  */
 function weblazem_render_portfolio_card($args = array()) {
     $post_id = get_the_ID();
 
     $defaults = array(
-        'card_title'    => $post_id ? weblazem_get_portfolio_card_title($post_id) : '',
-        'project_link'  => $post_id ? weblazem_get_portfolio_project_link($post_id) : '#',
-        'card_btn_text' => get_option('weblazem_portfolio_card_button_text', 'مشاهده‌ی پروژه'),
-        'external'      => $post_id ? (bool) get_post_meta($post_id, '_weblazem_portfolio_project_url', true) : false,
-        'heading_tag'   => 'h3',
+        'card_title'       => $post_id ? weblazem_get_portfolio_card_title($post_id) : '',
+        'card_description' => $post_id ? weblazem_get_portfolio_card_description($post_id) : '',
+        'project_link'     => $post_id ? weblazem_get_portfolio_project_link($post_id) : '#',
+        'card_btn_text'    => get_option('weblazem_portfolio_card_button_text', 'مشاهده‌ی پروژه'),
+        'external'         => $post_id ? (bool) get_post_meta($post_id, '_weblazem_portfolio_project_url', true) : false,
+        'heading_tag'      => 'h3',
+        'variant'          => 'homepage',
     );
 
     $args = wp_parse_args($args, $defaults);
 
-    $card_title    = (string) $args['card_title'];
-    $project_link  = (string) $args['project_link'];
-    $card_btn_text = (string) $args['card_btn_text'];
-    $external      = (bool) $args['external'];
-    $heading_tag   = (string) $args['heading_tag'];
+    $card_title       = (string) $args['card_title'];
+    $card_description = (string) $args['card_description'];
+    $project_link     = (string) $args['project_link'];
+    $card_btn_text    = (string) $args['card_btn_text'];
+    $external         = (bool) $args['external'];
+    $heading_tag      = (string) $args['heading_tag'];
+    $variant          = $args['variant'] === 'archive' ? 'archive' : 'homepage';
 
-    $template = get_template_directory() . '/template-parts/components/portfolio-card.php';
+    $template_name = $variant === 'archive' ? 'portfolio-card-archive' : 'portfolio-card';
+    $template      = get_template_directory() . '/template-parts/components/' . $template_name . '.php';
 
     if (!file_exists($template)) {
         return;

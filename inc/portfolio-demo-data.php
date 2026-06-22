@@ -13,6 +13,10 @@ function weblazem_get_portfolio_demo_slugs() {
 }
 
 function weblazem_get_portfolio_archive_url() {
+    if (function_exists('weblazem_get_portfolio_page_url')) {
+        return weblazem_get_portfolio_page_url();
+    }
+
     $url = get_post_type_archive_link('portfolio');
 
     if (!$url) {
