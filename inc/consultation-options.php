@@ -8,6 +8,8 @@ function weblazem_consultation_options_defaults() {
         'weblazem_consult_section_enabled'          => '1',
         'weblazem_consult_section_home'             => '1',
         'weblazem_consult_section_portfolio_single' => '1',
+        'weblazem_consult_float_enabled'            => '1',
+        'weblazem_consult_float_text'               => 'مشاوره رایگان',
         'weblazem_consult_badge'                  => 'مشاوره تخصصی وب‌لازم',
         'weblazem_consult_title'                    => 'در صدر بازار خود قرار بگیرید',
         'weblazem_consult_text'                     => 'با استراتژی درست، طراحی حرفه‌ای وب‌سایت و بازاریابی دیجیتال می‌توانید در بازار رقابتی امروز جایگاه برتر کسب‌وکار خود را تثبیت کنید.',
@@ -138,6 +140,7 @@ function weblazem_register_consultation_settings() {
         'weblazem_consult_section_enabled',
         'weblazem_consult_section_home',
         'weblazem_consult_section_portfolio_single',
+        'weblazem_consult_float_enabled',
     );
 
     foreach (weblazem_consultation_options_defaults() as $key => $default) {
@@ -198,6 +201,22 @@ function weblazem_should_show_consult_section($context = '') {
     return true;
 }
 
+function weblazem_should_show_consult_floating_btn() {
+    if (weblazem_get_consult_option('weblazem_consult_section_enabled', '1') !== '1') {
+        return false;
+    }
+
+    if (weblazem_get_consult_option('weblazem_consult_float_enabled', '1') !== '1') {
+        return false;
+    }
+
+    if (is_singular('portfolio')) {
+        return false;
+    }
+
+    return true;
+}
+
 function weblazem_consultation_options_display() {
     $defaults = weblazem_consultation_options_defaults();
     $opts     = array();
@@ -222,6 +241,7 @@ function weblazem_consultation_options_display() {
                 <input type="hidden" name="weblazem_consult_section_enabled" value="0" />
                 <input type="hidden" name="weblazem_consult_section_home" value="0" />
                 <input type="hidden" name="weblazem_consult_section_portfolio_single" value="0" />
+                <input type="hidden" name="weblazem_consult_float_enabled" value="0" />
 
                 <div class="weblazem-admin-card">
                     <div class="weblazem-admin-card-icon"><i class="fas fa-eye"></i></div>
@@ -238,6 +258,17 @@ function weblazem_consultation_options_display() {
                         <tr>
                             <th>نمونه کار تکی</th>
                             <td><label><input type="checkbox" name="weblazem_consult_section_portfolio_single" value="1" <?php checked($opts['weblazem_consult_section_portfolio_single'], '1'); ?> /> نمایش سکشن مشاوره در صفحه جزئیات نمونه کار</label></td>
+                        </tr>
+                        <tr>
+                            <th>دکمه شناور</th>
+                            <td>
+                                <label><input type="checkbox" name="weblazem_consult_float_enabled" value="1" <?php checked($opts['weblazem_consult_float_enabled'], '1'); ?> /> نمایش دکمه شناور در تمام صفحات</label>
+                                <p class="description">در صفحه جزئیات نمونه‌کار، نوار پایین جایگزین این دکمه می‌شود.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>متن دکمه شناور</th>
+                            <td><input type="text" name="weblazem_consult_float_text" class="regular-text" value="<?php echo esc_attr($opts['weblazem_consult_float_text']); ?>" /></td>
                         </tr>
                     </table>
                     <p class="description">دکمه‌هایی با کلاس <code>weblazem-consult-trigger</code> در کل سایت مودال را باز می‌کنند.</p>

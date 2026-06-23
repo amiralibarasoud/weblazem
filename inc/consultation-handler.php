@@ -214,14 +214,14 @@ function weblazem_enqueue_consultation_assets() {
         'weblazem-consultation',
         get_template_directory_uri() . '/assets/css/consultation.css',
         array(),
-        '1.0.0'
+        '1.0.1'
     );
 
     wp_enqueue_script(
         'weblazem-consultation-modal',
         get_template_directory_uri() . '/assets/js/consultation-modal.js',
         array(),
-        '1.0.0',
+        '1.0.1',
         true
     );
 

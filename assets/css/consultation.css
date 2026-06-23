@@ -355,6 +355,65 @@ body.weblazem-consult-modal-open {
     overflow: hidden;
 }
 
+/* ─── Compact floating trigger (site-wide) ─── */
+.weblazem-consult-float {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 9990;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    background: rgba(64, 22, 92, 0.92);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: 0 4px 14px rgba(64, 22, 92, 0.22);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.weblazem-consult-float:hover {
+    transform: translateY(-1px);
+    background: rgba(45, 15, 66, 0.96);
+    box-shadow: 0 6px 18px rgba(64, 22, 92, 0.28);
+}
+
+.weblazem-consult-float__icon {
+    font-size: 12px;
+    opacity: 0.92;
+}
+
+.weblazem-consult-float__text {
+    white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+    .weblazem-consult-float {
+        right: 12px;
+        bottom: 12px;
+        padding: 9px;
+        width: 38px;
+        height: 38px;
+        justify-content: center;
+    }
+
+    .weblazem-consult-float__text {
+        display: none;
+    }
+
+    .weblazem-consult-float__icon {
+        font-size: 14px;
+    }
+}
+
 @media (max-width: 900px) {
     .weblazem-consult-section__panel {
         grid-template-columns: 1fr;
