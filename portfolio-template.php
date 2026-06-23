@@ -13,7 +13,7 @@ get_header();
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    if (window.location.hash === '#portfolio-all-projects' || /portfolio_page=\d+/.test(window.location.search)) {
+    if (window.location.hash === '#portfolio-all-projects' || /portfolio_page=\d+/.test(window.location.search) || /portfolio_tab=/.test(window.location.search)) {
         var section = document.getElementById('portfolio-all-projects');
         if (section) {
             section.scrollIntoView({ behavior: 'smooth', block: 'start' });

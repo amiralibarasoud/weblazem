@@ -173,6 +173,12 @@ function weblazem_seed_portfolio_demo() {
         update_post_meta($post_id, '_weblazem_portfolio_subtitle', 'طراحی سایت فروشگاهی');
         update_post_meta($post_id, '_weblazem_portfolio_client', 'وب‌لازم (دمو)');
 
+        if (function_exists('weblazem_assign_demo_portfolio_categories')) {
+            $index = array_search($slug, $demo_slugs, true);
+            $term  = ($index !== false && $index >= 4) ? 'site-sherkati' : 'foroushgahee-interneti';
+            wp_set_object_terms($post_id, $term, 'portfolio_category', false);
+        }
+
         $created_any = true;
     }
 

@@ -29,6 +29,10 @@ function weblazem_ensure_portfolio_page_defaults() {
             update_option($key, $value);
         }
     }
+
+    if (get_option('weblazem_portfolio_page_tabs') === false) {
+        update_option('weblazem_portfolio_page_tabs', weblazem_get_default_portfolio_page_tabs());
+    }
 }
 add_action('init', 'weblazem_ensure_portfolio_page_defaults', 14);
 
@@ -50,6 +54,12 @@ function weblazem_register_portfolio_page_settings() {
     foreach (array_keys($defaults) as $key) {
         register_setting('weblazem_portfolio_page_group', $key);
     }
+
+    register_setting(
+        'weblazem_portfolio_page_group',
+        'weblazem_portfolio_page_tabs',
+        array('sanitize_callback' => 'weblazem_sanitize_portfolio_page_tabs')
+    );
 }
 add_action('admin_init', 'weblazem_register_portfolio_page_settings');
 
@@ -71,6 +81,8 @@ function weblazem_portfolio_page_options_display() {
     }
 
     $archive_url = weblazem_get_portfolio_page_url();
+    $tabs        = weblazem_get_portfolio_page_tabs();
+    $categories  = weblazem_get_portfolio_category_choices();
     ?>
     <div class="wrap" dir="rtl">
         <div class="weblazem-admin-header">
@@ -235,6 +247,62 @@ function weblazem_portfolio_page_options_display() {
                             </td>
                         </tr>
                     </table>
+
+                    <h4 style="margin-top:28px;">تب‌های فیلتر</h4>
+                    <p class="description">
+                        تب‌های شیشه‌ای بالای لیست پروژه‌ها. برای هر تب یک دسته نمونه کار انتخاب کنید.
+                        دسته‌های جدید را از
+                        <a href="<?php echo esc_url(admin_url('edit-tags.php?taxonomy=portfolio_category&post_type=portfolio')); ?>">مدیریت دسته‌بندی نمونه کار</a>
+                        اضافه کنید.
+                    </p>
+
+                    <div id="portfolio-tabs-container" style="margin-top:16px;">
+                        <?php foreach ($tabs as $index => $tab) : ?>
+                            <div class="weblazem-portfolio-tab-admin" style="background:#f8f5fc;padding:16px;border-radius:12px;margin-bottom:16px;border:1px solid #e8dff0;">
+                                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                                    <h4 style="margin:0;">تب <?php echo (int) $index + 1; ?></h4>
+                                    <button type="button" class="button portfolio-tab-remove">حذف</button>
+                                </div>
+                                <table class="form-table">
+                                    <tr>
+                                        <th scope="row">عنوان تب</th>
+                                        <td>
+                                            <input type="text"
+                                                   name="weblazem_portfolio_page_tabs[<?php echo esc_attr($index); ?>][title]"
+                                                   class="large-text"
+                                                   value="<?php echo esc_attr($tab['title']); ?>" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">شناسه تب</th>
+                                        <td>
+                                            <input type="text"
+                                                   name="weblazem_portfolio_page_tabs[<?php echo esc_attr($index); ?>][key]"
+                                                   class="regular-text"
+                                                   value="<?php echo esc_attr($tab['key']); ?>"
+                                                   dir="ltr" />
+                                            <p class="description">فقط حروف انگلیسی و خط تیره. مثال: `foroushgahee`</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">دسته نمونه کار</th>
+                                        <td>
+                                            <select name="weblazem_portfolio_page_tabs[<?php echo esc_attr($index); ?>][category]">
+                                                <?php foreach ($categories as $slug => $label) : ?>
+                                                    <option value="<?php echo esc_attr($slug); ?>" <?php selected($tab['category'], $slug); ?>>
+                                                        <?php echo esc_html($label); ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                            <p class="description">گزینه «همه پروژه‌ها» برای نمایش کل نمونه کارها بدون فیلتر است.</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <button type="button" class="button button-primary" id="add-portfolio-tab">افزودن تب</button>
                 </div>
 
                 <?php submit_button('ذخیره تنظیمات'); ?>
@@ -276,6 +344,39 @@ function weblazem_portfolio_page_options_display() {
             $('#weblazem_portfolio_page_hero_image').val('');
             $('#portfolio-hero-image-preview').empty();
         });
+
+        var portfolioTabIndex = <?php echo count($tabs); ?>;
+        var categoryOptions = <?php echo wp_json_encode($categories); ?>;
+
+        function buildCategoryOptions(selected) {
+            var html = '';
+            Object.keys(categoryOptions).forEach(function(slug) {
+                var selectedAttr = (slug === selected) ? ' selected' : '';
+                html += '<option value="' + slug + '"' + selectedAttr + '>' + categoryOptions[slug] + '</option>';
+            });
+            return html;
+        }
+
+        $('#add-portfolio-tab').on('click', function() {
+            var block = ''
+                + '<div class="weblazem-portfolio-tab-admin" style="background:#f8f5fc;padding:16px;border-radius:12px;margin-bottom:16px;border:1px solid #e8dff0;">'
+                + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">'
+                + '<h4 style="margin:0;">تب جدید</h4>'
+                + '<button type="button" class="button portfolio-tab-remove">حذف</button>'
+                + '</div>'
+                + '<table class="form-table">'
+                + '<tr><th scope="row">عنوان تب</th><td><input type="text" name="weblazem_portfolio_page_tabs[' + portfolioTabIndex + '][title]" class="large-text" value="" /></td></tr>'
+                + '<tr><th scope="row">شناسه تب</th><td><input type="text" name="weblazem_portfolio_page_tabs[' + portfolioTabIndex + '][key]" class="regular-text" value="" dir="ltr" /></td></tr>'
+                + '<tr><th scope="row">دسته نمونه کار</th><td><select name="weblazem_portfolio_page_tabs[' + portfolioTabIndex + '][category]">' + buildCategoryOptions('') + '</select></td></tr>'
+                + '</table></div>';
+
+            $('#portfolio-tabs-container').append(block);
+            portfolioTabIndex++;
+        });
+
+        $(document).on('click', '.portfolio-tab-remove', function() {
+            $(this).closest('.weblazem-portfolio-tab-admin').remove();
+        });
     });
     </script>
     <?php
@@ -284,6 +385,34 @@ function weblazem_portfolio_page_options_display() {
 /**
  * Checkbox options are absent from POST when unchecked — normalize on save.
  */
+function weblazem_sanitize_portfolio_page_tabs($input) {
+    if (!is_array($input)) {
+        return weblazem_get_default_portfolio_page_tabs();
+    }
+
+    $sanitized = array();
+
+    foreach ($input as $tab) {
+        if (empty($tab['title'])) {
+            continue;
+        }
+
+        $key = !empty($tab['key']) ? sanitize_key($tab['key']) : sanitize_title($tab['title']);
+
+        if ($key === '') {
+            $key = 'tab-' . (count($sanitized) + 1);
+        }
+
+        $sanitized[] = array(
+            'key'      => $key,
+            'title'    => sanitize_text_field($tab['title']),
+            'category' => !empty($tab['category']) ? sanitize_title($tab['category']) : '',
+        );
+    }
+
+    return !empty($sanitized) ? $sanitized : weblazem_get_default_portfolio_page_tabs();
+}
+
 function weblazem_sanitize_portfolio_page_checkboxes($value) {
     return $value === '1' ? '1' : '0';
 }

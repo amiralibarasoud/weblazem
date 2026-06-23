@@ -20,6 +20,7 @@ add_action('after_setup_theme', 'weblazem_theme_setup');
 // Include theme options
 require get_template_directory() . '/inc/theme-options.php';
 require get_template_directory() . '/inc/post-types.php';
+require get_template_directory() . '/inc/portfolio-taxonomy.php';
 require get_template_directory() . '/inc/portfolio-meta.php';
 require get_template_directory() . '/inc/portfolio-theme-options.php';
 require get_template_directory() . '/inc/portfolio-demo-data.php';

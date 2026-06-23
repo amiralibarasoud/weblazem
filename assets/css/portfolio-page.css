@@ -319,6 +319,53 @@
     padding-bottom: 80px;
 }
 
+.portfolio-page-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0 0 36px;
+    justify-content: flex-start;
+}
+
+.portfolio-page-tabs__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--portfolio-purple-dark);
+    background: rgba(255, 255, 255, 0.42);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    box-shadow:
+        0 8px 24px rgba(64, 22, 92, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition: all 0.28s ease;
+}
+
+.portfolio-page-tabs__btn:hover {
+    color: var(--portfolio-purple);
+    background: rgba(255, 255, 255, 0.62);
+    transform: translateY(-2px);
+    box-shadow:
+        0 12px 28px rgba(64, 22, 92, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.portfolio-page-tabs__btn.is-active {
+    color: #ffffff;
+    background: rgba(64, 22, 92, 0.82);
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow:
+        0 12px 30px rgba(64, 22, 92, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
 .portfolio-page-empty {
     text-align: center;
     color: var(--portfolio-text-muted);
@@ -454,5 +501,17 @@
 
     .portfolio-page-hero__inner {
         padding: 48px 0 80px;
+    }
+
+    .portfolio-page-tabs {
+        gap: 10px;
+        margin-bottom: 28px;
+    }
+
+    .portfolio-page-tabs__btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 18px;
+        font-size: 13px;
     }
 }

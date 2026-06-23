@@ -1,27 +1,36 @@
 <?php
 /**
- * Portfolio archive — all projects with pagination.
+ * Portfolio archive — all projects with category tabs and pagination.
  */
 
 $section_title = get_option('weblazem_portfolio_page_all_title', 'تمام پروژه‌ها');
 $card_btn_text = get_option('weblazem_portfolio_page_card_button_text', 'مشاهده پروژه');
-$per_page      = max(4, (int) get_option('weblazem_portfolio_page_all_per_page', 8));
-$paged         = weblazem_get_portfolio_list_paged();
+$tabs          = weblazem_get_portfolio_page_tabs();
+$active_tab    = weblazem_get_active_portfolio_tab();
+$active_key    = weblazem_get_active_portfolio_tab_key();
 
-$portfolio_all_query = new WP_Query(array(
-    'post_type'      => 'portfolio',
-    'posts_per_page' => $per_page,
-    'paged'          => $paged,
-    'post_status'    => 'publish',
-    'orderby'        => 'date',
-    'order'          => 'DESC',
-));
+$portfolio_all_query = new WP_Query(weblazem_build_portfolio_list_query_args($active_tab));
 ?>
 
 <section id="portfolio-all-projects" class="portfolio-page-section portfolio-page-all" dir="rtl">
     <div class="container">
         <?php if (!empty($section_title)) : ?>
             <h2 class="portfolio-page-section__title"><?php echo esc_html($section_title); ?></h2>
+        <?php endif; ?>
+
+        <?php if (!empty($tabs)) : ?>
+            <nav class="portfolio-page-tabs" aria-label="فیلتر نمونه کارها">
+                <?php foreach ($tabs as $tab) :
+                    $is_active = ($tab['key'] === $active_key);
+                    $tab_url   = weblazem_get_portfolio_tab_url($tab['key']);
+                    ?>
+                    <a href="<?php echo esc_url($tab_url); ?>"
+                       class="portfolio-page-tabs__btn<?php echo $is_active ? ' is-active' : ''; ?>"
+                       <?php echo $is_active ? 'aria-current="page"' : ''; ?>>
+                        <?php echo esc_html($tab['title']); ?>
+                    </a>
+                <?php endforeach; ?>
+            </nav>
         <?php endif; ?>
 
         <?php if ($portfolio_all_query->have_posts()) : ?>
@@ -38,9 +47,9 @@ $portfolio_all_query = new WP_Query(array(
                 ?>
             </div>
 
-            <?php weblazem_portfolio_pagination($portfolio_all_query); ?>
+            <?php weblazem_portfolio_pagination($portfolio_all_query, $active_key); ?>
         <?php else : ?>
-            <p class="portfolio-page-empty">هنوز نمونه کاری ثبت نشده است.</p>
+            <p class="portfolio-page-empty">نمونه کاری در این دسته یافت نشد.</p>
         <?php endif; ?>
     </div>
 </section>
