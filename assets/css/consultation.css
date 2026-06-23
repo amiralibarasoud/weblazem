@@ -355,62 +355,105 @@ body.weblazem-consult-modal-open {
     overflow: hidden;
 }
 
-/* ─── Compact floating trigger (site-wide) ─── */
+/* ─── Centered floating bar (site-wide) ─── */
 .weblazem-consult-float {
     position: fixed;
-    right: 16px;
+    left: 50%;
     bottom: 16px;
+    transform: translateX(-50%);
     z-index: 9990;
-    display: inline-flex;
+    width: calc(100% - 24px);
+    max-width: 420px;
+    pointer-events: none;
+}
+
+.weblazem-consult-float__bar {
+    display: flex;
     align-items: center;
     gap: 6px;
-    padding: 7px 12px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 5px;
     border-radius: 999px;
-    background: rgba(64, 22, 92, 0.92);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 600;
-    line-height: 1;
+    background: #0b1527;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 28px rgba(8, 16, 32, 0.35);
+    pointer-events: auto;
+}
+
+.weblazem-consult-float__phone,
+.weblazem-consult-float__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex: 1;
+    min-height: 38px;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
     cursor: pointer;
     font-family: inherit;
-    box-shadow: 0 4px 14px rgba(64, 22, 92, 0.22);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.weblazem-consult-float:hover {
+.weblazem-consult-float__phone {
+    color: #fff;
+    background: #1a3d66;
+}
+
+.weblazem-consult-float__phone:hover {
+    color: #fff;
+    background: #214a78;
+}
+
+.weblazem-consult-float__phone i {
+    font-size: 13px;
+    opacity: 0.95;
+}
+
+.weblazem-consult-float__cta {
+    color: #fff;
+    background: #2563eb;
+}
+
+.weblazem-consult-float__cta:hover {
+    background: #1d4ed8;
     transform: translateY(-1px);
-    background: rgba(45, 15, 66, 0.96);
-    box-shadow: 0 6px 18px rgba(64, 22, 92, 0.28);
 }
 
-.weblazem-consult-float__icon {
+.weblazem-consult-float__cta i {
     font-size: 12px;
-    opacity: 0.92;
-}
-
-.weblazem-consult-float__text {
-    white-space: nowrap;
+    opacity: 0.95;
 }
 
 @media (max-width: 480px) {
     .weblazem-consult-float {
-        right: 12px;
         bottom: 12px;
-        padding: 9px;
-        width: 38px;
-        height: 38px;
-        justify-content: center;
+        width: calc(100% - 16px);
+        max-width: none;
     }
 
-    .weblazem-consult-float__text {
-        display: none;
+    .weblazem-consult-float__bar {
+        gap: 5px;
+        padding: 4px;
     }
 
-    .weblazem-consult-float__icon {
-        font-size: 14px;
+    .weblazem-consult-float__phone,
+    .weblazem-consult-float__cta {
+        min-height: 36px;
+        padding: 7px 10px;
+        font-size: 11px;
+        gap: 6px;
+    }
+
+    .weblazem-consult-float__phone span,
+    .weblazem-consult-float__cta span {
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 

@@ -210,10 +210,6 @@ function weblazem_should_show_consult_floating_btn() {
         return false;
     }
 
-    if (is_singular('portfolio')) {
-        return false;
-    }
-
     return true;
 }
 
@@ -263,7 +259,7 @@ function weblazem_consultation_options_display() {
                             <th>دکمه شناور</th>
                             <td>
                                 <label><input type="checkbox" name="weblazem_consult_float_enabled" value="1" <?php checked($opts['weblazem_consult_float_enabled'], '1'); ?> /> نمایش دکمه شناور در تمام صفحات</label>
-                                <p class="description">در صفحه جزئیات نمونه‌کار، نوار پایین جایگزین این دکمه می‌شود.</p>
+                                <p class="description">نوار شناور وسط‌چین پایین صفحه — شماره تماس و دکمه مودال مشاوره.</p>
                             </td>
                         </tr>
                         <tr>
