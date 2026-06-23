@@ -33,6 +33,8 @@ require_once get_template_directory() . '/inc/internal-pages-options.php';
 require_once get_template_directory() . '/inc/portfolio-page-options.php';
 require_once get_template_directory() . '/inc/portfolio-page-setup.php';
 require_once get_template_directory() . '/inc/portfolio-menu.php';
+require_once get_template_directory() . '/inc/portfolio-single-meta.php';
+require_once get_template_directory() . '/inc/portfolio-single-options.php';
 
 function weblazem_enqueue_assets() {
     // فونت‌ها
@@ -72,27 +74,48 @@ function weblazem_enqueue_assets() {
                 null
             );
         }
+
+        if (is_singular('portfolio')) {
+            wp_enqueue_style(
+                'weblazem-portfolio-single-style',
+                get_template_directory_uri() . '/assets/css/portfolio-single.css',
+                array('weblazem-home-style'),
+                null
+            );
+        }
         
         wp_enqueue_style( 
             'weblazem-footer-style',
              get_template_directory_uri() . '/assets/css/footer.css', [],
               null );
 
-        wp_enqueue_script(
-            'weblazem-home-carousel',
-            get_template_directory_uri() . '/assets/js/home-carousel.js',
-            [],
-            null,
-            true
-        );
+        if (is_page_template('home-template.php')) {
+            wp_enqueue_script(
+                'weblazem-home-carousel',
+                get_template_directory_uri() . '/assets/js/home-carousel.js',
+                [],
+                null,
+                true
+            );
 
-        wp_enqueue_script(
-            'weblazem-home-faq',
-            get_template_directory_uri() . '/assets/js/home-faq.js',
-            [],
-            null,
-            true
-        );
+            wp_enqueue_script(
+                'weblazem-home-faq',
+                get_template_directory_uri() . '/assets/js/home-faq.js',
+                [],
+                null,
+                true
+            );
+        }
+
+        if (is_singular('portfolio')) {
+            wp_enqueue_script(
+                'weblazem-home-carousel',
+                get_template_directory_uri() . '/assets/js/home-carousel.js',
+                [],
+                null,
+                true
+            );
+        }
     }
 
     wp_enqueue_style(

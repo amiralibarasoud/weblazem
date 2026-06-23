@@ -37,6 +37,12 @@ function weblazem_internal_pages_hub_display() {
                         — هیرو، آخرین پروژه‌ها، تعرفه‌ها و بخش تمام پروژه‌ها
                     </li>
                     <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-portfolio-single-options')); ?>">
+                            <strong>تنظیمات نمونه کار تکی</strong>
+                        </a>
+                        — بخش‌های ثابت: نمونه‌کارهای بیشتر، مشاوره و CTA پایانی
+                    </li>
+                    <li>
                         <a href="<?php echo esc_url(admin_url('edit.php?post_type=page')); ?>">
                             <strong>برگه نمونه کارها</strong>
                         </a>
