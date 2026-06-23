@@ -371,11 +371,17 @@
     background: transparent;
     min-width: auto;
     color: var(--portfolio-text-muted);
+    pointer-events: none;
 }
 
 .portfolio-page-pagination .page-numbers.prev,
 .portfolio-page-pagination .page-numbers.next {
     font-size: 13px;
+}
+
+.portfolio-page-pagination .page-numbers.disabled {
+    opacity: 0.45;
+    pointer-events: none;
 }
 
 /* ─── Responsive ─── */

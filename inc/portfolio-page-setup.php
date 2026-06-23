@@ -71,25 +71,56 @@ function weblazem_get_portfolio_page_url() {
     return home_url('/' . WEBLAZEM_PORTFOLIO_PAGE_SLUG . '/');
 }
 
+function weblazem_get_portfolio_list_paged() {
+    $paged = (int) get_query_var('portfolio_page');
+
+    if ($paged < 1 && isset($_GET['portfolio_page'])) {
+        $paged = (int) $_GET['portfolio_page'];
+    }
+
+    if ($paged < 1) {
+        $paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
+    }
+
+    return max(1, $paged);
+}
+
+function weblazem_portfolio_query_vars($vars) {
+    $vars[] = 'portfolio_page';
+    return $vars;
+}
+add_filter('query_vars', 'weblazem_portfolio_query_vars');
+
 function weblazem_portfolio_pagination($query) {
     if (!$query instanceof WP_Query || $query->max_num_pages <= 1) {
         return;
     }
 
-    $paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
+    $paged    = weblazem_get_portfolio_list_paged();
+    $base_url = trailingslashit(weblazem_get_portfolio_page_url());
 
     $links = paginate_links(array(
-        'total'     => (int) $query->max_num_pages,
+        'base'      => esc_url($base_url) . '%_%',
+        'format'    => '?portfolio_page=%#%',
         'current'   => $paged,
+        'total'     => (int) $query->max_num_pages,
         'mid_size'  => 2,
-        'prev_text' => '<i class="fas fa-chevron-right" aria-hidden="true"></i>',
-        'next_text' => '<i class="fas fa-chevron-left" aria-hidden="true"></i>',
+        'end_size'  => 1,
+        'prev_text' => '<i class="fas fa-chevron-right" aria-hidden="true"></i><span class="screen-reader-text">صفحه قبل</span>',
+        'next_text' => '<i class="fas fa-chevron-left" aria-hidden="true"></i><span class="screen-reader-text">صفحه بعد</span>',
         'type'      => 'plain',
+        'add_args'  => false,
     ));
 
     if (!$links) {
         return;
     }
+
+    $links = preg_replace(
+        '/(href=[\'"])([^\'"]+)([\'"])/',
+        '$1$2#portfolio-all-projects$3',
+        $links
+    );
 
     echo '<nav class="portfolio-page-pagination" aria-label="صفحه‌بندی نمونه کارها">';
     echo '<div class="nav-links">' . $links . '</div>';

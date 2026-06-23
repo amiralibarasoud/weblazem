@@ -19,7 +19,7 @@ function weblazem_portfolio_page_defaults() {
         'weblazem_portfolio_page_tariffs_btn_text'  => 'مشاوره رایگان',
         'weblazem_portfolio_page_tariffs_btn_url'   => '#',
         'weblazem_portfolio_page_all_title'         => 'تمام پروژه‌ها',
-        'weblazem_portfolio_page_all_per_page'      => '8',
+        'weblazem_portfolio_page_all_per_page'      => '4',
     );
 }
 
@@ -231,7 +231,7 @@ function weblazem_portfolio_page_options_display() {
                             <td>
                                 <input type="number" name="weblazem_portfolio_page_all_per_page" min="4" max="24" step="4"
                                        value="<?php echo esc_attr($opts['weblazem_portfolio_page_all_per_page']); ?>" />
-                                <p class="description">برای صفحه‌بندی؛ پیشنهاد: ۸ (دو ردیف ۴ تایی)</p>
+                                <p class="description">تعداد کارت در هر صفحه از بخش «تمام پروژه‌ها». اگر نمونه کارها بیشتر از این عدد باشند، صفحه‌بندی زیر همان بخش نمایش داده می‌شود.</p>
                             </td>
                         </tr>
                     </table>

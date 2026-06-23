@@ -6,7 +6,7 @@
 $section_title = get_option('weblazem_portfolio_page_all_title', 'تمام پروژه‌ها');
 $card_btn_text = get_option('weblazem_portfolio_page_card_button_text', 'مشاهده پروژه');
 $per_page      = max(4, (int) get_option('weblazem_portfolio_page_all_per_page', 8));
-$paged         = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
+$paged         = weblazem_get_portfolio_list_paged();
 
 $portfolio_all_query = new WP_Query(array(
     'post_type'      => 'portfolio',
@@ -18,7 +18,7 @@ $portfolio_all_query = new WP_Query(array(
 ));
 ?>
 
-<section class="portfolio-page-section portfolio-page-all" dir="rtl">
+<section id="portfolio-all-projects" class="portfolio-page-section portfolio-page-all" dir="rtl">
     <div class="container">
         <?php if (!empty($section_title)) : ?>
             <h2 class="portfolio-page-section__title"><?php echo esc_html($section_title); ?></h2>

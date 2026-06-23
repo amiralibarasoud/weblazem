@@ -1,6 +1,6 @@
 <?php
 /**
- * Seed demo portfolio items (طراحی سایت فروشگاهی × 4).
+ * Seed demo portfolio items (طراحی سایت فروشگاهی × 8).
  */
 
 function weblazem_get_portfolio_demo_slugs() {
@@ -9,6 +9,10 @@ function weblazem_get_portfolio_demo_slugs() {
         'demo-tarahi-site-foroushgahee-2',
         'demo-tarahi-site-foroushgahee-3',
         'demo-tarahi-site-foroushgahee-4',
+        'demo-tarahi-site-foroushgahee-5',
+        'demo-tarahi-site-foroushgahee-6',
+        'demo-tarahi-site-foroushgahee-7',
+        'demo-tarahi-site-foroushgahee-8',
     );
 }
 

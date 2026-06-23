@@ -11,4 +11,15 @@ get_header();
     <?php get_template_part('template-parts/portfolio/layout', 'main'); ?>
 </main>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    if (window.location.hash === '#portfolio-all-projects' || /portfolio_page=\d+/.test(window.location.search)) {
+        var section = document.getElementById('portfolio-all-projects');
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+});
+</script>
+
 <?php get_footer(); ?>
