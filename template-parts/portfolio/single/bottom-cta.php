@@ -21,9 +21,17 @@ $cards     = weblazem_get_portfolio_single_promo_cards();
         <?php if (!empty($cards)) : ?>
             <div class="portfolio-single-bottom__cards">
                 <?php foreach ($cards as $card) :
-                    $card_url = weblazem_get_promo_card_url($card);
+                    $card_url  = weblazem_get_promo_card_url($card);
+                    $bg_image  = weblazem_get_promo_card_background_image($card);
+                    $fg_image  = !empty($card['image']) ? $card['image'] : $bg_image;
                     ?>
                     <a href="<?php echo esc_url($card_url); ?>" class="portfolio-single-bottom__card">
+                        <?php if (!empty($bg_image)) : ?>
+                            <span class="portfolio-single-bottom__card-bg" style="background-image: url('<?php echo esc_url($bg_image); ?>');" aria-hidden="true"></span>
+                        <?php endif; ?>
+                        <span class="portfolio-single-bottom__card-overlay" aria-hidden="true"></span>
+                        <span class="portfolio-single-bottom__card-glow" aria-hidden="true"></span>
+
                         <div class="portfolio-single-bottom__card-content">
                             <?php if (!empty($card['title'])) : ?>
                                 <h3 class="portfolio-single-bottom__card-title"><?php echo esc_html($card['title']); ?></h3>
@@ -42,9 +50,11 @@ $cards     = weblazem_get_portfolio_single_promo_cards();
                             </span>
                         </div>
 
-                        <?php if (!empty($card['image'])) : ?>
-                            <div class="portfolio-single-bottom__card-media">
-                                <img src="<?php echo esc_url($card['image']); ?>" alt="<?php echo esc_attr($card['title']); ?>" />
+                        <?php if (!empty($fg_image)) : ?>
+                            <div class="portfolio-single-bottom__card-device">
+                                <div class="portfolio-single-bottom__card-device-frame">
+                                    <img src="<?php echo esc_url($fg_image); ?>" alt="<?php echo esc_attr($card['title']); ?>" loading="lazy" />
+                                </div>
                             </div>
                         <?php endif; ?>
                     </a>

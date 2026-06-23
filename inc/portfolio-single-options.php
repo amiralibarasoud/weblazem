@@ -299,6 +299,7 @@ function weblazem_portfolio_single_options_display() {
                     </table>
 
                     <h4 style="margin-top:24px;">کارت‌های معرفی دسته‌ها</h4>
+                    <p class="description">تصویر هر کارت به‌صورت محو در پس‌زمینه و واضح در قاب سمت چپ نمایش داده می‌شود. اگر تصویر خالی باشد، از اولین نمونه کار همان دسته استفاده می‌شود.</p>
                     <div id="portfolio-promo-cards-container">
                         <?php foreach ($promo_cards as $index => $card) : ?>
                             <div class="weblazem-promo-card-admin" style="background:#f8f5fc;padding:16px;border-radius:12px;margin-bottom:16px;border:1px solid #e8dff0;">
@@ -410,12 +411,47 @@ add_action('admin_init', 'weblazem_portfolio_single_handle_checkboxes', 20);
 function weblazem_get_more_portfolio_items($exclude_id = 0, $count = 8) {
     return new WP_Query(array(
         'post_type'      => 'portfolio',
-        'posts_per_page' => max(4, (int) $count),
+        'posts_per_page' => max(1, (int) $count),
         'post_status'    => 'publish',
         'orderby'        => 'date',
         'order'          => 'DESC',
         'post__not_in'   => $exclude_id ? array((int) $exclude_id) : array(),
     ));
+}
+
+function weblazem_get_promo_card_background_image($card) {
+    if (!empty($card['image'])) {
+        return $card['image'];
+    }
+
+    if (empty($card['category'])) {
+        return '';
+    }
+
+    $query = new WP_Query(array(
+        'post_type'      => 'portfolio',
+        'posts_per_page' => 1,
+        'post_status'    => 'publish',
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+        'tax_query'      => array(
+            array(
+                'taxonomy' => 'portfolio_category',
+                'field'    => 'slug',
+                'terms'    => sanitize_title($card['category']),
+            ),
+        ),
+    ));
+
+    if (!$query->have_posts()) {
+        return '';
+    }
+
+    $query->the_post();
+    $image = weblazem_get_portfolio_single_hero_image(get_the_ID());
+    wp_reset_postdata();
+
+    return $image;
 }
 
 function weblazem_get_promo_card_url($card) {

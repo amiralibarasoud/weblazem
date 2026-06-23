@@ -49,40 +49,48 @@ if (!$query->have_posts()) {
                 <?php endif; ?>
             </div>
 
-            <div class="weblazem-carousel portfolio-single-more__carousel" data-weblazem-carousel data-autoplay="5000">
-                <button type="button" class="portfolio-single-more__nav portfolio-single-more__nav--prev" data-carousel-prev aria-label="قبلی">
+            <div class="weblazem-carousel portfolio-single-more__carousel" data-weblazem-carousel data-autoplay="4500">
+                <button type="button" class="portfolio-single-more__nav" data-carousel-prev aria-label="قبلی">
                     <i class="fas fa-chevron-right" aria-hidden="true"></i>
                 </button>
 
-                <div class="portfolio-single-more__viewport" data-carousel-viewport>
-                    <div class="portfolio-single-more__track" data-carousel-track>
+                <div class="weblazem-carousel__viewport" data-carousel-viewport>
+                    <div class="weblazem-carousel__track" data-carousel-track>
                         <?php
                         while ($query->have_posts()) :
                             $query->the_post();
                             $thumb = get_the_post_thumbnail_url(get_the_ID(), 'medium_large');
-                            $logo  = get_post_meta(get_the_ID(), '_weblazem_portfolio_client_logo', true);
+                            if (!$thumb) {
+                                $thumb = weblazem_get_portfolio_single_hero_image(get_the_ID());
+                            }
+                            $logo = get_post_meta(get_the_ID(), '_weblazem_portfolio_client_logo', true);
                             ?>
-                            <article class="portfolio-single-more__slide">
+                            <div class="weblazem-carousel__slide portfolio-single-more__slide">
                                 <a href="<?php echo esc_url(get_permalink()); ?>" class="portfolio-single-more__card">
                                     <div class="portfolio-single-more__card-screen">
                                         <?php if ($thumb) : ?>
-                                            <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" />
+                                            <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" loading="lazy" draggable="false" />
+                                        <?php else : ?>
+                                            <div class="portfolio-single-more__card-placeholder">
+                                                <i class="fas fa-laptop" aria-hidden="true"></i>
+                                            </div>
+                                        <?php endif; ?>
+                                        <span class="portfolio-single-more__card-star" aria-hidden="true"><i class="fas fa-star"></i></span>
+                                    </div>
+                                    <div class="portfolio-single-more__card-footer">
+                                        <?php if ($logo) : ?>
+                                            <img src="<?php echo esc_url($logo); ?>" alt="" class="portfolio-single-more__card-logo" />
+                                        <?php else : ?>
+                                            <span class="portfolio-single-more__card-name"><?php echo esc_html(weblazem_get_portfolio_card_title()); ?></span>
                                         <?php endif; ?>
                                     </div>
-                                    <?php if ($logo) : ?>
-                                        <div class="portfolio-single-more__card-logo">
-                                            <img src="<?php echo esc_url($logo); ?>" alt="" />
-                                        </div>
-                                    <?php else : ?>
-                                        <div class="portfolio-single-more__card-title"><?php echo esc_html(weblazem_get_portfolio_card_title()); ?></div>
-                                    <?php endif; ?>
                                 </a>
-                            </article>
+                            </div>
                         <?php endwhile; ?>
                     </div>
                 </div>
 
-                <button type="button" class="portfolio-single-more__nav portfolio-single-more__nav--next" data-carousel-next aria-label="بعدی">
+                <button type="button" class="portfolio-single-more__nav" data-carousel-next aria-label="بعدی">
                     <i class="fas fa-chevron-left" aria-hidden="true"></i>
                 </button>
             </div>

@@ -16,9 +16,14 @@ $btn_url  = weblazem_get_portfolio_single_option('weblazem_portfolio_single_cons
 ?>
 
 <section class="portfolio-single-consult" dir="rtl">
+    <div class="portfolio-single-consult__bg-shape portfolio-single-consult__bg-shape--one" aria-hidden="true"></div>
+    <div class="portfolio-single-consult__bg-shape portfolio-single-consult__bg-shape--two" aria-hidden="true"></div>
+
     <div class="container">
-        <div class="portfolio-single-consult__grid">
+        <div class="portfolio-single-consult__panel">
             <div class="portfolio-single-consult__content">
+                <span class="portfolio-single-consult__badge">مشاوره تخصصی وب‌لازم</span>
+
                 <?php if (!empty($title)) : ?>
                     <h2 class="portfolio-single-consult__title"><?php echo esc_html($title); ?></h2>
                 <?php endif; ?>
@@ -27,27 +32,35 @@ $btn_url  = weblazem_get_portfolio_single_option('weblazem_portfolio_single_cons
                     <p class="portfolio-single-consult__text"><?php echo esc_html($text); ?></p>
                 <?php endif; ?>
 
-                <?php if (!empty($phone)) : ?>
-                    <a href="tel:<?php echo esc_attr(preg_replace('/\s+/', '', $phone)); ?>" class="portfolio-single-consult__phone">
-                        <?php echo esc_html($phone); ?>
-                    </a>
-                <?php endif; ?>
+                <div class="portfolio-single-consult__actions">
+                    <?php if (!empty($phone)) : ?>
+                        <a href="tel:<?php echo esc_attr(preg_replace('/\s+/', '', $phone)); ?>" class="portfolio-single-consult__phone">
+                            <i class="fas fa-phone" aria-hidden="true"></i>
+                            <span><?php echo esc_html($phone); ?></span>
+                        </a>
+                    <?php endif; ?>
 
-                <?php if (!empty($btn_text)) : ?>
-                    <a href="<?php echo esc_url($btn_url); ?>" class="portfolio-single-consult__btn">
-                        <?php echo esc_html($btn_text); ?>
-                        <i class="fas fa-arrow-left" aria-hidden="true"></i>
-                    </a>
-                <?php endif; ?>
+                    <?php if (!empty($btn_text)) : ?>
+                        <a href="<?php echo esc_url($btn_url); ?>" class="portfolio-single-consult__btn">
+                            <?php echo esc_html($btn_text); ?>
+                            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                        </a>
+                    <?php endif; ?>
+                </div>
             </div>
 
-            <?php if (!empty($image)) : ?>
-                <div class="portfolio-single-consult__media">
-                    <div class="portfolio-single-consult__media-frame">
-                        <img src="<?php echo esc_url($image); ?>" alt="" />
-                    </div>
+            <div class="portfolio-single-consult__media">
+                <div class="portfolio-single-consult__media-frame">
+                    <div class="portfolio-single-consult__media-wave" aria-hidden="true"></div>
+                    <?php if (!empty($image)) : ?>
+                        <img src="<?php echo esc_url($image); ?>" alt="" class="portfolio-single-consult__media-image" />
+                    <?php else : ?>
+                        <div class="portfolio-single-consult__media-placeholder">
+                            <i class="fas fa-user-tie" aria-hidden="true"></i>
+                        </div>
+                    <?php endif; ?>
                 </div>
-            <?php endif; ?>
+            </div>
         </div>
     </div>
 
