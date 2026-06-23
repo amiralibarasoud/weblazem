@@ -245,6 +245,8 @@ endif;
 
 <?php get_template_part('template-parts/home/section', 'testimonials'); ?>
 
+<?php get_template_part('template-parts/components/consultation', 'section', array('context' => 'home')); ?>
+
 <?php get_template_part('template-parts/home/section', 'faq'); ?>
 
 

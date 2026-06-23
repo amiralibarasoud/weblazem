@@ -753,12 +753,16 @@
     display: inline-flex;
     align-items: center;
     padding: 14px 28px;
+    border: none;
     border-radius: 999px;
     background: var(--ps-purple);
     color: #fff;
     text-decoration: none;
     font-weight: 700;
     box-shadow: 0 10px 28px rgba(64, 22, 92, 0.25);
+    font-family: inherit;
+    cursor: pointer;
+    font-size: inherit;
 }
 
 .portfolio-single-bottom__cta-btn:hover {
@@ -800,6 +804,9 @@
     font-size: 14px;
     font-weight: 700;
     flex: 1;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
 }
 
 .portfolio-single-sticky__phone {

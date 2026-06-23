@@ -5,7 +5,6 @@
 
 $phone    = weblazem_get_portfolio_single_option('weblazem_portfolio_single_sticky_phone');
 $btn_text = weblazem_get_portfolio_single_option('weblazem_portfolio_single_sticky_btn_text');
-$btn_url  = weblazem_get_portfolio_single_option('weblazem_portfolio_single_sticky_btn_url', '#');
 
 if (empty($phone) && empty($btn_text)) {
     return;
@@ -22,10 +21,10 @@ if (empty($phone) && empty($btn_text)) {
         <?php endif; ?>
 
         <?php if (!empty($btn_text)) : ?>
-            <a href="<?php echo esc_url($btn_url); ?>" class="portfolio-single-sticky__btn">
+            <button type="button" class="portfolio-single-sticky__btn weblazem-consult-trigger">
                 <i class="fas fa-pen-to-square" aria-hidden="true"></i>
                 <span><?php echo esc_html($btn_text); ?></span>
-            </a>
+            </button>
         <?php endif; ?>
     </div>
 </div>

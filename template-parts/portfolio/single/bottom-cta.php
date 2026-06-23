@@ -12,7 +12,6 @@ $title     = weblazem_get_portfolio_single_option('weblazem_portfolio_single_cta
 $highlight = weblazem_get_portfolio_single_option('weblazem_portfolio_single_cta_highlight');
 $phone     = weblazem_get_portfolio_single_option('weblazem_portfolio_single_cta_phone');
 $btn_text  = weblazem_get_portfolio_single_option('weblazem_portfolio_single_cta_btn_text');
-$btn_url   = weblazem_get_portfolio_single_option('weblazem_portfolio_single_cta_btn_url', '#');
 $cards     = weblazem_get_portfolio_single_promo_cards();
 ?>
 
@@ -82,9 +81,9 @@ $cards     = weblazem_get_portfolio_single_promo_cards();
                 <?php endif; ?>
 
                 <?php if (!empty($btn_text)) : ?>
-                    <a href="<?php echo esc_url($btn_url); ?>" class="portfolio-single-bottom__cta-btn">
+                    <button type="button" class="portfolio-single-bottom__cta-btn weblazem-consult-trigger">
                         <?php echo esc_html($btn_text); ?>
-                    </a>
+                    </button>
                 <?php endif; ?>
             </div>
         </div>

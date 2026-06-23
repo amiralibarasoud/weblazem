@@ -35,6 +35,9 @@ require_once get_template_directory() . '/inc/portfolio-page-setup.php';
 require_once get_template_directory() . '/inc/portfolio-menu.php';
 require_once get_template_directory() . '/inc/portfolio-single-meta.php';
 require_once get_template_directory() . '/inc/portfolio-single-options.php';
+require_once get_template_directory() . '/inc/consultation-options.php';
+require_once get_template_directory() . '/inc/consultation-requests.php';
+require_once get_template_directory() . '/inc/consultation-handler.php';
 
 function weblazem_enqueue_assets() {
     // فونت‌ها

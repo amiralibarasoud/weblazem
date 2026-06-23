@@ -1,0 +1,384 @@
+/**
+ * Global consultation section + modal styles.
+ */
+
+:root {
+    --consult-purple: #40165c;
+    --consult-purple-deep: #2d0f42;
+    --consult-yellow: #f5e042;
+    --consult-text: #1f1230;
+    --consult-muted: #6b5a78;
+}
+
+/* ─── Section (compact) ─── */
+.weblazem-consult-section {
+    position: relative;
+    padding: 48px 0 72px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8f2fc 100%);
+    overflow: hidden;
+}
+
+.weblazem-consult-section__bg-shape {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.weblazem-consult-section__bg-shape--one {
+    width: 220px;
+    height: 220px;
+    top: -60px;
+    left: -60px;
+    background: radial-gradient(circle, rgba(242, 230, 247, 0.9) 0%, rgba(242, 230, 247, 0) 70%);
+}
+
+.weblazem-consult-section__bg-shape--two {
+    width: 280px;
+    height: 280px;
+    bottom: -90px;
+    right: -70px;
+    background: radial-gradient(circle, rgba(64, 22, 92, 0.08) 0%, rgba(64, 22, 92, 0) 72%);
+}
+
+.weblazem-consult-section__panel {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 24px;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    border-radius: 22px;
+    padding: 22px 24px;
+    box-shadow:
+        0 16px 40px rgba(64, 22, 92, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.weblazem-consult-section__badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: rgba(64, 22, 92, 0.08);
+    color: var(--consult-purple);
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.weblazem-consult-section__title {
+    font-size: clamp(20px, 2.4vw, 28px);
+    font-weight: 800;
+    color: var(--consult-text);
+    margin: 0 0 10px;
+    line-height: 1.35;
+}
+
+.weblazem-consult-section__text {
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--consult-muted);
+    margin: 0 0 16px;
+    max-width: 480px;
+}
+
+.weblazem-consult-section__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.weblazem-consult-section__phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(64, 22, 92, 0.07);
+    border: 1px solid rgba(64, 22, 92, 0.1);
+    color: var(--consult-purple);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 700;
+    transition: background 0.2s ease;
+}
+
+.weblazem-consult-section__phone:hover {
+    background: rgba(64, 22, 92, 0.11);
+    color: var(--consult-purple-deep);
+}
+
+.weblazem-consult-section__btn,
+.weblazem-consult-trigger.weblazem-consult-section__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--consult-yellow);
+    color: #1a1a1a;
+    padding: 9px 16px;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(245, 224, 66, 0.32);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+    font-family: inherit;
+}
+
+.weblazem-consult-section__btn:hover,
+.weblazem-consult-trigger:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(245, 224, 66, 0.38);
+}
+
+.weblazem-consult-section__media-frame {
+    position: relative;
+    background: linear-gradient(155deg, var(--consult-purple) 0%, var(--consult-purple-deep) 100%);
+    border-radius: 18px;
+    min-height: 220px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    box-shadow: 0 14px 34px rgba(64, 22, 92, 0.22);
+}
+
+.weblazem-consult-section__media-wave {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 42%;
+    background: linear-gradient(180deg, rgba(242, 230, 247, 0) 0%, rgba(242, 230, 247, 0.85) 100%);
+    clip-path: ellipse(120% 100% at 50% 100%);
+}
+
+.weblazem-consult-section__media-image {
+    position: relative;
+    z-index: 2;
+    max-width: 82%;
+    height: auto;
+    display: block;
+    margin-bottom: -6px;
+    filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.2));
+}
+
+.weblazem-consult-section__media-placeholder {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: rgba(255, 255, 255, 0.28);
+}
+
+.weblazem-consult-section__wave {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+}
+
+/* Compact trigger buttons site-wide */
+.weblazem-consult-trigger {
+    cursor: pointer;
+}
+
+.portfolio-single-sticky__btn.weblazem-consult-trigger,
+.portfolio-single-bottom__cta-btn.weblazem-consult-trigger {
+    border: none;
+    font-family: inherit;
+}
+
+/* ─── Modal ─── */
+.weblazem-consult-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.weblazem-consult-modal[hidden] {
+    display: none !important;
+}
+
+.weblazem-consult-modal.is-open {
+    display: flex;
+}
+
+.weblazem-consult-modal__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(20, 8, 32, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.weblazem-consult-modal__dialog {
+    position: relative;
+    z-index: 2;
+    width: min(100%, 420px);
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px 22px 22px;
+    box-shadow: 0 24px 60px rgba(31, 18, 48, 0.22);
+    animation: weblazemConsultModalIn 0.28s ease;
+}
+
+@keyframes weblazemConsultModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.weblazem-consult-modal__close {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(64, 22, 92, 0.08);
+    color: var(--consult-purple);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.weblazem-consult-modal__title {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--consult-text);
+    padding-left: 36px;
+}
+
+.weblazem-consult-modal__subtitle {
+    margin: 0 0 18px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--consult-muted);
+}
+
+.weblazem-consult-modal__field {
+    margin-bottom: 12px;
+}
+
+.weblazem-consult-modal__field label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--consult-text);
+}
+
+.weblazem-consult-modal__field input {
+    width: 100%;
+    border: 1px solid #e4d8ec;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+    color: var(--consult-text);
+    background: #faf7fc;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    font-family: inherit;
+}
+
+.weblazem-consult-modal__field input:focus {
+    outline: none;
+    border-color: var(--consult-purple);
+    box-shadow: 0 0 0 3px rgba(64, 22, 92, 0.12);
+    background: #fff;
+}
+
+.weblazem-consult-modal__feedback {
+    min-height: 20px;
+    margin: 4px 0 12px;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.weblazem-consult-modal__feedback.is-error {
+    color: #b91c1c;
+}
+
+.weblazem-consult-modal__feedback.is-success {
+    color: #15803d;
+}
+
+.weblazem-consult-modal__submit {
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    padding: 11px 16px;
+    background: linear-gradient(135deg, var(--consult-purple) 0%, var(--consult-purple-deep) 100%);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.2s ease;
+}
+
+.weblazem-consult-modal__submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.weblazem-consult-modal__submit-loading[hidden] {
+    display: none;
+}
+
+body.weblazem-consult-modal-open {
+    overflow: hidden;
+}
+
+@media (max-width: 900px) {
+    .weblazem-consult-section__panel {
+        grid-template-columns: 1fr;
+        padding: 18px;
+    }
+
+    .weblazem-consult-section__media-frame {
+        min-height: 180px;
+    }
+}
+
+@media (max-width: 600px) {
+    .weblazem-consult-section {
+        padding: 36px 0 56px;
+    }
+
+    .weblazem-consult-section__actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .weblazem-consult-section__phone,
+    .weblazem-consult-section__btn {
+        justify-content: center;
+        width: 100%;
+    }
+}

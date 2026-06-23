@@ -223,45 +223,14 @@ function weblazem_portfolio_single_options_display() {
                 <div class="weblazem-admin-card">
                     <div class="weblazem-admin-card-icon"><i class="fas fa-handshake"></i></div>
                     <h3>بخش درخواست مشاوره و راهنمایی</h3>
+                    <p class="description">تنظیمات این بخش به <strong>تنظیمات قالب → مودال درخواست مشاوره</strong> منتقل شده است.</p>
                     <table class="form-table">
                         <tr>
                             <th>فعال</th>
-                            <td><label><input type="checkbox" name="weblazem_portfolio_single_consult_enabled" value="1" <?php checked($opts['weblazem_portfolio_single_consult_enabled'], '1'); ?> /> نمایش بخش</label></td>
-                        </tr>
-                        <tr>
-                            <th>عنوان</th>
-                            <td><input type="text" name="weblazem_portfolio_single_consult_title" class="large-text" value="<?php echo esc_attr($opts['weblazem_portfolio_single_consult_title']); ?>" /></td>
-                        </tr>
-                        <tr>
-                            <th>متن</th>
-                            <td><textarea name="weblazem_portfolio_single_consult_text" class="large-text" rows="4"><?php echo esc_textarea($opts['weblazem_portfolio_single_consult_text']); ?></textarea></td>
-                        </tr>
-                        <tr>
-                            <th>تصویر</th>
-                            <td>
-                                <input type="hidden" id="weblazem_portfolio_single_consult_image" name="weblazem_portfolio_single_consult_image" value="<?php echo esc_attr($opts['weblazem_portfolio_single_consult_image']); ?>" />
-                                <div id="consult-image-preview" style="margin-bottom:10px;">
-                                    <?php if (!empty($opts['weblazem_portfolio_single_consult_image'])) : ?>
-                                        <img src="<?php echo esc_url($opts['weblazem_portfolio_single_consult_image']); ?>" style="max-width:220px;border-radius:12px;" alt="" />
-                                    <?php endif; ?>
-                                </div>
-                                <button type="button" class="button button-primary" id="upload_consult_image">انتخاب تصویر</button>
-                                <button type="button" class="button" id="remove_consult_image">حذف</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>شماره تماس</th>
-                            <td><input type="text" name="weblazem_portfolio_single_consult_phone" class="regular-text" value="<?php echo esc_attr($opts['weblazem_portfolio_single_consult_phone']); ?>" /></td>
-                        </tr>
-                        <tr>
-                            <th>متن دکمه</th>
-                            <td><input type="text" name="weblazem_portfolio_single_consult_btn_text" class="regular-text" value="<?php echo esc_attr($opts['weblazem_portfolio_single_consult_btn_text']); ?>" /></td>
-                        </tr>
-                        <tr>
-                            <th>لینک دکمه</th>
-                            <td><input type="url" name="weblazem_portfolio_single_consult_btn_url" class="large-text" value="<?php echo esc_attr($opts['weblazem_portfolio_single_consult_btn_url']); ?>" /></td>
+                            <td><label><input type="checkbox" name="weblazem_portfolio_single_consult_enabled" value="1" <?php checked($opts['weblazem_portfolio_single_consult_enabled'], '1'); ?> disabled /> از تنظیمات سراسری مدیریت می‌شود</label></td>
                         </tr>
                     </table>
+                    <p><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-consultation-options')); ?>" class="button button-primary">رفتن به تنظیمات مودال مشاوره</a></p>
                 </div>
 
                 <div class="weblazem-admin-card">
@@ -354,23 +323,6 @@ function weblazem_portfolio_single_options_display() {
     <script>
     jQuery(function($) {
         var frame;
-        $('#upload_consult_image').on('click', function(e) {
-            e.preventDefault();
-            if (!frame) {
-                frame = wp.media({ title: 'انتخاب تصویر', button: { text: 'استفاده' }, multiple: false });
-            }
-            frame.off('select').on('select', function() {
-                var url = frame.state().get('selection').first().toJSON().url;
-                $('#weblazem_portfolio_single_consult_image').val(url);
-                $('#consult-image-preview').html('<img src="' + url + '" style="max-width:220px;border-radius:12px;" alt="" />');
-            });
-            frame.open();
-        });
-        $('#remove_consult_image').on('click', function(e) {
-            e.preventDefault();
-            $('#weblazem_portfolio_single_consult_image').val('');
-            $('#consult-image-preview').empty();
-        });
         $(document).on('click', '.upload-promo-card-image', function(e) {
             e.preventDefault();
             var $wrap = $(this).closest('td');
