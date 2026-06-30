@@ -1,3 +1,7 @@
+.weblazem-site-header {
+    padding-top: 10px;
+}
+
 /* Header navigation — explicit layout (not dependent on Tailwind build) */
 
 .weblazem-header-nav {

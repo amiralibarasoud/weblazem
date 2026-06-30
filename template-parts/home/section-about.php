@@ -40,10 +40,17 @@ if (empty($about_title) && empty($about_text) && empty($about_image)) {
                 <?php endif; ?>
 
                 <?php if (!empty($about_button_text)) : ?>
-                    <a href="<?php echo esc_url($about_button_url); ?>" class="about-button">
-                        <?php echo esc_html($about_button_text); ?>
-                        <i class="fas fa-arrow-left" aria-hidden="true"></i>
-                    </a>
+                    <?php if (get_option('weblazem_about_button_modal', '1') === '1') : ?>
+                        <button type="button" class="about-button weblazem-consult-trigger">
+                            <?php echo esc_html($about_button_text); ?>
+                            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                        </button>
+                    <?php else : ?>
+                        <a href="<?php echo esc_url($about_button_url); ?>" class="about-button">
+                            <?php echo esc_html($about_button_text); ?>
+                            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                        </a>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
         </div>

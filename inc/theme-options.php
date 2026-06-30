@@ -1373,6 +1373,9 @@ function weblazem_homepage_options_display() {
     if (function_exists('weblazem_ensure_faq_defaults')) {
         weblazem_ensure_faq_defaults();
     }
+    if (function_exists('weblazem_ensure_home_section_defaults')) {
+        weblazem_ensure_home_section_defaults();
+    }
 
     // آماده‌سازی جاوااسکریپت برای مدیریت کارت‌های خدمات
     wp_enqueue_media();
@@ -1405,8 +1408,9 @@ function weblazem_homepage_options_display() {
     // برون‌سپاری
     $outsourcing_title = get_option('weblazem_outsourcing_title', 'برون‌سپاری پروژه‌ها');
     $outsourcing_subtitle = get_option('weblazem_outsourcing_subtitle', 'با تیم متخصص ما پروژه‌های خود را به صورت برون‌سپاری انجام دهید');
-    $outsourcing_button_text = get_option('weblazem_outsourcing_button_text', 'مشاوره رایگان');
+    $outsourcing_button_text = get_option('weblazem_outsourcing_button_text', 'ثبت درخواست مشاوره');
     $outsourcing_button_url = get_option('weblazem_outsourcing_button_url', '#');
+    $outsourcing_button_modal = get_option('weblazem_outsourcing_button_modal', '1');
     $outsourcing_background = get_option('weblazem_outsourcing_background', '');
     $outsourcing_buttons = array(); // فعلاً به صورت آرایه خالی
 
@@ -1425,7 +1429,8 @@ function weblazem_homepage_options_display() {
         
         <div class="weblazem-admin-content">
             <div class="weblazem-tabs">
-                <button type="button" class="weblazem-tab active" data-tab="hero">بخش هیرو</button>
+                <button type="button" class="weblazem-tab active" data-tab="sections">نمایش سکشن‌ها</button>
+                <button type="button" class="weblazem-tab" data-tab="hero">بخش هیرو</button>
                 <button type="button" class="weblazem-tab" data-tab="services">بخش خدمات</button>
                 <button type="button" class="weblazem-tab" data-tab="portfolio">بخش نمونه کارها</button>
                 <button type="button" class="weblazem-tab" data-tab="about">درباره ما</button>
@@ -1439,9 +1444,11 @@ function weblazem_homepage_options_display() {
             <form method="post" action="<?php echo admin_url('admin-post.php'); ?>" enctype="multipart/form-data" id="weblazem-homepage-form">
                 <input type="hidden" name="action" value="save_weblazem_homepage_options">
                 <?php wp_nonce_field('weblazem_homepage_options', 'weblazem_homepage_nonce'); ?>
+
+                <?php weblazem_render_home_sections_tab(); ?>
                 
                 <!-- بخش هیرو -->
-                <div class="weblazem-tab-content active" id="hero-tab">
+                <div class="weblazem-tab-content" id="hero-tab">
                     <div class="weblazem-admin-card">
                         <div class="weblazem-admin-card-icon"><i class="fas fa-home"></i></div>
                         <h3>بخش هیرو (بنر اصلی سایت)</h3>
@@ -1708,14 +1715,24 @@ function weblazem_homepage_options_display() {
                                     <th scope="row">متن دکمه</th>
                                     <td>
                                         <input type="text" name="weblazem_outsourcing_button_text" class="regular-text" value="<?php echo esc_attr($outsourcing_button_text); ?>" />
-                                        <p class="description">متن دکمه مشاوره رایگان</p>
+                                        <p class="description">متن دکمه (پیش‌فرض: ثبت درخواست مشاوره)</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">رفتار دکمه</th>
+                                    <td>
+                                        <input type="hidden" name="weblazem_outsourcing_button_modal" value="0" />
+                                        <label>
+                                            <input type="checkbox" name="weblazem_outsourcing_button_modal" value="1" <?php checked($outsourcing_button_modal, '1'); ?> />
+                                            باز کردن مودال ثبت درخواست مشاوره
+                                        </label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">لینک دکمه</th>
                                     <td>
                                         <input type="text" name="weblazem_outsourcing_button_url" class="regular-text" value="<?php echo esc_attr($outsourcing_button_url); ?>" />
-                                        <p class="description">آدرس لینک دکمه مشاوره رایگان (می‌تواند خالی باشد)</p>
+                                        <p class="description">فقط وقتی مودال غیرفعال است استفاده می‌شود</p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -2505,6 +2522,7 @@ function weblazem_save_homepage_options_ajax() {
     weblazem_save_customers_homepage_options();
     weblazem_save_testimonials_homepage_options();
     weblazem_save_faq_homepage_options();
+    weblazem_save_home_section_toggles();
     
     // ثبت زمان آخرین بروزرسانی
     update_option('weblazem_homepage_last_update', current_time('mysql'));
@@ -2707,6 +2725,7 @@ function handle_save_weblazem_homepage_options() {
     weblazem_save_customers_homepage_options();
     weblazem_save_testimonials_homepage_options();
     weblazem_save_faq_homepage_options();
+    weblazem_save_home_section_toggles();
     
     // ثبت زمان آخرین بروزرسانی
     update_option('weblazem_homepage_last_update', current_time('mysql'));

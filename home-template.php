@@ -94,6 +94,7 @@ endif;
 // پایان بخش دیباگ
 ?>
 
+<?php if (weblazem_is_home_section_enabled('hero')) : ?>
 <div class="weblazem-home-hero"<?php if (!empty($hero_background)) : ?> style="background-image: url('<?php echo esc_url($hero_background); ?>'); background-size: cover; background-position: bottom; background-repeat: no-repeat;"<?php endif; ?>>
     <?php // هدر را به اینجا منتقل می‌کنیم تا روی بک‌گراند باشد
     // get_header();
@@ -140,8 +141,9 @@ endif;
         </div>
     </div>
 </div>
+<?php endif; ?>
 
-<?php if (!empty($services_title) || !empty($services_subtitle) || !empty($services_cards)) : ?>
+<?php if (weblazem_is_home_section_enabled('services') && (!empty($services_title) || !empty($services_subtitle) || !empty($services_cards))) : ?>
     <div class="weblazem-services-section">
         <div class="container">
             <div class="section-header">
@@ -193,9 +195,11 @@ endif;
     </div>
 <?php endif; ?>
 
-<?php get_template_part('template-parts/home/section', 'portfolio'); ?>
+<?php if (weblazem_is_home_section_enabled('portfolio')) : ?>
+    <?php get_template_part('template-parts/home/section', 'portfolio'); ?>
+<?php endif; ?>
 
-<?php if (!empty($outsourcing_title) || !empty($outsourcing_subtitle)) : ?>
+<?php if (weblazem_is_home_section_enabled('outsourcing') && (!empty($outsourcing_title) || !empty($outsourcing_subtitle))) : ?>
     <div class="weblazem-outsourcing-section mb-10"
         <?php if (!empty($outsourcing_background)) : ?>
             style="background-image: url('<?php echo esc_url($outsourcing_background); ?>');"
@@ -222,13 +226,17 @@ endif;
                 <!-- ستون دکمه -->
                 <?php if (!empty($outsourcing_button_text)) : ?>
                     <div class="outsourcing-cta">
-                        <a href="<?php echo esc_url($outsourcing_button_url); ?>"
-                           class="outsourcing-button">
-                            <?php echo esc_html($outsourcing_button_text); ?>
-                            <span class="outsourcing-btn-icon">
-        <i class="fa fa-arrow-left"></i>
-    </span>
-                        </a>
+                        <?php if (get_option('weblazem_outsourcing_button_modal', '1') === '1') : ?>
+                            <button type="button" class="outsourcing-button weblazem-consult-trigger">
+                                <?php echo esc_html($outsourcing_button_text); ?>
+                                <span class="outsourcing-btn-icon"><i class="fa fa-arrow-left" aria-hidden="true"></i></span>
+                            </button>
+                        <?php else : ?>
+                            <a href="<?php echo esc_url($outsourcing_button_url); ?>" class="outsourcing-button">
+                                <?php echo esc_html($outsourcing_button_text); ?>
+                                <span class="outsourcing-btn-icon"><i class="fa fa-arrow-left" aria-hidden="true"></i></span>
+                            </a>
+                        <?php endif; ?>
                     </div>
                 <?php endif; ?>
 
@@ -237,17 +245,30 @@ endif;
     </div>
 
 <?php endif; ?>
-<?php get_template_part('template-parts/home/section', 'about'); ?>
 
-<?php get_template_part('template-parts/home/section', 'team'); ?>
+<?php if (weblazem_is_home_section_enabled('about')) : ?>
+    <?php get_template_part('template-parts/home/section', 'about'); ?>
+<?php endif; ?>
 
-<?php get_template_part('template-parts/home/section', 'customers'); ?>
+<?php if (weblazem_is_home_section_enabled('team')) : ?>
+    <?php get_template_part('template-parts/home/section', 'team'); ?>
+<?php endif; ?>
 
-<?php get_template_part('template-parts/home/section', 'testimonials'); ?>
+<?php if (weblazem_is_home_section_enabled('customers')) : ?>
+    <?php get_template_part('template-parts/home/section', 'customers'); ?>
+<?php endif; ?>
 
-<?php get_template_part('template-parts/components/consultation', 'section', array('context' => 'home')); ?>
+<?php if (weblazem_is_home_section_enabled('testimonials')) : ?>
+    <?php get_template_part('template-parts/home/section', 'testimonials'); ?>
+<?php endif; ?>
 
-<?php get_template_part('template-parts/home/section', 'faq'); ?>
+<?php if (weblazem_is_home_section_enabled('consultation')) : ?>
+    <?php get_template_part('template-parts/components/consultation', 'section', array('context' => 'home')); ?>
+<?php endif; ?>
+
+<?php if (weblazem_is_home_section_enabled('faq')) : ?>
+    <?php get_template_part('template-parts/home/section', 'faq'); ?>
+<?php endif; ?>
 
 
 <?php

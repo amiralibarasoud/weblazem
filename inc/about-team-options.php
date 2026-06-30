@@ -169,6 +169,7 @@ function weblazem_render_about_homepage_tab() {
     $about_image       = get_option('weblazem_about_image', weblazem_get_default_about_options()['image']);
     $about_button_text = get_option('weblazem_about_button_text', weblazem_get_default_about_options()['button_text']);
     $about_button_url  = get_option('weblazem_about_button_url', weblazem_get_default_about_options()['button_url']);
+    $about_button_modal = get_option('weblazem_about_button_modal', '1');
     ?>
     <div class="weblazem-tab-content" id="about-tab">
         <div class="weblazem-admin-card">
@@ -208,9 +209,20 @@ function weblazem_render_about_homepage_tab() {
                     </td>
                 </tr>
                 <tr valign="top">
+                    <th scope="row">رفتار دکمه</th>
+                    <td>
+                        <input type="hidden" name="weblazem_about_button_modal" value="0" />
+                        <label>
+                            <input type="checkbox" name="weblazem_about_button_modal" value="1" <?php checked($about_button_modal, '1'); ?> />
+                            باز کردن مودال ثبت درخواست مشاوره (ارتباط با ما)
+                        </label>
+                    </td>
+                </tr>
+                <tr valign="top">
                     <th scope="row">لینک دکمه</th>
                     <td>
                         <input type="url" name="weblazem_about_button_url" class="large-text" value="<?php echo esc_url($about_button_url); ?>" />
+                        <p class="description">فقط وقتی مودال غیرفعال است استفاده می‌شود</p>
                     </td>
                 </tr>
             </table>

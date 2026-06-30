@@ -18,7 +18,7 @@
 
 <!--header-->
 
-<header class="sticky top-0 z-50 w-full pt-[20px]" style="background-color: #4f1c61;">
+<header class="weblazem-site-header sticky top-0 z-50 w-full" style="background-color: #4f1c61;">
     <div class="container px-4 mx-auto">
         <div class="flex items-center justify-between h-24" dir="rtl">
             <!-- لوگو - سمت راست -->

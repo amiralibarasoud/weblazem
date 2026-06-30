@@ -595,7 +595,8 @@
     margin: 0 0 12px;
 }
 
-.about-button {
+.about-button,
+button.about-button {
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -607,6 +608,9 @@
     font-weight: 500;
     text-decoration: none;
     transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
 }
 
 .about-button:hover {
@@ -1400,10 +1404,16 @@
 
 /* ===== Outsourcing Button Icon ===== */
 
-.outsourcing-button {
+.outsourcing-button,
+button.outsourcing-button {
     display: inline-flex;
     align-items: center;
     gap: 10px;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+    color: inherit;
 }
 
 .outsourcing-btn-icon {
