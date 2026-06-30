@@ -88,9 +88,15 @@ function weblazem_consultation_request_meta_box() {
 add_action('add_meta_boxes', 'weblazem_consultation_request_meta_box');
 
 function weblazem_consultation_request_meta_box_render($post) {
+    $stored_full_name = get_post_meta($post->ID, '_consult_full_name', true);
+    if ($stored_full_name === '') {
+        $stored_full_name = trim(
+            get_post_meta($post->ID, '_consult_first_name', true) . ' ' . get_post_meta($post->ID, '_consult_last_name', true)
+        );
+    }
+
     $fields = array(
-        'نام'           => get_post_meta($post->ID, '_consult_first_name', true),
-        'نام خانوادگی' => get_post_meta($post->ID, '_consult_last_name', true),
+        'نام و نام خانوادگی' => $stored_full_name,
         'موبایل'        => get_post_meta($post->ID, '_consult_mobile', true),
         'صفحه'          => get_post_meta($post->ID, '_consult_page_url', true),
         'IP'            => get_post_meta($post->ID, '_consult_ip', true),
@@ -112,11 +118,15 @@ function weblazem_consultation_request_meta_box_render($post) {
 }
 
 function weblazem_save_consultation_request($data) {
+    $full_name = !empty($data['full_name'])
+        ? trim($data['full_name'])
+        : trim($data['first_name'] . ' ' . $data['last_name']);
+
     $post_id = wp_insert_post(
         array(
             'post_type'   => 'consultation_request',
             'post_status' => 'publish',
-            'post_title'  => trim($data['first_name'] . ' ' . $data['last_name']),
+            'post_title'  => $full_name,
         ),
         true
     );
@@ -125,6 +135,7 @@ function weblazem_save_consultation_request($data) {
         return $post_id;
     }
 
+    update_post_meta($post_id, '_consult_full_name', $full_name);
     update_post_meta($post_id, '_consult_first_name', $data['first_name']);
     update_post_meta($post_id, '_consult_last_name', $data['last_name']);
     update_post_meta($post_id, '_consult_mobile', $data['mobile']);

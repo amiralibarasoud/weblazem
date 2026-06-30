@@ -9,9 +9,8 @@ if (weblazem_get_consult_option('weblazem_consult_section_enabled', '1') !== '1'
 
 $modal_title    = weblazem_get_consult_option('weblazem_consult_modal_title');
 $modal_subtitle = weblazem_get_consult_option('weblazem_consult_modal_subtitle');
-$label_first    = weblazem_get_consult_option('weblazem_consult_label_first_name');
-$label_last     = weblazem_get_consult_option('weblazem_consult_label_last_name');
-$label_mobile   = weblazem_get_consult_option('weblazem_consult_label_mobile');
+$label_full_name = weblazem_get_consult_option('weblazem_consult_label_full_name', 'نام و نام خانوادگی');
+$label_mobile    = weblazem_get_consult_option('weblazem_consult_label_mobile');
 $submit_text    = weblazem_get_consult_option('weblazem_consult_submit_text');
 ?>
 
@@ -35,13 +34,8 @@ $submit_text    = weblazem_get_consult_option('weblazem_consult_submit_text');
 
         <form class="weblazem-consult-modal__form" id="weblazem-consult-form" novalidate>
             <div class="weblazem-consult-modal__field">
-                <label for="weblazem-consult-first-name"><?php echo esc_html($label_first); ?></label>
-                <input type="text" id="weblazem-consult-first-name" name="first_name" required autocomplete="given-name" />
-            </div>
-
-            <div class="weblazem-consult-modal__field">
-                <label for="weblazem-consult-last-name"><?php echo esc_html($label_last); ?></label>
-                <input type="text" id="weblazem-consult-last-name" name="last_name" required autocomplete="family-name" />
+                <label for="weblazem-consult-full-name"><?php echo esc_html($label_full_name); ?></label>
+                <input type="text" id="weblazem-consult-full-name" name="full_name" required autocomplete="name" />
             </div>
 
             <div class="weblazem-consult-modal__field">

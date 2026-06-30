@@ -18,8 +18,7 @@ function weblazem_consultation_options_defaults() {
         'weblazem_consult_btn_text'                 => 'ثبت درخواست مشاوره',
         'weblazem_consult_modal_title'              => 'درخواست مشاوره رایگان',
         'weblazem_consult_modal_subtitle'           => 'فرم زیر را پر کنید تا کارشناسان ما در اسرع وقت با شما تماس بگیرند.',
-        'weblazem_consult_label_first_name'         => 'نام',
-        'weblazem_consult_label_last_name'          => 'نام خانوادگی',
+        'weblazem_consult_label_full_name'          => 'نام و نام خانوادگی',
         'weblazem_consult_label_mobile'             => 'شماره موبایل',
         'weblazem_consult_submit_text'              => 'ارسال درخواست',
         'weblazem_consult_success_message'          => 'درخواست شما با موفقیت ثبت شد. به زودی با شما تماس می‌گیریم.',
@@ -77,6 +76,10 @@ function weblazem_ensure_consultation_options_defaults() {
 
     if (get_option('weblazem_consult_sms_parameters') === false) {
         update_option('weblazem_consult_sms_parameters', weblazem_get_default_consult_sms_parameters());
+    }
+
+    if (get_option('weblazem_consult_label_full_name') === false) {
+        update_option('weblazem_consult_label_full_name', 'نام و نام خانوادگی');
     }
 
     weblazem_migrate_consultation_from_portfolio_single();
@@ -323,12 +326,8 @@ function weblazem_consultation_options_display() {
                             <td><textarea name="weblazem_consult_modal_subtitle" class="large-text" rows="2"><?php echo esc_textarea($opts['weblazem_consult_modal_subtitle']); ?></textarea></td>
                         </tr>
                         <tr>
-                            <th>برچسب نام</th>
-                            <td><input type="text" name="weblazem_consult_label_first_name" class="regular-text" value="<?php echo esc_attr($opts['weblazem_consult_label_first_name']); ?>" /></td>
-                        </tr>
-                        <tr>
-                            <th>برچسب نام خانوادگی</th>
-                            <td><input type="text" name="weblazem_consult_label_last_name" class="regular-text" value="<?php echo esc_attr($opts['weblazem_consult_label_last_name']); ?>" /></td>
+                            <th>برچسب نام و نام خانوادگی</th>
+                            <td><input type="text" name="weblazem_consult_label_full_name" class="regular-text" value="<?php echo esc_attr($opts['weblazem_consult_label_full_name']); ?>" /></td>
                         </tr>
                         <tr>
                             <th>برچسب موبایل</th>
