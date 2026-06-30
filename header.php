@@ -53,20 +53,28 @@
                 ?>
             </nav>
 
-            <!-- شماره تماس - سمت چپ -->
+            <!-- دکمه درخواست مشاوره - سمت چپ -->
+            <?php
+            $header_consult_enabled = get_option('weblazem_header_consult_enabled', '1') === '1';
+            $consult_system_enabled = function_exists('weblazem_get_consult_option')
+                && weblazem_get_consult_option('weblazem_consult_section_enabled', '1') === '1';
+
+            if ($header_consult_enabled && $consult_system_enabled) :
+                $header_btn_text = get_option('weblazem_header_consult_btn_text', '');
+                if (empty($header_btn_text) && function_exists('weblazem_get_consult_option')) {
+                    $header_btn_text = weblazem_get_consult_option('weblazem_consult_btn_text', 'ثبت درخواست مشاوره');
+                }
+                if (empty($header_btn_text)) {
+                    $header_btn_text = 'ثبت درخواست مشاوره';
+                }
+            ?>
             <div class="flex items-center">
-                <div class="flex items-center px-5 py-3 text-white transition-all rounded-full shadow-sm bg-transparent gap-0">
-                    <i class="ml-3 text-white fa-solid fa-phone animate-pulse hover:text-[#F2DF33]"></i>
-                    <?php 
-                    $phone_number = get_option('weblazem_phone_number');
-                    $phone_display = !empty($phone_number) ? esc_html($phone_number) : '09129512697';
-                    $phone_link = 'tel:' . preg_replace('/[^0-9+]/', '', $phone_display);
-                    ?>
-                    <a href="<?php echo esc_attr($phone_link); ?>" class="text-sm text-white font-medium hover:underline hover:text-[#F2DF33]">
-                        مشاوره رایگان: <?php echo $phone_display; ?>
-                    </a>
-                </div>
+                <button type="button" class="weblazem-header-consult-btn weblazem-consult-trigger">
+                    <i class="fas fa-pen-to-square" aria-hidden="true"></i>
+                    <span><?php echo esc_html($header_btn_text); ?></span>
+                </button>
             </div>
+            <?php endif; ?>
         </div>
     </div>
 </header>
