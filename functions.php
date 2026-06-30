@@ -38,6 +38,7 @@ require_once get_template_directory() . '/inc/portfolio-single-options.php';
 require_once get_template_directory() . '/inc/consultation-options.php';
 require_once get_template_directory() . '/inc/consultation-requests.php';
 require_once get_template_directory() . '/inc/consultation-handler.php';
+require_once get_template_directory() . '/inc/nav-menu-icons.php';
 
 function weblazem_enqueue_assets() {
     // فونت‌ها
@@ -120,6 +121,13 @@ function weblazem_enqueue_assets() {
             );
         }
     }
+
+    wp_enqueue_style(
+        'weblazem-header-style',
+        get_template_directory_uri() . '/assets/css/header.css',
+        array('weblazem-fonts'),
+        '1.0.0'
+    );
 
     wp_enqueue_style(
         'fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css', [],

@@ -41,14 +41,13 @@
             </div>
 
             <!-- منو - وسط -->
-            <nav class="flex items-center justify-center">
+            <nav class="weblazem-header-nav" aria-label="منوی اصلی">
                 <?php
                 wp_nav_menu([
                     'theme_location' => 'main_menu',
-                    'container' => false,
-                    'menu_class' => 'flex items-center text-white space-x-[30px] space-x-reverse font-medium',
-                    'add_li_class' => 'px-5',
-                    'link_class' => 'px-[20px] py-3 block hover:text-yellow-400 transition-colors relative after:absolute after:bottom-0 after:right-0 after:w-0 after:h-0.5 after:bg-blue-500 hover:after:w-full after:transition-all',
+                    'container'      => false,
+                    'menu_class'     => 'weblazem-header-menu',
+                    'fallback_cb'    => false,
                 ]);
                 ?>
             </nav>

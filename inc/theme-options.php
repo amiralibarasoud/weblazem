@@ -1004,6 +1004,13 @@ function weblazem_theme_options_display() {
                                 </td>
                             </tr>
                             <tr valign="top">
+                                <th scope="row">آیکون آیتم‌های منو</th>
+                                <td>
+                                    <p class="description">برای هر آیتم منو می‌توانید آیکون Font Awesome انتخاب کنید.</p>
+                                    <p><a href="<?php echo esc_url(admin_url('nav-menus.php')); ?>" class="button button-secondary">مدیریت منو و آیکون‌ها</a></p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
                                 <th scope="row">شماره تلفن</th>
                                 <td>
                                     <input type="text" name="weblazem_phone_number" class="regular-text" value="<?php echo esc_attr(get_option('weblazem_phone_number')); ?>" />
