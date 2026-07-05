@@ -31,6 +31,12 @@ function weblazem_internal_pages_hub_display() {
                 <h3>صفحات قابل تنظیم</h3>
                 <ul style="list-style:disc;padding-right:24px;line-height:2.2;">
                     <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-devproject-options')); ?>">
+                            <strong>تنظیمات برنامه نویسی و پروژه اختصاصی</strong>
+                        </a>
+                        — هیرو، نمونه‌کارها، مشتریان، بخش‌های دو ستونه، فرآیند، مزایا و FAQ
+                    </li>
+                    <li>
                         <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-seo-options')); ?>">
                             <strong>تنظیمات سئو و بازاریابی دیجیتال</strong>
                         </a>
@@ -53,6 +59,12 @@ function weblazem_internal_pages_hub_display() {
                             <strong>تنظیمات نمونه کار تکی</strong>
                         </a>
                         — بخش‌های ثابت: نمونه‌کارهای بیشتر، مشاوره و CTA پایانی
+                    </li>
+                    <li>
+                        <a href="<?php echo esc_url(function_exists('weblazem_get_devproject_page_url') ? weblazem_get_devproject_page_url() : '#'); ?>" target="_blank" rel="noopener">
+                            <strong>برگه برنامه نویسی و پروژه اختصاصی</strong>
+                        </a>
+                        — صفحه داخلی خدمات توسعه نرم‌افزار
                     </li>
                     <li>
                         <a href="<?php echo esc_url(function_exists('weblazem_get_seo_page_url') ? weblazem_get_seo_page_url() : '#'); ?>" target="_blank" rel="noopener">

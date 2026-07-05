@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 400" fill="none">
+  <rect x="40" y="80" width="280" height="180" rx="12" fill="#f1f5f9" stroke="#cbd5e1"/>
+  <rect x="56" y="96" width="248" height="148" rx="6" fill="#1e3a8a"/>
+  <path d="M120 244 Q200 320 280 244" stroke="#3b82f6" stroke-width="3" fill="none"/>
+  <polygon points="300,120 340,160 300,200" fill="#94a3b8"/>
+  <text x="320" y="280" font-family="Dana,sans-serif" font-size="18" fill="#64748b">'9*('1 (1F/</text>
+</svg>

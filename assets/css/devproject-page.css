@@ -1,0 +1,13 @@
+/* صفحه برنامه نویسی و پروژه اختصاصی */
+
+.weblazem-devproject-page {
+    font-family: 'Dana', Tahoma, sans-serif;
+    background: #ffffff;
+    overflow-x: hidden;
+}
+
+.weblazem-devproject-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
