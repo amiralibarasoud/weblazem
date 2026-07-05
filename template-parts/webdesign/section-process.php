@@ -1,6 +1,6 @@
 <?php
 /**
- * Website design — process timeline + CSAT.
+ * Website design — process steps as gradient cards + CSAT.
  */
 
 $subtitle    = weblazem_webdesign_option('process_subtitle', 'طراحی یک وب‌سایت حرفه‌ای به یک برنامه دقیق نیاز دارد');
@@ -43,31 +43,41 @@ $step_count = count($steps);
         </header>
 
         <?php if (!empty($steps)) : ?>
-            <div class="webdesign-process__timeline-wrap">
+            <div class="webdesign-process__journey">
                 <?php if (!empty($start_note)) : ?>
                     <p class="webdesign-process__start-note">
-                        <i class="fas fa-hand-point-left" aria-hidden="true"></i>
+                        <i class="fas fa-route" aria-hidden="true"></i>
                         <?php echo esc_html($start_note); ?>
                     </p>
                 <?php endif; ?>
 
-                <div class="webdesign-process__timeline" role="list">
+                <div class="webdesign-process__cards" role="list">
                     <?php foreach ($steps as $index => $step) : ?>
-                        <div class="webdesign-process__timeline-item" role="listitem">
-                            <div class="webdesign-process__timeline-node">
-                                <span class="webdesign-process__timeline-num"><?php echo (int) $index + 1; ?></span>
-                            </div>
-                            <?php if ($index < $step_count - 1) : ?>
-                                <div class="webdesign-process__timeline-line" aria-hidden="true"></div>
-                            <?php endif; ?>
-                            <p class="webdesign-process__timeline-label"><?php echo esc_html($step['title']); ?></p>
-                        </div>
-                    <?php endforeach; ?>
+                        <article class="webdesign-process__card" role="listitem" style="--step-i: <?php echo (int) $index; ?>">
+                            <span class="webdesign-process__card-bg-num" aria-hidden="true"><?php echo str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT); ?></span>
 
-                    <div class="webdesign-process__timeline-end" aria-hidden="true">
-                        <span class="webdesign-process__timeline-rocket"><i class="fas fa-rocket"></i></span>
-                    </div>
+                            <div class="webdesign-process__card-top">
+                                <span class="webdesign-process__card-badge">
+                                    <span class="webdesign-process__card-plus" aria-hidden="true">+</span>
+                                    <span class="webdesign-process__card-num"><?php echo (int) $index + 1; ?></span>
+                                </span>
+                            </div>
+
+                            <h3 class="webdesign-process__card-title"><?php echo esc_html($step['title']); ?></h3>
+
+                            <?php if ($index < $step_count - 1) : ?>
+                                <span class="webdesign-process__card-arrow" aria-hidden="true">
+                                    <i class="fas fa-chevron-left"></i>
+                                </span>
+                            <?php endif; ?>
+                        </article>
+                    <?php endforeach; ?>
                 </div>
+
+                <p class="webdesign-process__journey-caption">
+                    <i class="fas fa-rocket" aria-hidden="true"></i>
+                    مسیر طراحی، اجرا و تحویل پروژه شما
+                </p>
             </div>
         <?php endif; ?>
 
