@@ -33,10 +33,6 @@ if (empty($items)) {
         </header>
 
         <div class="webdesign-portfolio__toolbar">
-            <?php if (!empty($en_label)) : ?>
-                <span class="webdesign-portfolio__en-label"><?php echo esc_html($en_label); ?></span>
-            <?php endif; ?>
-
             <?php if (!empty($tabs)) : ?>
                 <div class="webdesign-portfolio__tabs" role="tablist">
                     <?php foreach ($tabs as $index => $tab) : ?>
@@ -51,47 +47,50 @@ if (empty($items)) {
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
+
+            <?php if (!empty($en_label)) : ?>
+                <span class="webdesign-portfolio__en-label"><?php echo esc_html($en_label); ?></span>
+            <?php endif; ?>
         </div>
 
-        <div class="weblazem-carousel webdesign-portfolio__carousel" data-weblazem-carousel data-autoplay="5000">
+        <div class="weblazem-carousel webdesign-portfolio__carousel" data-weblazem-carousel data-autoplay="4500">
+            <button type="button" class="webdesign-portfolio__nav webdesign-portfolio__nav--prev" data-carousel-prev aria-label="قبلی">
+                <i class="fas fa-chevron-right" aria-hidden="true"></i>
+            </button>
+
             <div class="weblazem-carousel__viewport" data-carousel-viewport>
                 <div class="weblazem-carousel__track webdesign-portfolio__track" data-carousel-track>
                     <?php foreach ($items as $item) : ?>
                         <article class="weblazem-carousel__slide webdesign-showcase-card"
                                  data-categories="<?php echo esc_attr($item['category']); ?>"
-                                 style="--card-bg: <?php echo esc_attr($item['color']); ?>">
-                            <span class="webdesign-showcase-card__star" aria-hidden="true">
-                                <i class="fas fa-star"></i>
-                            </span>
-
-                            <?php if (!empty($item['tag'])) : ?>
-                                <span class="webdesign-showcase-card__tag"><?php echo esc_html($item['tag']); ?></span>
-                            <?php endif; ?>
-
+                                 style="--card-accent: <?php echo esc_attr($item['color']); ?>">
                             <a href="<?php echo esc_url($item['link']); ?>" class="webdesign-showcase-card__link">
-                                <div class="webdesign-showcase-card__preview">
+                                <div class="webdesign-showcase-card__media">
                                     <?php if (!empty($item['image'])) : ?>
                                         <img src="<?php echo esc_url($item['image']); ?>"
                                              alt="<?php echo esc_attr($item['title']); ?>"
                                              loading="lazy" />
                                     <?php else : ?>
                                         <div class="webdesign-showcase-card__placeholder">
-                                            <i class="fas fa-laptop" aria-hidden="true"></i>
+                                            <i class="fas fa-image" aria-hidden="true"></i>
                                         </div>
                                     <?php endif; ?>
                                 </div>
 
-                                <div class="webdesign-showcase-card__footer">
+                                <div class="webdesign-showcase-card__body">
                                     <?php if (!empty($item['logo'])) : ?>
                                         <img src="<?php echo esc_url($item['logo']); ?>"
-                                             alt="<?php echo esc_attr($item['logo_text']); ?>"
-                                             class="webdesign-showcase-card__logo" />
-                                    <?php elseif (!empty($item['logo_text'])) : ?>
-                                        <span class="webdesign-showcase-card__logo-text"><?php echo esc_html($item['logo_text']); ?></span>
+                                             alt=""
+                                             class="webdesign-showcase-card__brand" />
                                     <?php endif; ?>
 
-                                    <span class="webdesign-showcase-card__arrow" aria-hidden="true">
-                                        <i class="fas fa-arrow-left"></i>
+                                    <h3 class="webdesign-showcase-card__title">
+                                        <?php echo esc_html($item['logo_text'] ?: $item['title']); ?>
+                                    </h3>
+
+                                    <span class="webdesign-showcase-card__cta">
+                                        مشاهده پروژه
+                                        <i class="fas fa-arrow-left" aria-hidden="true"></i>
                                     </span>
                                 </div>
                             </a>
@@ -99,10 +98,10 @@ if (empty($items)) {
                     <?php endforeach; ?>
                 </div>
             </div>
-        </div>
 
-        <div class="webdesign-portfolio__indicator" aria-hidden="true">
-            <span></span><span></span>
+            <button type="button" class="webdesign-portfolio__nav webdesign-portfolio__nav--next" data-carousel-next aria-label="بعدی">
+                <i class="fas fa-chevron-left" aria-hidden="true"></i>
+            </button>
         </div>
     </div>
 </section>

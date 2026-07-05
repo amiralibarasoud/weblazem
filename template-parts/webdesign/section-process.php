@@ -22,6 +22,8 @@ if (!is_array($steps)) {
 $steps = array_values(array_filter($steps, function ($step) {
     return !empty($step['title']);
 }));
+
+$step_count = count($steps);
 ?>
 
 <section class="webdesign-process" dir="rtl">
@@ -41,27 +43,30 @@ $steps = array_values(array_filter($steps, function ($step) {
         </header>
 
         <?php if (!empty($steps)) : ?>
-            <div class="webdesign-process__flow">
+            <div class="webdesign-process__timeline-wrap">
                 <?php if (!empty($start_note)) : ?>
-                    <div class="webdesign-process__start-note">
-                        <span><?php echo esc_html($start_note); ?></span>
-                        <i class="fas fa-arrow-left" aria-hidden="true"></i>
-                    </div>
+                    <p class="webdesign-process__start-note">
+                        <i class="fas fa-hand-point-left" aria-hidden="true"></i>
+                        <?php echo esc_html($start_note); ?>
+                    </p>
                 <?php endif; ?>
 
-                <ol class="webdesign-process__steps">
+                <div class="webdesign-process__timeline" role="list">
                     <?php foreach ($steps as $index => $step) : ?>
-                        <li class="webdesign-process__step" style="--step-index: <?php echo (int) $index; ?>">
-                            <span class="webdesign-process__step-pill">
-                                <span class="webdesign-process__step-icon" aria-hidden="true">+</span>
-                                <?php echo esc_html($step['title']); ?>
-                            </span>
-                        </li>
+                        <div class="webdesign-process__timeline-item" role="listitem">
+                            <div class="webdesign-process__timeline-node">
+                                <span class="webdesign-process__timeline-num"><?php echo (int) $index + 1; ?></span>
+                            </div>
+                            <?php if ($index < $step_count - 1) : ?>
+                                <div class="webdesign-process__timeline-line" aria-hidden="true"></div>
+                            <?php endif; ?>
+                            <p class="webdesign-process__timeline-label"><?php echo esc_html($step['title']); ?></p>
+                        </div>
                     <?php endforeach; ?>
-                </ol>
 
-                <div class="webdesign-process__rocket" aria-hidden="true">
-                    <i class="fas fa-rocket"></i>
+                    <div class="webdesign-process__timeline-end" aria-hidden="true">
+                        <span class="webdesign-process__timeline-rocket"><i class="fas fa-rocket"></i></span>
+                    </div>
                 </div>
             </div>
         <?php endif; ?>

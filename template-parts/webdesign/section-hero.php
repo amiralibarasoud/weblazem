@@ -19,13 +19,7 @@ $default_img = get_template_directory_uri() . '/assets/images/webdesign/hero-mon
 <section class="webdesign-hero" dir="rtl">
     <div class="container">
         <div class="webdesign-hero__grid">
-            <div class="webdesign-hero__visual">
-                <img src="<?php echo esc_url(!empty($image) ? $image : $default_img); ?>"
-                     alt=""
-                     class="webdesign-hero__image" />
-            </div>
-
-            <div class="webdesign-hero__content">
+            <div class="webdesign-hero__content" dir="rtl">
                 <?php if (!empty($en_title)) : ?>
                     <span class="webdesign-hero__en-title"><?php echo esc_html($en_title); ?></span>
                 <?php endif; ?>
@@ -58,6 +52,12 @@ $default_img = get_template_directory_uri() . '/assets/images/webdesign/hero-mon
                         <?php endif; ?>
                     </div>
                 </div>
+            </div>
+
+            <div class="webdesign-hero__visual">
+                <img src="<?php echo esc_url(!empty($image) ? $image : $default_img); ?>"
+                     alt=""
+                     class="webdesign-hero__image" />
             </div>
         </div>
     </div>
