@@ -30,12 +30,17 @@ require get_template_directory() . '/inc/testimonials-options.php';
 require get_template_directory() . '/inc/faq-options.php';
 require_once get_template_directory() . '/inc/footer-options.php';
 require_once get_template_directory() . '/inc/internal-pages-options.php';
+require_once get_template_directory() . '/inc/service-page-helpers.php';
 require_once get_template_directory() . '/inc/portfolio-page-options.php';
 require_once get_template_directory() . '/inc/portfolio-page-setup.php';
 require_once get_template_directory() . '/inc/webdesign-sections.php';
 require_once get_template_directory() . '/inc/webdesign-page-setup.php';
 require_once get_template_directory() . '/inc/webdesign-page-options.php';
 require_once get_template_directory() . '/inc/webdesign-menu.php';
+require_once get_template_directory() . '/inc/seo-sections.php';
+require_once get_template_directory() . '/inc/seo-page-setup.php';
+require_once get_template_directory() . '/inc/seo-page-options.php';
+require_once get_template_directory() . '/inc/seo-menu.php';
 require_once get_template_directory() . '/inc/portfolio-menu.php';
 require_once get_template_directory() . '/inc/portfolio-single-meta.php';
 require_once get_template_directory() . '/inc/portfolio-single-options.php';
@@ -70,7 +75,10 @@ function weblazem_enqueue_assets() {
     $is_webdesign_page = is_page_template('webdesign-template.php')
         || (function_exists('weblazem_is_webdesign_page') && weblazem_is_webdesign_page());
 
-    if (is_page_template('home-template.php') || $is_portfolio_listing || $is_webdesign_page || is_singular('portfolio')) {
+    $is_seo_page = is_page_template('seo-template.php')
+        || (function_exists('weblazem_is_seo_page') && weblazem_is_seo_page());
+
+    if (is_page_template('home-template.php') || $is_portfolio_listing || $is_webdesign_page || $is_seo_page || is_singular('portfolio')) {
         wp_enqueue_style(
             'weblazem-home-style',
             get_template_directory_uri() . '/assets/css/home.css',
@@ -123,6 +131,30 @@ function weblazem_enqueue_assets() {
             wp_enqueue_script(
                 'weblazem-webdesign-page',
                 get_template_directory_uri() . '/assets/js/webdesign-page.js',
+                array(),
+                null,
+                true
+            );
+        }
+
+        if ($is_seo_page) {
+            wp_enqueue_style(
+                'weblazem-webdesign-page-style',
+                get_template_directory_uri() . '/assets/css/webdesign-page.css',
+                array('weblazem-home-style'),
+                null
+            );
+
+            wp_enqueue_style(
+                'weblazem-seo-page-style',
+                get_template_directory_uri() . '/assets/css/seo-page.css',
+                array('weblazem-webdesign-page-style'),
+                null
+            );
+
+            wp_enqueue_script(
+                'weblazem-home-faq',
+                get_template_directory_uri() . '/assets/js/home-faq.js',
                 array(),
                 null,
                 true

@@ -30,6 +30,7 @@ function weblazem_webdesign_defaults() {
         'process_subtitle'           => 'طراحی یک وب‌سایت حرفه‌ای به یک برنامه دقیق نیاز دارد',
         'process_description'        => 'فرآیند طراحی وب‌سایت در وب‌سیما فراتر از ظاهر است؛ از جلسه مشاوره تا تحویل نهایی، هر مرحله با دقت و شفافیت پیش می‌رود.',
         'process_start_note'         => 'از اینجا شروع کنیم',
+        'process_journey_caption'    => 'مسیر طراحی، اجرا و تحویل پروژه شما',
         'process_csat_number'        => '98%',
         'process_csat_label'         => 'شاخص رضایت مشتریان',
         'process_csat_sub'           => 'CSAT — Customer Satisfaction Score',
