@@ -31,6 +31,12 @@ function weblazem_internal_pages_hub_display() {
                 <h3>صفحات قابل تنظیم</h3>
                 <ul style="list-style:disc;padding-right:24px;line-height:2.2;">
                     <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-webdesign-options')); ?>">
+                            <strong>تنظیمات طراحی سایت</strong>
+                        </a>
+                        — هیرو، نمونه‌کارها، مشتریان، فرآیند، مزایا و FAQ
+                    </li>
+                    <li>
                         <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-portfolio-page-options')); ?>">
                             <strong>تنظیمات نمونه کار</strong>
                         </a>
@@ -41,6 +47,12 @@ function weblazem_internal_pages_hub_display() {
                             <strong>تنظیمات نمونه کار تکی</strong>
                         </a>
                         — بخش‌های ثابت: نمونه‌کارهای بیشتر، مشاوره و CTA پایانی
+                    </li>
+                    <li>
+                        <a href="<?php echo esc_url(function_exists('weblazem_get_webdesign_page_url') ? weblazem_get_webdesign_page_url() : '#'); ?>" target="_blank" rel="noopener">
+                            <strong>برگه طراحی سایت</strong>
+                        </a>
+                        — صفحه داخلی خدمات طراحی وب‌سایت
                     </li>
                     <li>
                         <a href="<?php echo esc_url(admin_url('edit.php?post_type=page')); ?>">
