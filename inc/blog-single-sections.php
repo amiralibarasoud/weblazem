@@ -37,9 +37,9 @@ add_action('init', 'weblazem_ensure_blog_single_section_defaults', 13);
 
 function weblazem_get_blog_single_sidebar_categories($show_count = true) {
     return get_categories(array(
-        'orderby'    => 'count',
-        'order'      => 'DESC',
-        'hide_empty' => true,
+        'orderby'    => 'name',
+        'order'      => 'ASC',
+        'hide_empty' => false,
     ));
 }
 
@@ -85,3 +85,47 @@ function weblazem_get_blog_single_post_thumb($post_id) {
     }
     return $thumb ?: '';
 }
+
+function weblazem_ensure_blog_sidebar_categories() {
+    if (get_option('weblazem_blog_sidebar_categories_seeded') === '1') {
+        return;
+    }
+
+    $categories = array(
+        array('name' => 'طراحی سایت فروشگاهی', 'slug' => 'tarahi-site-forooshgahi'),
+        array('name' => 'آخرین اخبار سئو', 'slug' => 'akharin-akhbar-seo'),
+        array('name' => 'سایت شرکتی', 'slug' => 'site-sherkati'),
+        array('name' => 'مقالات', 'slug' => 'maghalat'),
+        array('name' => 'طراحی سایت خدماتی', 'slug' => 'tarahi-site-khedmati'),
+        array('name' => 'طراحی سایت', 'slug' => 'tarahi-site'),
+    );
+
+    $term_ids = array();
+    foreach ($categories as $cat) {
+        $existing = get_term_by('slug', $cat['slug'], 'category');
+        if ($existing) {
+            $term_ids[] = (int) $existing->term_id;
+            continue;
+        }
+        $created = wp_insert_term($cat['name'], 'category', array('slug' => $cat['slug']));
+        if (!is_wp_error($created)) {
+            $term_ids[] = (int) $created['term_id'];
+        }
+    }
+
+    $posts = get_posts(array(
+        'post_type'      => 'post',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+    ));
+
+    if ($posts && $term_ids) {
+        foreach ($posts as $index => $post_id) {
+            wp_set_post_categories((int) $post_id, array($term_ids[$index % count($term_ids)]));
+        }
+    }
+
+    update_option('weblazem_blog_sidebar_categories_seeded', '1');
+}
+add_action('init', 'weblazem_ensure_blog_sidebar_categories', 42);

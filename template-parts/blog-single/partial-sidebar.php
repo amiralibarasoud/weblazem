@@ -31,7 +31,9 @@ if (!$show_categories && !$show_latest) {
                             <li>
                                 <a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>">
                                     <?php echo esc_html($cat->name); ?>
-                                    <span class="blog-single-sidebar__count">(<?php echo esc_html(number_format_i18n($cat->count)); ?>)</span>
+                                    <?php if ((int) $cat->count > 0) : ?>
+                                        <span class="blog-single-sidebar__count">(<?php echo esc_html(number_format_i18n($cat->count)); ?>)</span>
+                                    <?php endif; ?>
                                 </a>
                             </li>
                         <?php endforeach; ?>
