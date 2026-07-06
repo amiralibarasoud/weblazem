@@ -55,6 +55,10 @@ require_once get_template_directory() . '/inc/blog-archive-defaults.php';
 require_once get_template_directory() . '/inc/blog-archive-page-setup.php';
 require_once get_template_directory() . '/inc/blog-archive-page-options.php';
 require_once get_template_directory() . '/inc/blog-archive-menu.php';
+require_once get_template_directory() . '/inc/blog-single-sections.php';
+require_once get_template_directory() . '/inc/blog-single-defaults.php';
+require_once get_template_directory() . '/inc/blog-single-options.php';
+require_once get_template_directory() . '/inc/blog-sample-tarahi-post.php';
 require_once get_template_directory() . '/inc/portfolio-menu.php';
 require_once get_template_directory() . '/inc/portfolio-single-meta.php';
 require_once get_template_directory() . '/inc/portfolio-single-options.php';
@@ -269,6 +273,15 @@ function weblazem_enqueue_assets() {
                 'weblazem-blog-archive-page-style',
                 get_template_directory_uri() . '/assets/css/blog-archive-page.css',
                 array('weblazem-home-style'),
+                null
+            );
+        }
+
+        if (is_singular('post')) {
+            wp_enqueue_style(
+                'weblazem-blog-single-page-style',
+                get_template_directory_uri() . '/assets/css/blog-single-page.css',
+                array('weblazem-blog-archive-page-style'),
                 null
             );
         }

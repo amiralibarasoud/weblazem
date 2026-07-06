@@ -43,6 +43,12 @@ function weblazem_internal_pages_hub_display() {
                         — هیرو، لیست مقالات و صفحه‌بندی
                     </li>
                     <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-blog-single-options')); ?>">
+                            <strong>تنظیمات مقاله بلاگ (تک‌مقاله)</strong>
+                        </a>
+                        — بنر، سایدبار، مقالات مرتبط و بخش نظرات
+                    </li>
+                    <li>
                         <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-devproject-options')); ?>">
                             <strong>تنظیمات برنامه نویسی و پروژه اختصاصی</strong>
                         </a>

@@ -1,41 +1,33 @@
 <?php
 /**
- * Blog post single template.
+ * Blog post single template — Figma layout with configurable sections.
  */
 
 get_header();
-
-$post_id = get_the_ID();
-$thumb   = get_the_post_thumbnail_url($post_id, 'large');
-if (!$thumb) {
-    $thumb = get_post_meta($post_id, '_weblazem_demo_thumb', true);
-}
 ?>
 
-<main class="weblazem-blog-archive-page blog-single" dir="rtl">
-    <div class="container">
-        <a href="<?php echo esc_url(weblazem_get_blogarchive_page_url()); ?>" class="blog-single__back">
-            <i class="fas fa-arrow-right" aria-hidden="true"></i>
-            بازگشت به مجله
-        </a>
+<main class="weblazem-blog-single-page" dir="rtl">
+    <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
-        <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-            <article>
-                <h1 class="blog-single__title"><?php the_title(); ?></h1>
-                <p class="blog-single__meta"><?php echo esc_html(get_the_date()); ?></p>
+        <?php if (weblazem_is_blog_single_section_enabled('banner')) {
+            get_template_part('template-parts/blog-single/section', 'banner');
+        } ?>
 
-                <?php if ($thumb) : ?>
-                    <div class="blog-single__thumb">
-                        <img src="<?php echo esc_url($thumb); ?>" alt="<?php the_title_attribute(); ?>" />
-                    </div>
-                <?php endif; ?>
+        <?php if (weblazem_is_blog_single_section_enabled('hero_image')) {
+            get_template_part('template-parts/blog-single/section', 'hero-image');
+        } ?>
 
-                <div class="blog-single__content">
-                    <?php the_content(); ?>
-                </div>
-            </article>
-        <?php endwhile; endif; ?>
-    </div>
+        <?php get_template_part('template-parts/blog-single/section', 'main'); ?>
+
+        <?php if (weblazem_is_blog_single_section_enabled('related')) {
+            get_template_part('template-parts/blog-single/section', 'related');
+        } ?>
+
+        <?php if (weblazem_is_blog_single_section_enabled('comments')) {
+            get_template_part('template-parts/blog-single/section', 'comments');
+        } ?>
+
+    <?php endwhile; endif; ?>
 </main>
 
 <?php get_footer(); ?>

@@ -313,53 +313,6 @@
     color: var(--blog-accent);
 }
 
-/* ─── Single post (minimal) ─── */
-.blog-single {
-    padding: 48px 0 80px;
-}
-
-.blog-single__title {
-    font-size: clamp(24px, 3vw, 34px);
-    font-weight: 800;
-    color: var(--blog-navy);
-    line-height: 1.5;
-    margin: 0 0 16px;
-}
-
-.blog-single__meta {
-    font-size: 14px;
-    color: var(--blog-muted);
-    margin-bottom: 28px;
-}
-
-.blog-single__thumb {
-    border-radius: var(--blog-card-radius);
-    overflow: hidden;
-    margin-bottom: 32px;
-}
-
-.blog-single__thumb img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.blog-single__content {
-    font-size: 16px;
-    line-height: 2;
-    color: var(--blog-text);
-}
-
-.blog-single__back {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 24px;
-    color: var(--blog-accent);
-    text-decoration: none;
-    font-weight: 600;
-}
-
 /* ─── Responsive ─── */
 @media (max-width: 1024px) {
     .blog-archive-grid {
