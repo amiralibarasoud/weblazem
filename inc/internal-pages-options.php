@@ -31,10 +31,10 @@ function weblazem_internal_pages_hub_display() {
                 <h3>صفحات قابل تنظیم</h3>
                 <ul style="list-style:disc;padding-right:24px;line-height:2.2;">
                     <li>
-                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-blogarchive-options')); ?>">
-                            <strong>تنظیمات آرشیو بلاگ</strong>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-contentsupport-options')); ?>">
+                            <strong>تنظیمات تولید محتوا و پشتیبانی</strong>
                         </a>
-                        — هیرو، تعداد مقالات و صفحه‌بندی
+                        — هیرو، نمونه‌کارها، مشتریان، بخش‌های دو ستونه، فرآیند، مزایا و FAQ
                     </li>
                     <li>
                         <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-blogarchive-options')); ?>">
@@ -73,10 +73,10 @@ function weblazem_internal_pages_hub_display() {
                         — بخش‌های ثابت: نمونه‌کارهای بیشتر، مشاوره و CTA پایانی
                     </li>
                     <li>
-                        <a href="<?php echo esc_url(function_exists('weblazem_get_blogarchive_page_url') ? weblazem_get_blogarchive_page_url() : '#'); ?>" target="_blank" rel="noopener">
-                            <strong>برگه مجله وب‌لازم (آرشیو بلاگ)</strong>
+                        <a href="<?php echo esc_url(function_exists('weblazem_get_contentsupport_page_url') ? weblazem_get_contentsupport_page_url() : '#'); ?>" target="_blank" rel="noopener">
+                            <strong>برگه تولید محتوا و پشتیبانی</strong>
                         </a>
-                        — لیست مقالات و مجله دیجیتال
+                        — تولید محتوا، تعرفه مقالات و پشتیبانی وب‌سایت
                     </li>
                     <li>
                         <a href="<?php echo esc_url(function_exists('weblazem_get_blogarchive_page_url') ? weblazem_get_blogarchive_page_url() : '#'); ?>" target="_blank" rel="noopener">
