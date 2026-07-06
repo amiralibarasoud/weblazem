@@ -45,6 +45,11 @@ require_once get_template_directory() . '/inc/devproject-sections.php';
 require_once get_template_directory() . '/inc/devproject-page-setup.php';
 require_once get_template_directory() . '/inc/devproject-page-options.php';
 require_once get_template_directory() . '/inc/devproject-menu.php';
+require_once get_template_directory() . '/inc/blog-archive-sections.php';
+require_once get_template_directory() . '/inc/blog-archive-defaults.php';
+require_once get_template_directory() . '/inc/blog-archive-page-setup.php';
+require_once get_template_directory() . '/inc/blog-archive-page-options.php';
+require_once get_template_directory() . '/inc/blog-archive-menu.php';
 require_once get_template_directory() . '/inc/portfolio-menu.php';
 require_once get_template_directory() . '/inc/portfolio-single-meta.php';
 require_once get_template_directory() . '/inc/portfolio-single-options.php';
@@ -85,7 +90,10 @@ function weblazem_enqueue_assets() {
     $is_devproject_page = is_page_template('devproject-template.php')
         || (function_exists('weblazem_is_devproject_page') && weblazem_is_devproject_page());
 
-    if (is_page_template('home-template.php') || $is_portfolio_listing || $is_webdesign_page || $is_seo_page || $is_devproject_page || is_singular('portfolio')) {
+    $is_blogarchive_page = is_page_template('blog-archive-template.php')
+        || (function_exists('weblazem_is_blogarchive_page') && weblazem_is_blogarchive_page());
+
+    if (is_page_template('home-template.php') || $is_portfolio_listing || $is_webdesign_page || $is_seo_page || $is_devproject_page || $is_blogarchive_page || is_singular('portfolio') || is_singular('post')) {
         wp_enqueue_style(
             'weblazem-home-style',
             get_template_directory_uri() . '/assets/css/home.css',
@@ -205,6 +213,15 @@ function weblazem_enqueue_assets() {
                 array(),
                 null,
                 true
+            );
+        }
+
+        if ($is_blogarchive_page || is_singular('post')) {
+            wp_enqueue_style(
+                'weblazem-blog-archive-page-style',
+                get_template_directory_uri() . '/assets/css/blog-archive-page.css',
+                array('weblazem-home-style'),
+                null
             );
         }
         

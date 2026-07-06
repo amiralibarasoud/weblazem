@@ -1,12 +1,12 @@
 <?php
 /**
- * Blog posts archive fallback — redirect to magazine page.
+ * Post archive fallback — redirect to blog archive page when available.
  */
 
 $page_id = function_exists('weblazem_get_blogarchive_page_id') ? weblazem_get_blogarchive_page_id() : 0;
 
-if ($page_id && (is_home() || is_archive())) {
-    wp_safe_redirect(weblazem_get_blogarchive_page_url());
+if ($page_id && is_home()) {
+    wp_safe_redirect(get_permalink($page_id));
     exit;
 }
 
