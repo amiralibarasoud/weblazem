@@ -77,6 +77,11 @@ function weblazem_build_consult_sms_parameters($form_data) {
             case 'mobile':
                 $value = $form_data['mobile'];
                 break;
+            case 'subject':
+                $value = !empty($form_data['subject_label'])
+                    ? $form_data['subject_label']
+                    : weblazem_get_consult_subject_label($form_data['subject'] ?? '');
+                break;
             case 'page_url':
                 $value = $form_data['page_url'];
                 break;
@@ -150,6 +155,7 @@ function weblazem_ajax_submit_consultation() {
 
     $full_name = isset($_POST['full_name']) ? sanitize_text_field(wp_unslash($_POST['full_name'])) : '';
     $mobile    = isset($_POST['mobile']) ? sanitize_text_field(wp_unslash($_POST['mobile'])) : '';
+    $subject   = isset($_POST['subject']) ? sanitize_key(wp_unslash($_POST['subject'])) : '';
     $page_url  = isset($_POST['page_url']) ? esc_url_raw(wp_unslash($_POST['page_url'])) : '';
 
     if ($full_name === '' && (isset($_POST['first_name']) || isset($_POST['last_name']))) {
@@ -161,12 +167,22 @@ function weblazem_ajax_submit_consultation() {
     $full_name = trim(preg_replace('/\s+/', ' ', $full_name));
     $parsed    = weblazem_parse_consult_full_name($full_name);
 
-    if (empty($full_name) || empty($mobile)) {
+    if (empty($full_name) || empty($mobile) || empty($subject)) {
         wp_send_json_error(
             array('message' => 'لطفاً تمام فیلدها را پر کنید.'),
             400
         );
     }
+
+    $subject_choices = weblazem_get_consult_subject_choices();
+    if (!isset($subject_choices[$subject])) {
+        wp_send_json_error(
+            array('message' => 'لطفاً موضوع درخواست را انتخاب کنید.'),
+            400
+        );
+    }
+
+    $subject_label = $subject_choices[$subject];
 
     if (!weblazem_is_valid_iran_mobile($mobile)) {
         wp_send_json_error(
@@ -178,12 +194,14 @@ function weblazem_ajax_submit_consultation() {
     $mobile = weblazem_normalize_iran_mobile($mobile);
 
     $form_data = array(
-        'full_name'  => $full_name,
-        'first_name' => $parsed['first_name'],
-        'last_name'  => $parsed['last_name'],
-        'mobile'     => $mobile,
-        'page_url'   => $page_url,
-        'ip'         => isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '',
+        'full_name'     => $full_name,
+        'first_name'    => $parsed['first_name'],
+        'last_name'     => $parsed['last_name'],
+        'mobile'        => $mobile,
+        'subject'       => $subject,
+        'subject_label' => $subject_label,
+        'page_url'      => $page_url,
+        'ip'            => isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '',
     );
 
     $api_key     = weblazem_get_consult_option('weblazem_consult_sms_api_key');
@@ -243,14 +261,14 @@ function weblazem_enqueue_consultation_assets() {
         'weblazem-consultation',
         get_template_directory_uri() . '/assets/css/consultation.css',
         array(),
-        '1.0.4'
+        '1.0.5'
     );
 
     wp_enqueue_script(
         'weblazem-consultation-modal',
         get_template_directory_uri() . '/assets/js/consultation-modal.js',
         array(),
-        '1.0.4',
+        '1.0.5',
         true
     );
 

@@ -10,12 +10,12 @@ $id_prefix  = $args['id_prefix'] ?? $prefix;
 
 $faq_subtitle = weblazem_service_option($prefix, 'faq_subtitle', 'پرسش‌های پرتکرار');
 $faq_intro    = weblazem_service_option($prefix, 'faq_intro', '');
-$faq_items    = get_option('weblazem_' . $prefix . '_faq_items', array());
+$faq_items    = weblazem_service_get_option($prefix, 'faq_items', array());
 $profile_img  = weblazem_service_option($prefix, 'faq_profile_image', '');
 $phone        = weblazem_service_option($prefix, 'faq_phone', get_option('weblazem_phone', '021 78358'));
 $consult_text = weblazem_service_option($prefix, 'faq_consult_btn_text', 'ثبت درخواست مشاوره');
 $footer_text  = weblazem_service_option($prefix, 'faq_footer_text', '');
-$cards        = get_option('weblazem_' . $prefix . '_service_cards', array());
+$cards        = weblazem_service_get_option($prefix, 'service_cards', array());
 
 if (!is_array($faq_items)) {
     $faq_items = array();

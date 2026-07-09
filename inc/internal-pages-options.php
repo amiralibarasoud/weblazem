@@ -49,10 +49,28 @@ function weblazem_internal_pages_hub_display() {
                         — بنر، سایدبار، مقالات مرتبط و بخش نظرات
                     </li>
                     <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-contact-options')); ?>">
+                            <strong>تنظیمات تماس با ما</strong>
+                        </a>
+                        — اطلاعات تماس، فرم، پیامک و مشاهده پیام‌های دریافتی
+                    </li>
+                    <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-contact-options')); ?>">
+                            <strong>تنظیمات تماس با ما</strong>
+                        </a>
+                        — اطلاعات تماس، فرم، پیامک و پیام‌های دریافتی
+                    </li>
+                    <li>
                         <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-devproject-options')); ?>">
                             <strong>تنظیمات برنامه نویسی و پروژه اختصاصی</strong>
                         </a>
                         — هیرو، نمونه‌کارها، مشتریان، بخش‌های دو ستونه، فرآیند، مزایا و FAQ
+                    </li>
+                    <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-pricing-options')); ?>">
+                            <strong>تنظیمات خدمات و تعرفه‌ها</strong>
+                        </a>
+                        — هیرو، دسته‌بندی خدمات، تعرفه‌ها، پلن طراحی سایت و مشاوره
                     </li>
                     <li>
                         <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-seo-options')); ?>">
@@ -65,6 +83,12 @@ function weblazem_internal_pages_hub_display() {
                             <strong>تنظیمات طراحی سایت</strong>
                         </a>
                         — هیرو، نمونه‌کارها، مشتریان، فرآیند، مزایا و FAQ
+                    </li>
+                    <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-service-landing')); ?>">
+                            <strong>صفحات خدمات داینامیک</strong>
+                        </a>
+                        — ساخت نامحدود صفحه با قالب طراحی سایت (فروشگاهی، شرکتی و …)
                     </li>
                     <li>
                         <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-portfolio-page-options')); ?>">
@@ -91,10 +115,22 @@ function weblazem_internal_pages_hub_display() {
                         — لیست مقالات و مجله
                     </li>
                     <li>
+                        <a href="<?php echo esc_url(function_exists('weblazem_get_contact_page_url') ? weblazem_get_contact_page_url() : '#'); ?>" target="_blank" rel="noopener">
+                            <strong>برگه تماس با ما</strong>
+                        </a>
+                        — فرم تماس و اطلاعات ارتباطی
+                    </li>
+                    <li>
                         <a href="<?php echo esc_url(function_exists('weblazem_get_devproject_page_url') ? weblazem_get_devproject_page_url() : '#'); ?>" target="_blank" rel="noopener">
                             <strong>برگه برنامه نویسی و پروژه اختصاصی</strong>
                         </a>
                         — صفحه داخلی خدمات توسعه نرم‌افزار
+                    </li>
+                    <li>
+                        <a href="<?php echo esc_url(function_exists('weblazem_get_pricing_page_url') ? weblazem_get_pricing_page_url() : '#'); ?>" target="_blank" rel="noopener">
+                            <strong>برگه خدمات و تعرفه‌ها</strong>
+                        </a>
+                        — صفحه داخلی تعرفه‌ها و خدمات
                     </li>
                     <li>
                         <a href="<?php echo esc_url(function_exists('weblazem_get_seo_page_url') ? weblazem_get_seo_page_url() : '#'); ?>" target="_blank" rel="noopener">

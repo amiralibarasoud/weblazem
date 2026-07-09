@@ -29,12 +29,41 @@ function weblazem_seo_defaults() {
         'process_btn2_url'           => '#',
         'advantages_title'           => 'مسیر موفقیت، با یک انتخاب درست آغاز می‌شود!',
         'advantages_subtitle'        => 'استراتژی درست سئو و بازاریابی دیجیتال، پایه رشد پایدار کسب‌وکار شماست.',
+        'tariffs_title'              => 'پلن های سئو با خدمات وب‌لازم',
+        'tariffs_price_label'        => 'قیمت',
         'faq_subtitle'               => 'پرسش‌های متداول',
         'faq_intro'                  => 'پاسخ سوالات رایج درباره سئو و بازاریابی دیجیتال را در این بخش بیابید تا با اطمینان بیشتری تصمیم بگیرید.',
         'faq_phone'                  => '021 78358',
         'faq_consult_btn_text'       => 'ثبت درخواست مشاوره',
         'faq_footer_text'            => 'ما ترکیبی از خلاقیت و تکنولوژی را برای توسعه کسب‌وکارهای دیجیتال خلق کرده‌ایم',
     );
+}
+
+function weblazem_get_default_seo_pricing_plans() {
+    $feature = 'لورم ایپسوم متن ساختگی';
+    $features = array_fill(0, 5, $feature);
+    $plans = array();
+
+    for ($i = 0; $i < 4; $i++) {
+        $plans[] = array(
+            'title'        => 'پلن طلایی (ماهانه)',
+            'price'        => '۲.۰۰۰.۰۰۰ تومان',
+            'features'     => $features,
+            'button_text'  => 'مشاوره رایگان',
+            'button_modal' => '1',
+            'button_url'   => '',
+        );
+    }
+
+    return $plans;
+}
+
+function weblazem_get_seo_pricing_plans() {
+    $plans = get_option('weblazem_seo_pricing_plans');
+    if (!is_array($plans) || empty($plans)) {
+        return weblazem_get_default_seo_pricing_plans();
+    }
+    return $plans;
 }
 
 function weblazem_get_default_seo_splits() {
@@ -152,6 +181,7 @@ function weblazem_ensure_seo_defaults() {
         'weblazem_seo_splits'           => 'weblazem_get_default_seo_splits',
         'weblazem_seo_process_steps'    => 'weblazem_get_default_seo_process_steps',
         'weblazem_seo_advantages_items' => 'weblazem_get_default_seo_advantages',
+        'weblazem_seo_pricing_plans'    => 'weblazem_get_default_seo_pricing_plans',
         'weblazem_seo_faq_items'        => 'weblazem_get_default_seo_faq_items',
         'weblazem_seo_service_cards'    => 'weblazem_get_default_seo_service_cards',
         'weblazem_seo_clients_logos'    => 'weblazem_get_default_seo_client_logos',

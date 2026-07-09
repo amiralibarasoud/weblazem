@@ -30,6 +30,7 @@ function weblazem_register_seo_settings() {
     register_setting('weblazem_seo_group', 'weblazem_seo_faq_items', array('sanitize_callback' => 'weblazem_sanitize_seo_faq'));
     register_setting('weblazem_seo_group', 'weblazem_seo_service_cards', array('sanitize_callback' => 'weblazem_sanitize_seo_service_cards'));
     register_setting('weblazem_seo_group', 'weblazem_seo_clients_logos', array('sanitize_callback' => 'weblazem_sanitize_seo_logos'));
+    register_setting('weblazem_seo_group', 'weblazem_seo_pricing_plans', array('sanitize_callback' => 'weblazem_sanitize_seo_pricing_plans'));
 
     foreach (weblazem_get_seo_sections_config() as $key => $label) {
         register_setting('weblazem_seo_group', 'weblazem_seo_section_' . $key . '_enabled');
@@ -148,6 +149,40 @@ function weblazem_sanitize_seo_logos($input) {
     return $out;
 }
 
+function weblazem_sanitize_seo_pricing_plans($input) {
+    if (!is_array($input)) {
+        return weblazem_get_default_seo_pricing_plans();
+    }
+
+    $out = array();
+    foreach ($input as $row) {
+        $features = array();
+        if (!empty($row['features']) && is_array($row['features'])) {
+            foreach ($row['features'] as $feature) {
+                $feature = sanitize_text_field($feature);
+                if ($feature !== '') {
+                    $features[] = $feature;
+                }
+            }
+        }
+
+        if (empty($row['title']) && empty($row['price'])) {
+            continue;
+        }
+
+        $out[] = array(
+            'title'        => sanitize_text_field($row['title'] ?? ''),
+            'price'        => sanitize_text_field($row['price'] ?? ''),
+            'features'     => $features,
+            'button_text'  => sanitize_text_field($row['button_text'] ?? 'مشاوره رایگان'),
+            'button_modal' => (!empty($row['button_modal']) && $row['button_modal'] === '1') ? '1' : '0',
+            'button_url'   => esc_url_raw($row['button_url'] ?? ''),
+        );
+    }
+
+    return !empty($out) ? $out : weblazem_get_default_seo_pricing_plans();
+}
+
 function weblazem_seo_handle_section_checkboxes() {
     if (!isset($_POST['option_page']) || $_POST['option_page'] !== 'weblazem_seo_group') {
         return;
@@ -182,6 +217,7 @@ function weblazem_seo_options_display() {
     $faq_items  = get_option('weblazem_seo_faq_items', weblazem_get_default_seo_faq_items());
     $cards      = get_option('weblazem_seo_service_cards', weblazem_get_default_seo_service_cards());
     $logos      = get_option('weblazem_seo_clients_logos', weblazem_get_default_seo_client_logos());
+    $plans      = weblazem_get_seo_pricing_plans();
     $icon_choices = array(
         'clipboard' => 'استراتژی', 'chart' => 'نمودار', 'star' => 'ستاره', 'target' => 'هدف',
         'shark' => 'رقبا', 'coffee' => 'محتوا', 'grid' => 'UX', 'graph' => 'گزارش',
@@ -205,7 +241,7 @@ function weblazem_seo_options_display() {
                 $admin_tabs = array(
                     'layout' => 'چیدمان سکشن‌ها', 'hero' => 'هیرو', 'clients' => 'مشتریان',
                     'splits' => 'بخش‌های دو ستونه', 'process' => 'فرآیند',
-                    'advantages' => 'مزایا', 'faq' => 'FAQ و تماس',
+                    'advantages' => 'مزایا', 'tariffs' => 'تعرفه‌ها', 'faq' => 'FAQ و تماس',
                 );
                 $first = true;
                 foreach ($admin_tabs as $id => $label) :
@@ -313,6 +349,20 @@ function weblazem_seo_options_display() {
                     </div>
                 </div>
 
+                <div class="weblazem-tab-content" data-tab-content="tariffs">
+                    <div class="weblazem-admin-card">
+                        <h3>تعرفه‌ها (پلن‌های سئو)</h3>
+                        <p class="description">کارت‌های قیمت‌گذاری در یک ردیف نمایش داده می‌شوند. دکمه «مشاوره رایگان» می‌تواند مودال درخواست مشاوره را باز کند.</p>
+                        <?php weblazem_seo_admin_field('tariffs_title', 'عنوان بخش'); ?>
+                        <?php weblazem_seo_admin_field('tariffs_price_label', 'برچسب قیمت'); ?>
+                        <h4>پلن‌ها</h4>
+                        <div id="seo-pricing-plans-container">
+                            <?php foreach ($plans as $i => $plan) : weblazem_seo_admin_pricing_plan_row($i, $plan); endforeach; ?>
+                        </div>
+                        <button type="button" class="button" id="add-seo-pricing-plan">افزودن پلن</button>
+                    </div>
+                </div>
+
                 <div class="weblazem-tab-content" data-tab-content="faq">
                     <div class="weblazem-admin-card">
                         <h3>FAQ و تماس</h3>
@@ -411,6 +461,35 @@ function weblazem_seo_admin_advantage_row($i, $item, $icons) {
         <p><input type="text" name="weblazem_seo_advantages_items[<?php echo $i; ?>][icon_image]" class="large-text" value="<?php echo esc_attr($item['icon_image'] ?? ''); ?>" placeholder="URL آیکون سفارشی (اختیاری)" /></p>
         <p><input type="text" name="weblazem_seo_advantages_items[<?php echo $i; ?>][title]" class="large-text" value="<?php echo esc_attr($item['title'] ?? ''); ?>" placeholder="عنوان" /></p>
         <p><textarea name="weblazem_seo_advantages_items[<?php echo $i; ?>][text]" class="large-text" rows="2" placeholder="توضیح"><?php echo esc_textarea($item['text'] ?? ''); ?></textarea></p>
+    </div>
+    <?php
+}
+
+function weblazem_seo_admin_pricing_plan_row($i, $plan) {
+    $features = isset($plan['features']) && is_array($plan['features']) ? $plan['features'] : array();
+    if (empty($features)) {
+        $features = array('');
+    }
+    ?>
+    <div class="seo-repeater-block seo-pricing-plan-row" style="background:#f8f5fc;padding:16px;border-radius:12px;margin-bottom:16px;border:1px solid #e8dff0;">
+        <button type="button" class="button seo-remove-block" style="float:left;">حذف پلن</button>
+        <p><input type="text" name="weblazem_seo_pricing_plans[<?php echo (int) $i; ?>][title]" class="large-text" value="<?php echo esc_attr($plan['title'] ?? ''); ?>" placeholder="عنوان پلن (مثلاً پلن طلایی (ماهانه))" /></p>
+        <p><input type="text" name="weblazem_seo_pricing_plans[<?php echo (int) $i; ?>][price]" class="large-text" value="<?php echo esc_attr($plan['price'] ?? ''); ?>" placeholder="قیمت (مثلاً ۲.۰۰۰.۰۰۰ تومان)" /></p>
+        <p><strong>ویژگی‌ها</strong></p>
+        <div class="seo-plan-features" data-plan-index="<?php echo (int) $i; ?>">
+            <?php foreach ($features as $fi => $feature) : ?>
+                <p class="seo-plan-feature-line">
+                    <input type="text" name="weblazem_seo_pricing_plans[<?php echo (int) $i; ?>][features][<?php echo (int) $fi; ?>]" class="large-text" value="<?php echo esc_attr($feature); ?>" placeholder="متن ویژگی" />
+                    <button type="button" class="button seo-remove-feature">حذف</button>
+                </p>
+            <?php endforeach; ?>
+        </div>
+        <button type="button" class="button seo-add-plan-feature" data-plan-index="<?php echo (int) $i; ?>">افزودن ویژگی</button>
+        <p style="margin-top:12px;">
+            <input type="text" name="weblazem_seo_pricing_plans[<?php echo (int) $i; ?>][button_text]" value="<?php echo esc_attr($plan['button_text'] ?? 'مشاوره رایگان'); ?>" placeholder="متن دکمه" />
+            <input type="text" name="weblazem_seo_pricing_plans[<?php echo (int) $i; ?>][button_url]" class="large-text" value="<?php echo esc_attr($plan['button_url'] ?? ''); ?>" placeholder="لینک دکمه (در صورت غیرفعال بودن مودال)" />
+            <label><input type="checkbox" name="weblazem_seo_pricing_plans[<?php echo (int) $i; ?>][button_modal]" value="1" <?php checked($plan['button_modal'] ?? '1', '1'); ?> /> باز کردن مودال مشاوره</label>
+        </p>
     </div>
     <?php
 }
@@ -541,6 +620,39 @@ function weblazem_seo_admin_scripts_inline($icon_choices) {
                 '<p><textarea name="weblazem_seo_advantages_items[' + advIdx + '][text]" class="large-text" rows="2" placeholder="توضیح"></textarea></p></div>'
             );
             advIdx++;
+        });
+
+        var planIdx = <?php echo count($plans); ?>;
+        $('#add-seo-pricing-plan').on('click', function() {
+            $('#seo-pricing-plans-container').append(
+                '<div class="seo-repeater-block seo-pricing-plan-row" style="background:#f8f5fc;padding:16px;border-radius:12px;margin-bottom:16px;border:1px solid #e8dff0;">' +
+                '<button type="button" class="button seo-remove-block" style="float:left;">حذف پلن</button>' +
+                '<p><input type="text" name="weblazem_seo_pricing_plans[' + planIdx + '][title]" class="large-text" placeholder="عنوان پلن" /></p>' +
+                '<p><input type="text" name="weblazem_seo_pricing_plans[' + planIdx + '][price]" class="large-text" placeholder="قیمت" /></p>' +
+                '<p><strong>ویژگی‌ها</strong></p>' +
+                '<div class="seo-plan-features" data-plan-index="' + planIdx + '">' +
+                '<p class="seo-plan-feature-line"><input type="text" name="weblazem_seo_pricing_plans[' + planIdx + '][features][0]" class="large-text" placeholder="متن ویژگی" />' +
+                '<button type="button" class="button seo-remove-feature">حذف</button></p></div>' +
+                '<button type="button" class="button seo-add-plan-feature" data-plan-index="' + planIdx + '">افزودن ویژگی</button>' +
+                '<p style="margin-top:12px;"><input type="text" name="weblazem_seo_pricing_plans[' + planIdx + '][button_text]" value="مشاوره رایگان" placeholder="متن دکمه" />' +
+                '<input type="text" name="weblazem_seo_pricing_plans[' + planIdx + '][button_url]" class="large-text" placeholder="لینک دکمه" />' +
+                '<label><input type="checkbox" name="weblazem_seo_pricing_plans[' + planIdx + '][button_modal]" value="1" checked /> باز کردن مودال مشاوره</label></p></div>'
+            );
+            planIdx++;
+        });
+
+        $(document).on('click', '.seo-add-plan-feature', function() {
+            var planIndex = $(this).data('plan-index');
+            var $wrap = $(this).siblings('.seo-plan-features');
+            var featureIdx = $wrap.find('.seo-plan-feature-line').length;
+            $wrap.append(
+                '<p class="seo-plan-feature-line"><input type="text" name="weblazem_seo_pricing_plans[' + planIndex + '][features][' + featureIdx + ']" class="large-text" placeholder="متن ویژگی" />' +
+                '<button type="button" class="button seo-remove-feature">حذف</button></p>'
+            );
+        });
+
+        $(document).on('click', '.seo-remove-feature', function() {
+            $(this).closest('.seo-plan-feature-line').remove();
         });
 
         var faqIdx = <?php echo count(get_option('weblazem_seo_faq_items', array())); ?>;

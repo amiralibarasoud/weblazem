@@ -44,6 +44,7 @@ function weblazem_consultation_request_columns($columns) {
         }
         if ($key === 'date') {
             $new['consult_mobile']  = 'موبایل';
+            $new['consult_subject'] = 'موضوع';
             $new['consult_sms']     = 'وضعیت پیامک';
             $new['consult_page']    = 'صفحه';
             $new['date']            = $label;
@@ -60,6 +61,13 @@ function weblazem_consultation_request_column_content($column, $post_id) {
     switch ($column) {
         case 'consult_mobile':
             echo esc_html(get_post_meta($post_id, '_consult_mobile', true));
+            break;
+        case 'consult_subject':
+            $subject_label = get_post_meta($post_id, '_consult_subject_label', true);
+            if ($subject_label === '') {
+                $subject_label = weblazem_get_consult_subject_label(get_post_meta($post_id, '_consult_subject', true));
+            }
+            echo esc_html($subject_label);
             break;
         case 'consult_sms':
             $status = get_post_meta($post_id, '_consult_sms_status', true);
@@ -98,6 +106,7 @@ function weblazem_consultation_request_meta_box_render($post) {
     $fields = array(
         'نام و نام خانوادگی' => $stored_full_name,
         'موبایل'        => get_post_meta($post->ID, '_consult_mobile', true),
+        'موضوع'         => get_post_meta($post->ID, '_consult_subject_label', true) ?: weblazem_get_consult_subject_label(get_post_meta($post->ID, '_consult_subject', true)),
         'صفحه'          => get_post_meta($post->ID, '_consult_page_url', true),
         'IP'            => get_post_meta($post->ID, '_consult_ip', true),
         'وضعیت پیامک'  => get_post_meta($post->ID, '_consult_sms_status', true),
@@ -139,6 +148,8 @@ function weblazem_save_consultation_request($data) {
     update_post_meta($post_id, '_consult_first_name', $data['first_name']);
     update_post_meta($post_id, '_consult_last_name', $data['last_name']);
     update_post_meta($post_id, '_consult_mobile', $data['mobile']);
+    update_post_meta($post_id, '_consult_subject', $data['subject'] ?? '');
+    update_post_meta($post_id, '_consult_subject_label', $data['subject_label'] ?? '');
     update_post_meta($post_id, '_consult_page_url', $data['page_url']);
     update_post_meta($post_id, '_consult_ip', $data['ip']);
     update_post_meta($post_id, '_consult_sms_status', $data['sms_status']);

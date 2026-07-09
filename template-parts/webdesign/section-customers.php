@@ -3,7 +3,7 @@
  * Website design — customers / trust section.
  */
 
-$logos         = get_option('weblazem_webdesign_customers_logos', array());
+$logos         = weblazem_service_get_option('webdesign', 'customers_logos', array());
 $counter       = weblazem_webdesign_option('customers_counter', '+700');
 $counter_label = weblazem_webdesign_option('customers_counter_label', 'HAPPY CUSTOMERS');
 $bottom_icon   = weblazem_webdesign_option('customers_bottom_icon', '');

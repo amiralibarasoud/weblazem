@@ -10,6 +10,7 @@ function weblazem_get_seo_sections_config() {
         'splits'     => 'بخش‌های دو ستونه (استراتژی / مشاوره / ماهانه)',
         'process'    => 'فرآیند کار و CSAT',
         'advantages' => 'مزایا و ویژگی‌ها',
+        'tariffs'    => 'تعرفه‌ها (پلن‌های سئو)',
         'faq'        => 'FAQ و تماس',
     );
 }

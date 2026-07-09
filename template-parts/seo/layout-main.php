@@ -9,6 +9,7 @@ $map = array(
     'splits'     => array('component' => 'splits', 'args' => array('prefix' => 'seo', 'image_dir' => 'seo')),
     'process'    => array('component' => 'process', 'args' => array('prefix' => 'seo', 'wave' => true)),
     'advantages' => array('component' => 'advantages', 'args' => array('prefix' => 'seo', 'wave_top' => true)),
+    'tariffs'    => array('part' => 'tariffs'),
     'faq'        => array('component' => 'faq', 'args' => array('prefix' => 'seo', 'id_prefix' => 'seo')),
 );
 

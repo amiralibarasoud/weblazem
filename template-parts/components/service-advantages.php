@@ -10,7 +10,7 @@ $wave_top  = !empty($args['wave_top']);
 
 $title    = weblazem_service_option($prefix, 'advantages_title', '');
 $subtitle = weblazem_service_option($prefix, 'advantages_subtitle', '');
-$items    = get_option('weblazem_' . $prefix . '_advantages_items', array());
+$items    = weblazem_service_get_option($prefix, 'advantages_items', array());
 
 if (!is_array($items)) {
     $items = array();

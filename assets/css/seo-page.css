@@ -253,3 +253,159 @@
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* ─── Pricing plans (تعرفه‌ها) ─── */
+.seo-page-tariffs {
+    padding: 72px 0 80px;
+    background: #ffffff;
+}
+
+.seo-page-tariffs__title {
+    text-align: center;
+    font-size: clamp(22px, 2.4vw, 30px);
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 40px;
+    line-height: 1.5;
+}
+
+.seo-page-tariffs__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    align-items: stretch;
+}
+
+.seo-page-tariffs__card {
+    position: relative;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(64, 22, 92, 0.08);
+    overflow: hidden;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.seo-page-tariffs__blob {
+    position: absolute;
+    top: -28px;
+    inset-inline-end: -18px;
+    width: 150px;
+    height: 150px;
+    background: #ebe0f5;
+    border-radius: 58% 42% 55% 45% / 48% 52% 48% 52%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.seo-page-tariffs__card-body {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 28px 22px 24px;
+    text-align: right;
+}
+
+.seo-page-tariffs__card-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 18px;
+    line-height: 1.55;
+}
+
+.seo-page-tariffs__features {
+    list-style: none;
+    margin: 0 0 20px;
+    padding: 0;
+    flex: 1;
+}
+
+.seo-page-tariffs__features li {
+    position: relative;
+    padding-inline-start: 14px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.75;
+    color: #3d3d3d;
+}
+
+.seo-page-tariffs__features li::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0.72em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #2b2b2b;
+    transform: translateY(-50%);
+}
+
+.seo-page-tariffs__price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 0 18px;
+    margin-bottom: 4px;
+    border-top: 1px solid #ece6f2;
+    font-size: 14px;
+    color: #1a1a1a;
+}
+
+.seo-page-tariffs__price-label {
+    font-weight: 600;
+}
+
+.seo-page-tariffs__price-value {
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.seo-page-tariffs__btn {
+    display: block;
+    width: 100%;
+    margin-top: auto;
+    padding: 13px 16px;
+    border: none;
+    border-radius: 12px;
+    background: #f5e042;
+    color: #1a1a1a;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: 0 4px 16px rgba(245, 224, 66, 0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.seo-page-tariffs__btn:hover {
+    background: #f0d62e;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 224, 66, 0.45);
+    color: #1a1a1a;
+}
+
+@media (max-width: 1100px) {
+    .seo-page-tariffs__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .seo-page-tariffs {
+        padding: 56px 0 64px;
+    }
+
+    .seo-page-tariffs__grid {
+        grid-template-columns: 1fr;
+        max-width: 360px;
+        margin: 0 auto;
+    }
+}

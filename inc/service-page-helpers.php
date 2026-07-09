@@ -3,8 +3,37 @@
  * Shared helpers for internal service pages (webdesign, seo, …).
  */
 
-function weblazem_service_option($prefix, $key, $default = '') {
+function weblazem_service_get_option($prefix, $key, $default = '') {
+    $post_id = function_exists('weblazem_service_landing_get_context_id')
+        ? weblazem_service_landing_get_context_id()
+        : 0;
+
+    if (
+        $post_id
+        && function_exists('weblazem_service_landing_get_storage')
+        && function_exists('weblazem_service_landing_get_repeater_keys')
+        && ($prefix === 'webdesign' || $prefix === 'service_landing')
+    ) {
+        $storage = weblazem_service_landing_get_storage($post_id);
+
+        if (in_array($key, weblazem_service_landing_get_repeater_keys(), true)) {
+            $repeaters = $storage['repeaters'][$key] ?? array();
+            return !empty($repeaters) ? $repeaters : $default;
+        }
+
+        if (isset($storage['fields'][$key])) {
+            return $storage['fields'][$key];
+        }
+
+        $defaults = weblazem_webdesign_defaults();
+        return $defaults[$key] ?? $default;
+    }
+
     return get_option('weblazem_' . $prefix . '_' . $key, $default);
+}
+
+function weblazem_service_option($prefix, $key, $default = '') {
+    return weblazem_service_get_option($prefix, $key, $default);
 }
 
 function weblazem_render_service_calligraphy($prefix, $image_key, $text_key, $class = '') {

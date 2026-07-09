@@ -1,0 +1,541 @@
+/* صفحه خدمات و تعرفه‌ها */
+
+.weblazem-pricing-page {
+    --pricing-purple: #40165c;
+    --pricing-purple-deep: #2f1044;
+    --pricing-lavender: #ebe0f5;
+    --pricing-lavender-soft: #f3ebfa;
+    --pricing-yellow: #f5e042;
+    --pricing-yellow-hover: #f0d62e;
+    --pricing-text: #1a1a1a;
+    --pricing-text-muted: #4a4a4a;
+
+    font-family: 'Dana', Tahoma, sans-serif;
+    background: #ffffff;
+    overflow-x: hidden;
+    color: var(--pricing-text);
+}
+
+.weblazem-pricing-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ─── Hero ─── */
+.pricing-page-hero {
+    position: relative;
+    padding: 72px 0 48px;
+    overflow: hidden;
+}
+
+.pricing-page-hero__blob {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--pricing-lavender-soft);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.pricing-page-hero__blob--tl {
+    width: 280px;
+    height: 280px;
+    top: -80px;
+    inset-inline-start: -60px;
+    opacity: 0.85;
+}
+
+.pricing-page-hero__blob--br {
+    width: 220px;
+    height: 220px;
+    bottom: -40px;
+    inset-inline-end: -40px;
+    opacity: 0.7;
+}
+
+.pricing-page-hero__inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.pricing-page-hero__icon img {
+    display: block;
+    width: 120px;
+    height: auto;
+}
+
+.pricing-page-hero__content {
+    max-width: 720px;
+}
+
+.pricing-page-hero__title {
+    margin: 0 0 16px;
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 800;
+    color: var(--pricing-purple);
+    line-height: 1.35;
+}
+
+.pricing-page-hero__text {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--pricing-text-muted);
+}
+
+/* ─── Categories ─── */
+.pricing-page-categories {
+    padding: 24px 0 56px;
+}
+
+.pricing-page-categories__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.pricing-page-categories__card {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 140px;
+    padding: 24px 28px 24px 72px;
+    background: var(--pricing-lavender-soft);
+    border-radius: 20px;
+    text-decoration: none;
+    color: var(--pricing-purple);
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pricing-page-categories__card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(64, 22, 92, 0.12);
+    color: var(--pricing-purple);
+}
+
+.pricing-page-categories__bar {
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    bottom: 0;
+    width: 52px;
+    background: var(--pricing-purple);
+    border-radius: 20px 0 0 20px;
+}
+
+[dir="rtl"] .pricing-page-categories__bar {
+    border-radius: 0 20px 20px 0;
+}
+
+.pricing-page-categories__title {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.55;
+    text-align: center;
+    width: 100%;
+}
+
+/* ─── Service tariffs (3 cards) ─── */
+.pricing-page-service-tariffs {
+    position: relative;
+    padding: 56px 0 72px;
+    overflow: hidden;
+}
+
+.pricing-page-service-tariffs__blob {
+    position: absolute;
+    width: 360px;
+    height: 360px;
+    top: 40px;
+    inset-inline-start: -120px;
+    background: var(--pricing-lavender);
+    border-radius: 58% 42% 55% 45% / 48% 52% 48% 52%;
+    opacity: 0.65;
+    pointer-events: none;
+}
+
+.pricing-page-service-tariffs__header {
+    position: relative;
+    z-index: 1;
+    max-width: 520px;
+    margin-bottom: 36px;
+    text-align: right;
+}
+
+.pricing-page-service-tariffs__title {
+    margin: 0 0 12px;
+    font-size: clamp(24px, 2.5vw, 32px);
+    font-weight: 800;
+    color: var(--pricing-purple);
+}
+
+.pricing-page-service-tariffs__intro {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--pricing-text-muted);
+}
+
+.pricing-page-service-tariffs__grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.pricing-page-service-tariffs__card {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 10px 36px rgba(64, 22, 92, 0.1);
+}
+
+.pricing-page-service-tariffs__media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--pricing-lavender-soft);
+}
+
+.pricing-page-service-tariffs__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.pricing-page-service-tariffs__wave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: var(--pricing-purple);
+    border-radius: 0 0 50% 50% / 0 0 100% 100%;
+    transform: scaleX(1.15);
+    z-index: 2;
+}
+
+.pricing-page-service-tariffs__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 24px 22px 22px;
+    text-align: right;
+}
+
+.pricing-page-service-tariffs__card-title {
+    margin: 0 0 12px;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--pricing-purple);
+    line-height: 1.45;
+}
+
+.pricing-page-service-tariffs__card-text {
+    margin: 0 0 20px;
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--pricing-text-muted);
+}
+
+.pricing-page-service-tariffs__btn {
+    display: block;
+    width: 100%;
+    padding: 13px 16px;
+    border: none;
+    border-radius: 12px;
+    background: var(--pricing-yellow);
+    color: var(--pricing-text);
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: 0 4px 16px rgba(245, 224, 66, 0.35);
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.pricing-page-service-tariffs__btn:hover {
+    background: var(--pricing-yellow-hover);
+    transform: translateY(-2px);
+    color: var(--pricing-text);
+}
+
+/* ─── Webdesign plans (SEO-style) ─── */
+.pricing-page-plans {
+    padding: 24px 0 72px;
+    background: linear-gradient(180deg, #ffffff 0%, #faf7fc 100%);
+}
+
+.pricing-page-plans__title {
+    text-align: center;
+    font-size: clamp(22px, 2.4vw, 30px);
+    font-weight: 800;
+    color: var(--pricing-purple);
+    margin: 0 0 40px;
+}
+
+.pricing-page-plans__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    align-items: stretch;
+}
+
+.pricing-page-plans__card {
+    position: relative;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(64, 22, 92, 0.08);
+    overflow: hidden;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.pricing-page-plans__blob {
+    position: absolute;
+    top: -28px;
+    inset-inline-end: -18px;
+    width: 150px;
+    height: 150px;
+    background: var(--pricing-lavender);
+    border-radius: 58% 42% 55% 45% / 48% 52% 48% 52%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.pricing-page-plans__card-body {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 28px 22px 24px;
+    text-align: right;
+}
+
+.pricing-page-plans__card-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--pricing-text);
+    margin: 0 0 18px;
+    line-height: 1.55;
+}
+
+.pricing-page-plans__features {
+    list-style: none;
+    margin: 0 0 20px;
+    padding: 0;
+    flex: 1;
+}
+
+.pricing-page-plans__features li {
+    position: relative;
+    padding-inline-start: 14px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.75;
+    color: #3d3d3d;
+}
+
+.pricing-page-plans__features li::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0.72em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #2b2b2b;
+    transform: translateY(-50%);
+}
+
+.pricing-page-plans__price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 0 18px;
+    margin-bottom: 4px;
+    border-top: 1px solid #ece6f2;
+    font-size: 14px;
+}
+
+.pricing-page-plans__price-label {
+    font-weight: 600;
+}
+
+.pricing-page-plans__price-value {
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.pricing-page-plans__btn {
+    display: block;
+    width: 100%;
+    margin-top: auto;
+    padding: 13px 16px;
+    border: none;
+    border-radius: 12px;
+    background: var(--pricing-yellow);
+    color: var(--pricing-text);
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: 0 4px 16px rgba(245, 224, 66, 0.35);
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.pricing-page-plans__btn:hover {
+    background: var(--pricing-yellow-hover);
+    transform: translateY(-2px);
+    color: var(--pricing-text);
+}
+
+/* ─── Consult footer ─── */
+.pricing-page-consult {
+    position: relative;
+    padding: 0 0 80px;
+}
+
+.pricing-page-consult__bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 55%;
+    min-height: 220px;
+    background: linear-gradient(180deg, var(--pricing-purple) 0%, var(--pricing-purple-deep) 100%);
+    border-radius: 32px 32px 0 0;
+    z-index: 0;
+}
+
+.pricing-page-consult .container {
+    position: relative;
+    z-index: 1;
+}
+
+.pricing-page-consult__card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 36px 40px;
+    box-shadow: 0 16px 48px rgba(47, 16, 68, 0.18);
+    margin-top: 48px;
+}
+
+.pricing-page-consult__content {
+    flex: 1;
+    min-width: 260px;
+    text-align: right;
+}
+
+.pricing-page-consult__title {
+    margin: 0 0 14px;
+    font-size: clamp(22px, 2.2vw, 28px);
+    font-weight: 800;
+    color: var(--pricing-purple);
+}
+
+.pricing-page-consult__text {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--pricing-text-muted);
+}
+
+.pricing-page-consult__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 12px;
+    background: var(--pricing-yellow);
+    color: var(--pricing-text);
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: 0 4px 16px rgba(245, 224, 66, 0.4);
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.pricing-page-consult__btn:hover {
+    background: var(--pricing-yellow-hover);
+    transform: translateY(-2px);
+    color: var(--pricing-text);
+}
+
+.pricing-page-consult__btn i {
+    font-size: 14px;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+    .pricing-page-service-tariffs__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pricing-page-plans__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .pricing-page-hero__inner {
+        flex-direction: column;
+    }
+
+    .pricing-page-categories__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pricing-page-service-tariffs__grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .pricing-page-consult__card {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 28px 24px;
+    }
+
+    .pricing-page-consult__btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .pricing-page-plans__grid {
+        grid-template-columns: 1fr;
+        max-width: 360px;
+        margin: 0 auto;
+    }
+}

@@ -20,6 +20,7 @@ function weblazem_consultation_options_defaults() {
         'weblazem_consult_modal_subtitle'           => 'فرم زیر را پر کنید تا کارشناسان ما در اسرع وقت با شما تماس بگیرند.',
         'weblazem_consult_label_full_name'          => 'نام و نام خانوادگی',
         'weblazem_consult_label_mobile'             => 'شماره موبایل',
+        'weblazem_consult_label_subject'            => 'موضوع',
         'weblazem_consult_submit_text'              => 'ارسال درخواست',
         'weblazem_consult_success_message'          => 'درخواست شما با موفقیت ثبت شد. به زودی با شما تماس می‌گیریم.',
         'weblazem_consult_error_message'            => 'خطا در ثبت درخواست. لطفاً دوباره تلاش کنید.',
@@ -41,7 +42,26 @@ function weblazem_get_default_consult_sms_parameters() {
             'source' => 'mobile',
             'static' => '',
         ),
+        array(
+            'name'   => 'SUBJECT',
+            'source' => 'subject',
+            'static' => '',
+        ),
     );
+}
+
+function weblazem_get_consult_subject_choices() {
+    return array(
+        'webdesign' => 'طراحی سایت',
+        'seo'       => 'سئو',
+        'content'   => 'تولید محتوا',
+    );
+}
+
+function weblazem_get_consult_subject_label($key) {
+    $choices = weblazem_get_consult_subject_choices();
+
+    return isset($choices[$key]) ? $choices[$key] : '';
 }
 
 function weblazem_migrate_consultation_from_portfolio_single() {
@@ -82,7 +102,42 @@ function weblazem_ensure_consultation_options_defaults() {
         update_option('weblazem_consult_label_full_name', 'نام و نام خانوادگی');
     }
 
+    if (get_option('weblazem_consult_label_subject') === false) {
+        update_option('weblazem_consult_label_subject', 'موضوع');
+    }
+
+    weblazem_migrate_consult_sms_parameters_subject();
     weblazem_migrate_consultation_from_portfolio_single();
+}
+
+function weblazem_migrate_consult_sms_parameters_subject() {
+    if (get_option('weblazem_consult_sms_migrated_subject') === '1') {
+        return;
+    }
+
+    $params = get_option('weblazem_consult_sms_parameters');
+    if (!is_array($params)) {
+        $params = weblazem_get_default_consult_sms_parameters();
+    }
+
+    $has_subject = false;
+    foreach ($params as $param) {
+        if (($param['source'] ?? '') === 'subject') {
+            $has_subject = true;
+            break;
+        }
+    }
+
+    if (!$has_subject) {
+        $params[] = array(
+            'name'   => 'SUBJECT',
+            'source' => 'subject',
+            'static' => '',
+        );
+        update_option('weblazem_consult_sms_parameters', $params);
+    }
+
+    update_option('weblazem_consult_sms_migrated_subject', '1');
 }
 add_action('init', 'weblazem_ensure_consultation_options_defaults', 13);
 
@@ -111,7 +166,7 @@ function weblazem_sanitize_consult_sms_parameters($input) {
         return weblazem_get_default_consult_sms_parameters();
     }
 
-    $allowed_sources = array('first_name', 'last_name', 'full_name', 'mobile', 'page_url', 'static');
+    $allowed_sources = array('first_name', 'last_name', 'full_name', 'mobile', 'subject', 'page_url', 'static');
     $sanitized       = array();
 
     foreach ($input as $row) {
@@ -334,6 +389,13 @@ function weblazem_consultation_options_display() {
                             <td><input type="text" name="weblazem_consult_label_mobile" class="regular-text" value="<?php echo esc_attr($opts['weblazem_consult_label_mobile']); ?>" /></td>
                         </tr>
                         <tr>
+                            <th>برچسب موضوع</th>
+                            <td>
+                                <input type="text" name="weblazem_consult_label_subject" class="regular-text" value="<?php echo esc_attr($opts['weblazem_consult_label_subject']); ?>" />
+                                <p class="description">گزینه‌ها: طراحی سایت، سئو، تولید محتوا</p>
+                            </td>
+                        </tr>
+                        <tr>
                             <th>متن دکمه ارسال</th>
                             <td><input type="text" name="weblazem_consult_submit_text" class="regular-text" value="<?php echo esc_attr($opts['weblazem_consult_submit_text']); ?>" /></td>
                         </tr>
@@ -383,6 +445,7 @@ function weblazem_consultation_options_display() {
                                     <option value="first_name" <?php selected($param['source'], 'first_name'); ?>>نام</option>
                                     <option value="last_name" <?php selected($param['source'], 'last_name'); ?>>نام خانوادگی</option>
                                     <option value="mobile" <?php selected($param['source'], 'mobile'); ?>>شماره موبایل</option>
+                                    <option value="subject" <?php selected($param['source'], 'subject'); ?>>موضوع درخواست</option>
                                     <option value="page_url" <?php selected($param['source'], 'page_url'); ?>>آدرس صفحه</option>
                                     <option value="static" <?php selected($param['source'], 'static'); ?>>متن ثابت</option>
                                 </select>
@@ -434,6 +497,7 @@ function weblazem_consultation_options_display() {
                 '<option value="first_name">نام</option>' +
                 '<option value="last_name">نام خانوادگی</option>' +
                 '<option value="mobile">شماره موبایل</option>' +
+                '<option value="subject">موضوع درخواست</option>' +
                 '<option value="page_url">آدرس صفحه</option>' +
                 '<option value="static">متن ثابت</option>' +
                 '</select>' +

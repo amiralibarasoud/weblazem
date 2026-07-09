@@ -8,7 +8,7 @@
 $prefix    = $args['prefix'] ?? 'webdesign';
 $image_dir = $args['image_dir'] ?? 'webdesign';
 
-$splits = get_option('weblazem_' . $prefix . '_splits', array());
+$splits = weblazem_service_get_option($prefix, 'splits', array());
 
 if (!is_array($splits)) {
     $splits = array();

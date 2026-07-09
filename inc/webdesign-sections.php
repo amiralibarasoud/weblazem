@@ -22,10 +22,27 @@ function weblazem_is_webdesign_section_enabled($section) {
         return true;
     }
 
+    $post_id = function_exists('weblazem_service_landing_get_context_id')
+        ? weblazem_service_landing_get_context_id()
+        : 0;
+
+    if ($post_id && function_exists('weblazem_service_landing_get_storage')) {
+        $storage = weblazem_service_landing_get_storage($post_id);
+        return ($storage['sections'][$section] ?? '1') === '1';
+    }
+
     return get_option('weblazem_webdesign_section_' . $section . '_enabled', '1') === '1';
 }
 
 function weblazem_webdesign_option($key, $default = '') {
+    $post_id = function_exists('weblazem_service_landing_get_context_id')
+        ? weblazem_service_landing_get_context_id()
+        : 0;
+
+    if ($post_id) {
+        return weblazem_service_get_option('webdesign', $key, $default);
+    }
+
     return get_option('weblazem_webdesign_' . $key, $default);
 }
 
@@ -75,7 +92,13 @@ function weblazem_get_default_webdesign_portfolio_tabs() {
 }
 
 function weblazem_get_webdesign_portfolio_tabs() {
-    $tabs = get_option('weblazem_webdesign_portfolio_tabs');
+    $tabs = weblazem_service_get_option('webdesign', 'portfolio_tabs', null);
+
+    if (!is_array($tabs) || empty($tabs)) {
+        if (!weblazem_service_landing_get_context_id()) {
+            $tabs = get_option('weblazem_webdesign_portfolio_tabs');
+        }
+    }
 
     if (!is_array($tabs) || empty($tabs)) {
         return weblazem_get_default_webdesign_portfolio_tabs();
@@ -133,7 +156,10 @@ function weblazem_get_webdesign_portfolio_items() {
         wp_reset_postdata();
     }
 
-    $manual = get_option('weblazem_webdesign_portfolio_items', array());
+    $manual = weblazem_service_get_option('webdesign', 'portfolio_items', array());
+    if ((!is_array($manual) || empty($manual)) && !weblazem_service_landing_get_context_id()) {
+        $manual = get_option('weblazem_webdesign_portfolio_items', array());
+    }
     if (is_array($manual) && !empty($manual)) {
         foreach ($manual as $item) {
             if (empty($item['title']) && empty($item['image'])) {

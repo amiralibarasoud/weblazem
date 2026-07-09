@@ -11,6 +11,8 @@ $modal_title    = weblazem_get_consult_option('weblazem_consult_modal_title');
 $modal_subtitle = weblazem_get_consult_option('weblazem_consult_modal_subtitle');
 $label_full_name = weblazem_get_consult_option('weblazem_consult_label_full_name', 'نام و نام خانوادگی');
 $label_mobile    = weblazem_get_consult_option('weblazem_consult_label_mobile');
+$label_subject   = weblazem_get_consult_option('weblazem_consult_label_subject', 'موضوع');
+$subject_choices = weblazem_get_consult_subject_choices();
 $submit_text    = weblazem_get_consult_option('weblazem_consult_submit_text');
 ?>
 
@@ -41,6 +43,16 @@ $submit_text    = weblazem_get_consult_option('weblazem_consult_submit_text');
             <div class="weblazem-consult-modal__field">
                 <label for="weblazem-consult-mobile"><?php echo esc_html($label_mobile); ?></label>
                 <input type="tel" id="weblazem-consult-mobile" name="mobile" required inputmode="numeric" autocomplete="tel" placeholder="09121234567" dir="ltr" />
+            </div>
+
+            <div class="weblazem-consult-modal__field">
+                <label for="weblazem-consult-subject"><?php echo esc_html($label_subject); ?></label>
+                <select id="weblazem-consult-subject" name="subject" required>
+                    <option value="">انتخاب کنید</option>
+                    <?php foreach ($subject_choices as $value => $label) : ?>
+                        <option value="<?php echo esc_attr($value); ?>"><?php echo esc_html($label); ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
             <p class="weblazem-consult-modal__feedback" id="weblazem-consult-feedback" role="status" aria-live="polite"></p>
