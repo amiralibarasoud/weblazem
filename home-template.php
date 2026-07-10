@@ -96,9 +96,6 @@ endif;
 
 <?php if (weblazem_is_home_section_enabled('hero')) : ?>
 <div class="weblazem-home-hero"<?php if (!empty($hero_background)) : ?> style="background-image: url('<?php echo esc_url($hero_background); ?>'); background-size: cover; background-position: bottom; background-repeat: no-repeat;"<?php endif; ?>>
-    <?php // هدر را به اینجا منتقل می‌کنیم تا روی بک‌گراند باشد
-    // get_header();
-    ?>
     <div class="container">
         <div class="hero-content">
             <div class="hero-text text-white">

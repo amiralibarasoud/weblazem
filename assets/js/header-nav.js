@@ -3,6 +3,7 @@
 
     var header = document.getElementById('weblazem-site-header');
     var toggle = document.getElementById('weblazem-header-toggle');
+    var closeBtn = document.getElementById('weblazem-header-close');
     var drawer = document.getElementById('weblazem-header-drawer');
     var overlay = document.getElementById('weblazem-header-overlay');
 
@@ -48,6 +49,10 @@
             openMenu();
         }
     });
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeMenu);
+    }
 
     overlay.addEventListener('click', closeMenu);
 

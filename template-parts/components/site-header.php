@@ -76,6 +76,18 @@
     <div class="weblazem-header__overlay" id="weblazem-header-overlay" hidden></div>
 
     <div class="weblazem-header__drawer" id="weblazem-header-drawer" aria-hidden="true" hidden>
+        <div class="weblazem-header__drawer-head">
+            <span class="weblazem-header__drawer-title">منو</span>
+            <button
+                type="button"
+                class="weblazem-header__close"
+                id="weblazem-header-close"
+                aria-label="بستن منو"
+            >
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+
         <nav class="weblazem-header-nav weblazem-header-nav--mobile" aria-label="منوی موبایل">
             <?php
             wp_nav_menu(array(

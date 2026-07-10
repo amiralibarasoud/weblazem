@@ -132,7 +132,7 @@ function weblazem_enqueue_assets() {
     $is_service_landing_page = is_page_template('service-landing-template.php')
         || (function_exists('weblazem_is_service_landing_page') && weblazem_is_service_landing_page());
 
-    if (is_page_template('home-template.php') || $is_portfolio_listing || $is_webdesign_page || $is_service_landing_page || $is_seo_page || $is_pricing_page || $is_devproject_page || $is_contentsupport_page || $is_blogarchive_page || $is_contact_page || is_singular('portfolio') || is_singular('post')) {
+    if (is_page_template('home-template.php') || is_front_page() || $is_portfolio_listing || $is_webdesign_page || $is_service_landing_page || $is_seo_page || $is_pricing_page || $is_devproject_page || $is_contentsupport_page || $is_blogarchive_page || $is_contact_page || is_singular('portfolio') || is_singular('post')) {
         wp_enqueue_style(
             'weblazem-home-style',
             get_template_directory_uri() . '/assets/css/home.css',
@@ -322,7 +322,7 @@ function weblazem_enqueue_assets() {
             );
         }
 
-        if (is_page_template('home-template.php')) {
+        if (is_page_template('home-template.php') || is_front_page()) {
             wp_enqueue_script(
                 'weblazem-home-carousel',
                 get_template_directory_uri() . '/assets/js/home-carousel.js',
@@ -362,7 +362,7 @@ function weblazem_enqueue_assets() {
         'weblazem-header-style',
         get_template_directory_uri() . '/assets/css/header.css',
         array('weblazem-responsive-core'),
-        '1.1.0'
+        '1.2.0'
     );
 
     wp_enqueue_style(
@@ -383,7 +383,7 @@ function weblazem_enqueue_assets() {
         'weblazem-header-nav',
         get_template_directory_uri() . '/assets/js/header-nav.js',
         array(),
-        '1.0.0',
+        '1.1.0',
         true
     );
 
