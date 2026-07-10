@@ -1,0 +1,723 @@
+/* صفحه درباره ما */
+
+.weblazem-aboutus-page {
+    font-family: 'Dana', Tahoma, sans-serif;
+    background: #ffffff;
+    overflow-x: hidden;
+}
+
+.weblazem-aboutus-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ─── Animated wave separators ─── */
+.aboutus-wave {
+    position: relative;
+    width: 100%;
+    line-height: 0;
+    overflow: hidden;
+}
+
+.aboutus-wave--bottom {
+    margin-top: -1px;
+}
+
+.aboutus-wave--top {
+    margin-bottom: -1px;
+}
+
+.aboutus-wave--top .aboutus-wave__svg {
+    transform: scaleY(-1);
+}
+
+.aboutus-wave__svg {
+    display: block;
+    width: 100%;
+    height: 72px;
+}
+
+@media (min-width: 768px) {
+    .aboutus-wave__svg {
+        height: 96px;
+    }
+}
+
+.aboutus-wave__stroke--animated {
+    stroke-dasharray: 1440;
+    stroke-dashoffset: 1440;
+    animation: aboutusWaveDraw 4s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 6px rgba(232, 121, 249, 0.6));
+}
+
+@keyframes aboutusWaveDraw {
+    0% {
+        stroke-dashoffset: 1440;
+        opacity: 0.5;
+    }
+    50% {
+        stroke-dashoffset: 720;
+        opacity: 1;
+    }
+    100% {
+        stroke-dashoffset: 0;
+        opacity: 0.7;
+    }
+}
+
+.aboutus-wave__fill {
+    animation: aboutusWavePulse 6s ease-in-out infinite;
+}
+
+@keyframes aboutusWavePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.97; }
+}
+
+/* ─── Hero ─── */
+.aboutus-hero {
+    padding: 48px 0 0;
+    background: #ffffff;
+    position: relative;
+}
+
+.aboutus-hero__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: center;
+}
+
+@media (min-width: 900px) {
+    .aboutus-hero__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+    }
+}
+
+.aboutus-hero__visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 280px;
+}
+
+.aboutus-hero__visual-ring {
+    position: absolute;
+    width: min(340px, 90vw);
+    height: min(340px, 90vw);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(5, 5, 45, 0.06) 0%, transparent 70%);
+    border: 2px solid rgba(5, 5, 45, 0.08);
+}
+
+.aboutus-hero__image {
+    position: relative;
+    z-index: 1;
+    max-width: 100%;
+    height: auto;
+    max-height: 420px;
+    object-fit: contain;
+}
+
+.aboutus-hero__en-title {
+    display: block;
+    font-size: 14px;
+    color: #64748b;
+    letter-spacing: 0.04em;
+    margin-bottom: 12px;
+}
+
+.aboutus-hero__calligraphy {
+    margin-bottom: 16px;
+}
+
+.aboutus-hero__calligraphy .webdesign-calligraphy-text {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: #05052d;
+    line-height: 1.4;
+    font-weight: 700;
+}
+
+.aboutus-hero__calligraphy .webdesign-calligraphy-img {
+    max-width: 100%;
+    height: auto;
+    max-height: 100px;
+}
+
+.aboutus-hero__title {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 800;
+    color: #05052d;
+    margin: 0 0 16px;
+}
+
+.aboutus-hero__text {
+    font-size: 15px;
+    line-height: 1.9;
+    color: #334155;
+    margin-bottom: 24px;
+}
+
+.aboutus-hero__text p {
+    margin: 0 0 12px;
+}
+
+.aboutus-hero__contacts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+@media (min-width: 540px) {
+    .aboutus-hero__contacts {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.aboutus-contact-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.aboutus-contact-card:hover {
+    border-color: #c4b5fd;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.1);
+}
+
+.aboutus-contact-card__icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ede9fe;
+    border-radius: 10px;
+    color: #6366f1;
+}
+
+.aboutus-contact-card__phone {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color: #05052d;
+    direction: ltr;
+    text-align: right;
+}
+
+.aboutus-contact-card__label {
+    display: block;
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+/* ─── Journey / Timeline ─── */
+.aboutus-journey {
+    background: #05052d;
+    position: relative;
+}
+
+.aboutus-journey__inner {
+    padding: 48px 0 56px;
+}
+
+.aboutus-journey__header {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 40px;
+}
+
+.aboutus-journey__calligraphy .webdesign-calligraphy-text {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    color: #ffffff;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.aboutus-journey__calligraphy .webdesign-calligraphy-text span,
+.aboutus-journey__calligraphy .webdesign-calligraphy-img {
+    display: inline-block;
+}
+
+.aboutus-journey__subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-weight: 700;
+    color: #ffffff;
+    margin: 16px 0 12px;
+}
+
+.aboutus-journey__intro {
+    font-size: 14px;
+    line-height: 1.9;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.aboutus-journey__intro p {
+    margin: 0;
+}
+
+.aboutus-journey__track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.aboutus-journey__track::-webkit-scrollbar {
+    height: 6px;
+}
+
+.aboutus-journey__track::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.aboutus-journey-card {
+    flex: 0 0 min(280px, 85vw);
+    scroll-snap-align: start;
+}
+
+.aboutus-journey-card__media {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.aboutus-journey-card__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: #1e1e4a;
+}
+
+.aboutus-journey-card__year {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 14px;
+    background: rgba(0, 0, 0, 0.55);
+    border-radius: 999px;
+    font-size: 12px;
+    color: #ffffff;
+    backdrop-filter: blur(4px);
+}
+
+.aboutus-journey-card__title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 8px;
+    line-height: 1.5;
+}
+
+.aboutus-journey-card__text {
+    font-size: 13px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.65);
+    margin: 0;
+}
+
+@media (min-width: 1100px) {
+    .aboutus-journey__track {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        overflow: visible;
+    }
+
+    .aboutus-journey-card {
+        flex: none;
+    }
+}
+
+/* ─── CEO ─── */
+.aboutus-ceo {
+    background: #ffffff;
+    position: relative;
+}
+
+.aboutus-ceo__inner {
+    padding: 56px 0;
+}
+
+.aboutus-ceo__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+@media (min-width: 900px) {
+    .aboutus-ceo__grid {
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 56px;
+    }
+}
+
+.aboutus-ceo__portrait {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    min-height: 320px;
+}
+
+.aboutus-ceo__portrait-bg {
+    position: absolute;
+    bottom: 0;
+    width: min(320px, 85%);
+    height: 75%;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    border-radius: 20px;
+}
+
+.aboutus-ceo__image {
+    position: relative;
+    z-index: 1;
+    max-width: min(360px, 100%);
+    height: auto;
+    object-fit: contain;
+    margin-bottom: -8px;
+}
+
+.aboutus-ceo__calligraphy-wrap {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.aboutus-ceo__accent {
+    display: block;
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.aboutus-ceo__name-cal {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #05052d;
+    margin-bottom: 12px;
+}
+
+.aboutus-ceo__calligraphy .webdesign-calligraphy-text {
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    color: #ea580c;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.aboutus-ceo__calligraphy .webdesign-calligraphy-img {
+    max-width: 100%;
+    max-height: 90px;
+}
+
+.aboutus-ceo__name-en {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-weight: 800;
+    color: #05052d;
+    letter-spacing: 0.02em;
+    margin: 0 0 6px;
+    direction: ltr;
+    text-align: right;
+}
+
+.aboutus-ceo__title-en {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0 0 20px;
+    direction: ltr;
+    text-align: right;
+}
+
+.aboutus-ceo__text {
+    font-size: 15px;
+    line-height: 1.9;
+    color: #334155;
+}
+
+.aboutus-ceo__text p {
+    margin: 0 0 12px;
+}
+
+/* ─── Team ─── */
+.aboutus-team {
+    background: #05052d;
+    position: relative;
+}
+
+.aboutus-team__inner {
+    padding: 56px 0;
+}
+
+.aboutus-team__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+@media (min-width: 900px) {
+    .aboutus-team__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+    }
+}
+
+.aboutus-team__calligraphy .webdesign-calligraphy-text {
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    color: #ffffff;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.aboutus-team__text {
+    font-size: 15px;
+    line-height: 1.9;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 24px;
+}
+
+.aboutus-team__text p {
+    margin: 0;
+}
+
+.aboutus-team__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 32px;
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.aboutus-team__btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    color: #ffffff;
+}
+
+.aboutus-team__collage {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 72px);
+    gap: 10px;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+@media (min-width: 900px) {
+    .aboutus-team__collage {
+        margin: 0 0 0 auto;
+    }
+}
+
+.aboutus-team__member-frame {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.aboutus-team__member-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.aboutus-team__member--sm {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.aboutus-team__member--md {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.aboutus-team__member--lg {
+    grid-column: span 2;
+    grid-row: span 3;
+}
+
+.aboutus-team__member:nth-child(1) { grid-column: 2 / 4; grid-row: 1 / 4; }
+.aboutus-team__member:nth-child(2) { grid-column: 4; grid-row: 1; }
+.aboutus-team__member:nth-child(3) { grid-column: 1; grid-row: 2; }
+.aboutus-team__member:nth-child(4) { grid-column: 4; grid-row: 2 / 4; }
+.aboutus-team__member:nth-child(5) { grid-column: 1; grid-row: 3 / 5; }
+.aboutus-team__member:nth-child(6) { grid-column: 2; grid-row: 4; }
+.aboutus-team__member:nth-child(7) { grid-column: 3 / 5; grid-row: 4; }
+
+/* ─── Services ─── */
+.aboutus-services {
+    background: #ffffff;
+    position: relative;
+}
+
+.aboutus-services__inner {
+    padding: 56px 0 80px;
+}
+
+.aboutus-services__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .aboutus-services__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+    }
+}
+
+.aboutus-service-card {
+    position: relative;
+    display: block;
+    padding: 28px 24px 24px 80px;
+    background: linear-gradient(145deg, #0a0a3d 0%, #05052d 100%);
+    border-radius: 20px;
+    text-decoration: none;
+    color: #ffffff;
+    overflow: hidden;
+    min-height: 160px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.aboutus-service-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.15), transparent 50%);
+    pointer-events: none;
+}
+
+.aboutus-service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(5, 5, 45, 0.25);
+    color: #ffffff;
+}
+
+.aboutus-service-card__icon-wrap {
+    position: absolute;
+    top: -16px;
+    right: -8px;
+    width: 88px;
+    height: 88px;
+}
+
+.aboutus-service-card__icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.aboutus-service-card__title {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    position: relative;
+}
+
+.aboutus-service-card__en {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 12px;
+    direction: ltr;
+    text-align: right;
+}
+
+.aboutus-service-card__desc {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    position: relative;
+}
+
+.aboutus-service-card__arrow {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    color: #05052d;
+    border-radius: 50%;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.aboutus-services__footer-wave {
+    position: relative;
+}
+
+.aboutus-services__logo {
+    position: absolute;
+    left: 50%;
+    bottom: 8px;
+    transform: translateX(-50%);
+    z-index: 2;
+    text-align: center;
+    background: #ffffff;
+    padding: 8px 20px 4px;
+    border-radius: 12px 12px 0 0;
+}
+
+.aboutus-services__logo img {
+    max-width: 120px;
+    height: auto;
+    display: block;
+}
+
+/* ─── Responsive tweaks ─── */
+@media (max-width: 599px) {
+    .aboutus-hero {
+        padding-top: 32px;
+    }
+
+    .aboutus-journey__inner,
+    .aboutus-ceo__inner,
+    .aboutus-team__inner,
+    .aboutus-services__inner {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    .aboutus-team__collage {
+        grid-template-rows: repeat(4, 60px);
+        max-width: 100%;
+    }
+}

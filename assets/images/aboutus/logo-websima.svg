@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <circle cx="60" cy="60" r="56" fill="#05052d"/>
+  <path d="M60 28c-8 0-14 6-14 14s6 14 14 14 14-6 14-14-6-14-14-14zm-22 52c0-12 10-20 22-20s22 8 22 20v4H38v-4z" fill="#ffffff"/>
+  <text x="60" y="108" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="8">websima</text>
+</svg>

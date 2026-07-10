@@ -73,6 +73,12 @@ function weblazem_internal_pages_hub_display() {
                         — هیرو، دسته‌بندی خدمات، تعرفه‌ها، پلن طراحی سایت و مشاوره
                     </li>
                     <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-aboutus-options')); ?>">
+                            <strong>تنظیمات درباره ما</strong>
+                        </a>
+                        — هیرو، تایم‌لاین، مدیرعامل، تیم و کارت‌های خدمات
+                    </li>
+                    <li>
                         <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-seo-options')); ?>">
                             <strong>تنظیمات سئو و بازاریابی دیجیتال</strong>
                         </a>
@@ -131,6 +137,12 @@ function weblazem_internal_pages_hub_display() {
                             <strong>برگه خدمات و تعرفه‌ها</strong>
                         </a>
                         — صفحه داخلی تعرفه‌ها و خدمات
+                    </li>
+                    <li>
+                        <a href="<?php echo esc_url(function_exists('weblazem_get_aboutus_page_url') ? weblazem_get_aboutus_page_url() : '#'); ?>" target="_blank" rel="noopener">
+                            <strong>برگه درباره ما</strong>
+                        </a>
+                        — صفحه داخلی معرفی شرکت، تیم و مسیر رشد
                     </li>
                     <li>
                         <a href="<?php echo esc_url(function_exists('weblazem_get_seo_page_url') ? weblazem_get_seo_page_url() : '#'); ?>" target="_blank" rel="noopener">

@@ -47,6 +47,10 @@ require_once get_template_directory() . '/inc/pricing-sections.php';
 require_once get_template_directory() . '/inc/pricing-page-setup.php';
 require_once get_template_directory() . '/inc/pricing-page-options.php';
 require_once get_template_directory() . '/inc/pricing-menu.php';
+require_once get_template_directory() . '/inc/aboutus-sections.php';
+require_once get_template_directory() . '/inc/aboutus-page-setup.php';
+require_once get_template_directory() . '/inc/aboutus-page-options.php';
+require_once get_template_directory() . '/inc/aboutus-menu.php';
 require_once get_template_directory() . '/inc/devproject-sections.php';
 require_once get_template_directory() . '/inc/devproject-page-setup.php';
 require_once get_template_directory() . '/inc/devproject-page-options.php';
@@ -117,6 +121,9 @@ function weblazem_enqueue_assets() {
     $is_pricing_page = is_page_template('pricing-template.php')
         || (function_exists('weblazem_is_pricing_page') && weblazem_is_pricing_page());
 
+    $is_aboutus_page = is_page_template('aboutus-template.php')
+        || (function_exists('weblazem_is_aboutus_page') && weblazem_is_aboutus_page());
+
     $is_devproject_page = is_page_template('devproject-template.php')
         || (function_exists('weblazem_is_devproject_page') && weblazem_is_devproject_page());
 
@@ -132,7 +139,7 @@ function weblazem_enqueue_assets() {
     $is_service_landing_page = is_page_template('service-landing-template.php')
         || (function_exists('weblazem_is_service_landing_page') && weblazem_is_service_landing_page());
 
-    if (is_page_template('home-template.php') || is_front_page() || $is_portfolio_listing || $is_webdesign_page || $is_service_landing_page || $is_seo_page || $is_pricing_page || $is_devproject_page || $is_contentsupport_page || $is_blogarchive_page || $is_contact_page || is_singular('portfolio') || is_singular('post')) {
+    if (is_page_template('home-template.php') || is_front_page() || $is_portfolio_listing || $is_webdesign_page || $is_service_landing_page || $is_seo_page || $is_pricing_page || $is_aboutus_page || $is_devproject_page || $is_contentsupport_page || $is_blogarchive_page || $is_contact_page || is_singular('portfolio') || is_singular('post')) {
         wp_enqueue_style(
             'weblazem-home-style',
             get_template_directory_uri() . '/assets/css/home.css',
@@ -220,6 +227,22 @@ function weblazem_enqueue_assets() {
                 'weblazem-pricing-page-style',
                 get_template_directory_uri() . '/assets/css/pricing-page.css',
                 array('weblazem-home-style'),
+                null
+            );
+        }
+
+        if ($is_aboutus_page) {
+            wp_enqueue_style(
+                'weblazem-webdesign-page-style',
+                get_template_directory_uri() . '/assets/css/webdesign-page.css',
+                array('weblazem-home-style'),
+                null
+            );
+
+            wp_enqueue_style(
+                'weblazem-aboutus-page-style',
+                get_template_directory_uri() . '/assets/css/aboutus-page.css',
+                array('weblazem-webdesign-page-style'),
                 null
             );
         }
