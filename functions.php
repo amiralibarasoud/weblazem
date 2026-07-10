@@ -362,7 +362,7 @@ function weblazem_enqueue_assets() {
         'weblazem-header-style',
         get_template_directory_uri() . '/assets/css/header.css',
         array('weblazem-responsive-core'),
-        '1.2.0'
+        '1.2.1'
     );
 
     wp_enqueue_style(
