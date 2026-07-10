@@ -9,6 +9,7 @@ $sections = array(
     'ceo'      => 'section-ceo',
     'team'     => 'section-team',
     'services' => 'section-services',
+    'consult'  => 'section-consult',
 );
 
 foreach ($sections as $key => $template) {

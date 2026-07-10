@@ -245,6 +245,13 @@ function weblazem_enqueue_assets() {
                 array('weblazem-webdesign-page-style'),
                 null
             );
+
+            wp_enqueue_style(
+                'weblazem-pricing-page-style',
+                get_template_directory_uri() . '/assets/css/pricing-page.css',
+                array('weblazem-aboutus-page-style'),
+                null
+            );
         }
 
         if ($is_devproject_page) {

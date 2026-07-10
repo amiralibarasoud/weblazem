@@ -46,7 +46,11 @@ function weblazem_aboutus_defaults() {
         'team_btn_text'           => 'معرفی تیم',
         'team_btn_url'            => '',
         'team_btn_modal'          => '0',
-        'services_logo'           => weblazem_aboutus_uri('logo-websima.svg'),
+        'consult_title'           => 'مشاوره و درخواست اجرای پروژه',
+        'consult_text'            => 'برای دریافت مشاوره تخصصی و شروع پروژه دیجیتال خود، فرم درخواست را تکمیل کنید تا کارشناسان ما در کوتاه‌ترین زمان با شما تماس بگیرند.',
+        'consult_btn_text'        => 'ثبت درخواست مشاوره',
+        'consult_btn_url'         => '',
+        'consult_btn_modal'       => '1',
     );
 }
 
@@ -143,22 +147,22 @@ function weblazem_get_aboutus_team_members() {
 
 function weblazem_get_default_aboutus_service_cards() {
     $seo_url = function_exists('weblazem_get_seo_page_url') ? weblazem_get_seo_page_url() : '#';
-    $web_url = weblazem_aboutus_page_link('tarahi-site-khedmati', '#');
+    $web_url = function_exists('weblazem_get_webdesign_page_url') ? weblazem_get_webdesign_page_url() : '#';
 
     return array(
         array(
             'title'       => 'سئو و بازاریابی دیجیتال',
             'en_title'    => 'SEO AND DIGITAL MARKETING',
             'description' => 'توسعه و افزایش تعامل',
-            'icon'        => weblazem_aboutus_uri('service-seo.svg'),
             'url'         => $seo_url,
+            'shape_image' => '',
         ),
         array(
             'title'       => 'طراحی وب سایت',
             'en_title'    => 'WEB DESIGN',
             'description' => 'اولین قدم برای موفقیت آنلاین',
-            'icon'        => weblazem_aboutus_uri('service-webdesign.svg'),
             'url'         => $web_url,
+            'shape_image' => '',
         ),
     );
 }

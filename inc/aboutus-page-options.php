@@ -10,7 +10,7 @@ function weblazem_register_aboutus_settings() {
 
     foreach (array_keys($defaults) as $key) {
         $args = array();
-        if ($key === 'team_btn_modal') {
+        if ($key === 'team_btn_modal' || $key === 'consult_btn_modal') {
             $args['sanitize_callback'] = 'weblazem_sanitize_aboutus_checkbox';
         }
         register_setting('weblazem_aboutus_group', 'weblazem_aboutus_' . $key, $args);
@@ -100,7 +100,7 @@ function weblazem_sanitize_aboutus_service_cards($input) {
             'title'       => sanitize_text_field($row['title']),
             'en_title'    => sanitize_text_field($row['en_title'] ?? ''),
             'description' => sanitize_text_field($row['description'] ?? ''),
-            'icon'        => esc_url_raw($row['icon'] ?? ''),
+            'shape_image' => esc_url_raw($row['shape_image'] ?? $row['icon'] ?? ''),
             'url'         => esc_url_raw($row['url'] ?? ''),
         );
     }
@@ -160,7 +160,8 @@ function weblazem_aboutus_options_display() {
                     'journey'  => 'تایم‌لاین',
                     'ceo'      => 'مدیرعامل',
                     'team'     => 'تیم',
-                    'services' => 'خدمات',
+                    'services' => 'کارت‌های خدمات',
+                    'consult'  => 'مشاوره',
                 );
                 $first = true;
                 foreach ($admin_tabs as $id => $label) :
@@ -261,12 +262,28 @@ function weblazem_aboutus_options_display() {
 
                 <div class="weblazem-tab-content" data-tab-content="services">
                     <div class="weblazem-admin-card">
-                        <h3>کارت‌های خدمات</h3>
-                        <?php weblazem_aboutus_admin_image('services_logo', 'لوگو پایین صفحه'); ?>
+                        <h3>کارت‌های خدمات (مشابه صفحات سئو و برنامه‌نویسی)</h3>
                         <div id="aboutus-services-container">
                             <?php foreach ($service_cards as $i => $card) : weblazem_aboutus_admin_service_row($i, $card); endforeach; ?>
                         </div>
                         <button type="button" class="button" id="add-aboutus-service">افزودن کارت</button>
+                    </div>
+                </div>
+
+                <div class="weblazem-tab-content" data-tab-content="consult">
+                    <div class="weblazem-admin-card">
+                        <h3>بخش مشاوره و درخواست اجرای پروژه</h3>
+                        <?php weblazem_aboutus_admin_field('consult_title', 'عنوان'); ?>
+                        <?php weblazem_aboutus_admin_textarea('consult_text', 'متن'); ?>
+                        <?php weblazem_aboutus_admin_field('consult_btn_text', 'متن دکمه'); ?>
+                        <p>
+                            <label><strong>لینک دکمه</strong> (در صورت غیرفعال بودن مودال)<br>
+                            <input type="text" name="weblazem_aboutus_consult_btn_url" class="large-text" value="<?php echo esc_attr(weblazem_aboutus_opt('consult_btn_url')); ?>" /></label>
+                        </p>
+                        <p>
+                            <input type="hidden" name="weblazem_aboutus_consult_btn_modal" value="0" />
+                            <label><input type="checkbox" name="weblazem_aboutus_consult_btn_modal" value="1" <?php checked(weblazem_aboutus_opt('consult_btn_modal'), '1'); ?> /> باز کردن مودال مشاوره</label>
+                        </p>
                     </div>
                 </div>
 
@@ -352,17 +369,17 @@ function weblazem_aboutus_admin_team_row($i, $item) {
 }
 
 function weblazem_aboutus_admin_service_row($i, $item) {
-    $icon_id = 'aboutus_service_icon_' . $i;
-    $icon    = $item['icon'] ?? '';
+    $icon_id = 'aboutus_service_shape_' . $i;
+    $shape   = !empty($item['shape_image']) ? $item['shape_image'] : ($item['icon'] ?? '');
     ?>
     <div class="aboutus-repeater-block weblazem-admin-card" style="margin-bottom:12px;padding:12px;">
         <p><label>عنوان فارسی<br><input type="text" name="weblazem_aboutus_service_cards[<?php echo (int) $i; ?>][title]" value="<?php echo esc_attr($item['title'] ?? ''); ?>" class="large-text" /></label></p>
         <p><label>عنوان انگلیسی<br><input type="text" name="weblazem_aboutus_service_cards[<?php echo (int) $i; ?>][en_title]" value="<?php echo esc_attr($item['en_title'] ?? ''); ?>" class="large-text" /></label></p>
         <p><label>توضیح کوتاه<br><input type="text" name="weblazem_aboutus_service_cards[<?php echo (int) $i; ?>][description]" value="<?php echo esc_attr($item['description'] ?? ''); ?>" class="large-text" /></label></p>
         <p><label>لینک<br><input type="text" name="weblazem_aboutus_service_cards[<?php echo (int) $i; ?>][url]" value="<?php echo esc_attr($item['url'] ?? ''); ?>" class="large-text" /></label></p>
-        <input type="hidden" id="<?php echo esc_attr($icon_id); ?>" name="weblazem_aboutus_service_cards[<?php echo (int) $i; ?>][icon]" value="<?php echo esc_attr($icon); ?>" />
-        <div class="aboutus-img-preview" data-for="<?php echo esc_attr($icon_id); ?>"><?php if ($icon) : ?><img src="<?php echo esc_url($icon); ?>" style="max-width:80px;" alt="" /><?php endif; ?></div>
-        <button type="button" class="button aboutus-upload-img" data-target="<?php echo esc_attr($icon_id); ?>">آیکون</button>
+        <input type="hidden" id="<?php echo esc_attr($icon_id); ?>" name="weblazem_aboutus_service_cards[<?php echo (int) $i; ?>][shape_image]" value="<?php echo esc_attr($shape); ?>" />
+        <div class="aboutus-img-preview" data-for="<?php echo esc_attr($icon_id); ?>"><?php if ($shape) : ?><img src="<?php echo esc_url($shape); ?>" style="max-width:80px;" alt="" /><?php endif; ?></div>
+        <button type="button" class="button aboutus-upload-img" data-target="<?php echo esc_attr($icon_id); ?>">آیکون شکل (اختیاری)</button>
         <button type="button" class="button aboutus-remove-row">حذف کارت</button>
     </div>
     <?php
@@ -453,15 +470,15 @@ function weblazem_aboutus_admin_footer_scripts($contact_cards, $journey_items, $
 
         var serviceIdx = <?php echo (int) $service_idx; ?>;
         $('#add-aboutus-service').on('click', function() {
-            var id = 'aboutus_service_icon_' + serviceIdx;
+            var id = 'aboutus_service_shape_' + serviceIdx;
             var html = '<div class="aboutus-repeater-block weblazem-admin-card" style="margin-bottom:12px;padding:12px;">' +
                 '<p><label>عنوان فارسی<br><input type="text" name="weblazem_aboutus_service_cards[' + serviceIdx + '][title]" class="large-text" /></label></p>' +
                 '<p><label>عنوان انگلیسی<br><input type="text" name="weblazem_aboutus_service_cards[' + serviceIdx + '][en_title]" class="large-text" /></label></p>' +
                 '<p><label>توضیح کوتاه<br><input type="text" name="weblazem_aboutus_service_cards[' + serviceIdx + '][description]" class="large-text" /></label></p>' +
                 '<p><label>لینک<br><input type="text" name="weblazem_aboutus_service_cards[' + serviceIdx + '][url]" class="large-text" /></label></p>' +
-                '<input type="hidden" id="' + id + '" name="weblazem_aboutus_service_cards[' + serviceIdx + '][icon]" value="" />' +
+                '<input type="hidden" id="' + id + '" name="weblazem_aboutus_service_cards[' + serviceIdx + '][shape_image]" value="" />' +
                 '<div class="aboutus-img-preview" data-for="' + id + '"></div>' +
-                '<button type="button" class="button aboutus-upload-img" data-target="' + id + '">آیکون</button> ' +
+                '<button type="button" class="button aboutus-upload-img" data-target="' + id + '">آیکون شکل (اختیاری)</button> ' +
                 '<button type="button" class="button aboutus-remove-row">حذف کارت</button></div>';
             $('#aboutus-services-container').append(html);
             serviceIdx++;

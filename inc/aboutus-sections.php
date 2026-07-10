@@ -11,7 +11,8 @@ function weblazem_get_aboutus_sections_config() {
         'journey'  => 'سفر ما در گذر زمان (تایم‌لاین)',
         'ceo'      => 'مدیرعامل',
         'team'     => 'تیم و همکاری',
-        'services' => 'خدمات (کارت‌های سرویس)',
+        'services' => 'کارت‌های خدمات',
+        'consult'  => 'مشاوره و درخواست پروژه',
     );
 }
 

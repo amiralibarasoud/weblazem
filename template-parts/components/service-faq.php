@@ -117,38 +117,7 @@ $cards = array_values(array_filter($cards, function ($card) {
         </div>
 
         <?php if (!empty($cards)) : ?>
-            <div class="webdesign-faq__cards">
-                <?php foreach ($cards as $card) : ?>
-                    <a href="<?php echo esc_url(!empty($card['url']) ? $card['url'] : '#'); ?>"
-                       class="webdesign-service-card">
-                        <div class="webdesign-service-card__shape" aria-hidden="true">
-                            <?php if (!empty($card['shape_image'])) : ?>
-                                <img src="<?php echo esc_url($card['shape_image']); ?>" alt="" />
-                            <?php else : ?>
-                                <span class="webdesign-service-card__shape-default"></span>
-                            <?php endif; ?>
-                        </div>
-
-                        <div class="webdesign-service-card__content">
-                            <?php if (!empty($card['title'])) : ?>
-                                <h3 class="webdesign-service-card__title"><?php echo esc_html($card['title']); ?></h3>
-                            <?php endif; ?>
-
-                            <?php if (!empty($card['en_title'])) : ?>
-                                <span class="webdesign-service-card__en"><?php echo esc_html($card['en_title']); ?></span>
-                            <?php endif; ?>
-
-                            <?php if (!empty($card['description'])) : ?>
-                                <p class="webdesign-service-card__desc"><?php echo esc_html($card['description']); ?></p>
-                            <?php endif; ?>
-                        </div>
-
-                        <span class="webdesign-service-card__arrow" aria-hidden="true">
-                            <i class="fas fa-arrow-left"></i>
-                        </span>
-                    </a>
-                <?php endforeach; ?>
-            </div>
+            <?php get_template_part('template-parts/components/service', 'cards', array('prefix' => $prefix)); ?>
         <?php endif; ?>
     </div>
 </section>

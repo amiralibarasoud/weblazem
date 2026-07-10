@@ -14,14 +14,6 @@ $cards      = weblazem_get_aboutus_contact_cards();
 <section class="aboutus-hero" dir="rtl">
     <div class="container">
         <div class="aboutus-hero__grid">
-            <div class="aboutus-hero__visual">
-                <div class="aboutus-hero__visual-ring" aria-hidden="true"></div>
-                <img src="<?php echo esc_url(!empty($image) ? $image : $default_img); ?>"
-                     alt=""
-                     class="aboutus-hero__image"
-                     loading="eager" />
-            </div>
-
             <div class="aboutus-hero__content">
                 <?php if (!empty($en_title)) : ?>
                     <span class="aboutus-hero__en-title"><?php echo esc_html($en_title); ?></span>
@@ -63,6 +55,14 @@ $cards      = weblazem_get_aboutus_contact_cards();
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
+            </div>
+
+            <div class="aboutus-hero__visual">
+                <div class="aboutus-hero__visual-ring" aria-hidden="true"></div>
+                <img src="<?php echo esc_url(!empty($image) ? $image : $default_img); ?>"
+                     alt=""
+                     class="aboutus-hero__image"
+                     loading="eager" />
             </div>
         </div>
     </div>

@@ -76,7 +76,7 @@ function weblazem_internal_pages_hub_display() {
                         <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-aboutus-options')); ?>">
                             <strong>تنظیمات درباره ما</strong>
                         </a>
-                        — هیرو، تایم‌لاین، مدیرعامل، تیم و کارت‌های خدمات
+                        — هیرو، تایم‌لاین، مدیرعامل، تیم، کارت‌های خدمات و مشاوره
                     </li>
                     <li>
                         <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-seo-options')); ?>">
