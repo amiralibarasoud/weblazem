@@ -321,17 +321,12 @@ function weblazem_enqueue_assets() {
                 null
             );
         }
-        
-        wp_enqueue_style( 
-            'weblazem-footer-style',
-             get_template_directory_uri() . '/assets/css/footer.css', [],
-              null );
 
         if (is_page_template('home-template.php')) {
             wp_enqueue_script(
                 'weblazem-home-carousel',
                 get_template_directory_uri() . '/assets/js/home-carousel.js',
-                [],
+                array(),
                 null,
                 true
             );
@@ -339,7 +334,7 @@ function weblazem_enqueue_assets() {
             wp_enqueue_script(
                 'weblazem-home-faq',
                 get_template_directory_uri() . '/assets/js/home-faq.js',
-                [],
+                array(),
                 null,
                 true
             );
@@ -349,7 +344,7 @@ function weblazem_enqueue_assets() {
             wp_enqueue_script(
                 'weblazem-home-carousel',
                 get_template_directory_uri() . '/assets/js/home-carousel.js',
-                [],
+                array(),
                 null,
                 true
             );
@@ -357,26 +352,50 @@ function weblazem_enqueue_assets() {
     }
 
     wp_enqueue_style(
-        'weblazem-header-style',
-        get_template_directory_uri() . '/assets/css/header.css',
+        'weblazem-responsive-core',
+        get_template_directory_uri() . '/assets/css/responsive-core.css',
         array('weblazem-fonts'),
-        '1.0.2'
+        '1.0.0'
     );
 
     wp_enqueue_style(
-        'fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css', [],
-        null);
+        'weblazem-header-style',
+        get_template_directory_uri() . '/assets/css/header.css',
+        array('weblazem-responsive-core'),
+        '1.1.0'
+    );
+
+    wp_enqueue_style(
+        'weblazem-footer-style',
+        get_template_directory_uri() . '/assets/css/footer.css',
+        array('weblazem-responsive-core'),
+        '1.1.0'
+    );
+
+    wp_enqueue_style(
+        'fontawesome',
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
+        array(),
+        null
+    );
+
+    wp_enqueue_script(
+        'weblazem-header-nav',
+        get_template_directory_uri() . '/assets/js/header-nav.js',
+        array(),
+        '1.0.0',
+        true
+    );
 
     wp_enqueue_script(
         'weblazem-main-js',
         get_template_directory_uri() . '/assets/js/main.js',
-        [],
+        array(),
         null,
         true
     );
 }
 add_action('wp_enqueue_scripts', 'weblazem_enqueue_assets');
-
 
 function weblazem_enqueue_styles() {
     wp_enqueue_style('tailwind-style', get_template_directory_uri() . '/dist/style.css', [], null);

@@ -1463,9 +1463,20 @@ button.outsourcing-button {
         text-align: center;
     }
 
+    .weblazem-home-hero .hero-text {
+        padding: 48px 24px;
+    }
+
     .weblazem-home-hero .hero-image {
         order: -1;
         margin-bottom: 30px;
+        justify-content: center;
+        top: 0;
+        left: 0;
+    }
+
+    .weblazem-home-hero .hero-buttons {
+        flex-wrap: wrap;
         justify-content: center;
     }
 
@@ -1497,12 +1508,50 @@ button.outsourcing-button {
         padding: 50px 0;
     }
 
+    .weblazem-home-hero .hero-text {
+        padding: 32px 16px;
+    }
+
+    .weblazem-home-hero .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .weblazem-home-hero .hero-button,
+    .weblazem-home-hero .btn-order {
+        width: 100%;
+        text-align: center;
+    }
+
+    .weblazem-home-hero .hero-image img {
+        max-width: 100%;
+    }
+
+    .weblazem-home-hero .placeholder-image {
+        height: 240px;
+    }
+
+    .team-member--col-left,
+    .team-member--col-right {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        border-radius: 24px !important;
+        padding: 20px 16px !important;
+    }
+
+    .testimonial-card {
+        width: min(272px, 85vw);
+    }
+
     .weblazem-services-section .services-cards {
         grid-template-columns: 1fr;
     }
 
     .weblazem-outsourcing-section {
         padding: 50px 0;
+        border-radius: 0 0 120px;
     }
 
     .weblazem-outsourcing-section .outsourcing-title {
@@ -1527,6 +1576,14 @@ button.outsourcing-button {
 @media (max-width: 576px) {
     .weblazem-home-hero .hero-title {
         font-size: 28px;
+    }
+
+    .weblazem-home-hero .hero-text {
+        padding: 24px 12px;
+    }
+
+    .weblazem-home-hero .hero-description {
+        font-size: 13px;
     }
 
     .weblazem-outsourcing-section {

@@ -988,7 +988,7 @@ function weblazem_theme_options_display() {
                                         <input type="checkbox" name="weblazem_header_consult_enabled" value="1" <?php checked(get_option('weblazem_header_consult_enabled', '1'), '1'); ?> />
                                         نمایش دکمه «درخواست مشاوره» در هدر
                                     </label>
-                                    <p class="description">با کلیک روی دکمه، مودال ثبت درخواست مشاوره (همانند دکمه شناور) باز می‌شود.</p>
+                                    <p class="description">با کلیک روی دکمه، مودال ثبت درخواست مشاوره (همانند دکمه شناور) باز می‌شود. در موبایل و تبلت، منو به‌صورت کشویی نمایش داده می‌شود و دکمه مشاوره در هدر به آیکون تبدیل می‌شود.</p>
                                 </td>
                             </tr>
                             <tr valign="top">

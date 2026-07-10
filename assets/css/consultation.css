@@ -473,6 +473,25 @@ body.weblazem-consult-modal-open {
     opacity: 0.95;
 }
 
+@media (max-width: 1024px) {
+    .weblazem-header-consult-btn .weblazem-header-consult-btn__label {
+        display: none;
+    }
+
+    .weblazem-header-consult-btn {
+        width: 44px;
+        height: 44px;
+        min-height: 44px;
+        padding: 0;
+        border-radius: 10px;
+    }
+
+    .weblazem-header-nav--desktop + .weblazem-header__actions .weblazem-header-consult-btn,
+    .weblazem-header__actions .weblazem-header-consult-btn {
+        display: inline-flex;
+    }
+}
+
 @media (max-width: 480px) {
     .weblazem-consult-float {
         bottom: 12px;

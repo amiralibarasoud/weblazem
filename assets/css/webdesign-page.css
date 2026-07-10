@@ -1188,3 +1188,19 @@
         width: 220px;
     }
 }
+
+@media (max-width: 480px) {
+    .webdesign-showcase-card {
+        flex: 0 0 min(220px, 78vw);
+        width: min(220px, 78vw);
+    }
+
+    .webdesign-hero__title,
+    .webdesign-section__title {
+        font-size: clamp(1.35rem, 6vw, 1.75rem);
+    }
+
+    .webdesign-process__card {
+        min-width: 0;
+    }
+}
