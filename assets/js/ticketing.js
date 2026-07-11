@@ -20,6 +20,7 @@
     var emptyEl = document.getElementById('weblazem-ticket-empty');
     var userEl = document.getElementById('weblazem-ticket-current-user');
     var chatEl = document.getElementById('weblazem-ticket-chat');
+    var successModal = document.getElementById('weblazem-ticket-success');
 
     function showView(name) {
         [loginView, dashView, createView, detailView].forEach(function (view) {
@@ -37,14 +38,51 @@
         }
     }
 
-    function post(action, data) {
-        var body = new FormData();
-        body.append('action', action);
-        body.append('nonce', weblazemTicket.nonce);
+    function showSuccess(message, code) {
+        if (!successModal) return;
+        document.getElementById('weblazem-ticket-success-message').textContent = message || weblazemTicket.successMessage;
+        document.getElementById('weblazem-ticket-success-code').textContent = code ? ('کد پیگیری: ' + code) : '';
+        successModal.hidden = false;
+        successModal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('weblazem-ticket-success-open');
+    }
 
-        Object.keys(data || {}).forEach(function (key) {
-            body.append(key, data[key]);
-        });
+    function hideSuccess() {
+        if (!successModal) return;
+        successModal.hidden = true;
+        successModal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('weblazem-ticket-success-open');
+    }
+
+    function validateFile(input) {
+        if (!input || !input.files || !input.files[0]) {
+            return true;
+        }
+        var file = input.files[0];
+        var max = (weblazemTicket.maxUploadMb || 3) * 1024 * 1024;
+        if (file.size > max) {
+            return 'حجم فایل نباید بیشتر از ۳ مگابایت باشد.';
+        }
+        return true;
+    }
+
+    function post(action, data, isMultipart) {
+        var body;
+        if (isMultipart) {
+            body = data;
+            if (!(body instanceof FormData)) {
+                body = new FormData();
+            }
+            body.append('action', action);
+            body.append('nonce', weblazemTicket.nonce);
+        } else {
+            body = new FormData();
+            body.append('action', action);
+            body.append('nonce', weblazemTicket.nonce);
+            Object.keys(data || {}).forEach(function (key) {
+                body.append(key, data[key]);
+            });
+        }
 
         return fetch(weblazemTicket.ajaxUrl, {
             method: 'POST',
@@ -61,9 +99,25 @@
         return 'weblazem-ticket-status weblazem-ticket-status--' + (status || 'open');
     }
 
+    function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.textContent = str || '';
+        return div.innerHTML;
+    }
+
+    function renderAttachments(attachments) {
+        if (!attachments || !attachments.length) {
+            return '';
+        }
+        return attachments.map(function (file) {
+            var name = escapeHtml(file.name || 'پیوست');
+            var url = escapeHtml(file.url || '#');
+            return '<a class="weblazem-ticket-attach" href="' + url + '" target="_blank" rel="noopener noreferrer"><i class="fas fa-paperclip"></i> ' + name + '</a>';
+        }).join('');
+    }
+
     function renderTickets() {
         if (!listEl) return;
-
         listEl.innerHTML = '';
 
         if (!state.tickets.length) {
@@ -88,32 +142,30 @@
             btn.querySelector('.weblazem-ticket-card__meta').textContent =
                 (ticket.code || '') + ' · ' + (ticket.subjectLabel || '') + ' · ' + (ticket.updatedAt || '');
             btn.querySelector('span').textContent = ticket.statusLabel || ticket.status;
-
             btn.addEventListener('click', function () {
                 openTicket(ticket.id);
             });
-
             listEl.appendChild(btn);
         });
     }
 
     function renderChat(ticket) {
         if (!chatEl) return;
-
         chatEl.innerHTML = '';
+
         (ticket.replies || []).forEach(function (reply) {
             var bubble = document.createElement('div');
             var isAdmin = reply.author_type === 'admin';
             bubble.className = 'weblazem-ticket-chat__bubble ' + (isAdmin ? 'is-admin' : 'is-user');
             bubble.innerHTML =
-                '<div class="weblazem-ticket-chat__meta">' +
-                    '<strong></strong><span></span>' +
-                '</div>' +
-                '<div class="weblazem-ticket-chat__text"></div>';
+                '<div class="weblazem-ticket-chat__meta"><strong></strong><span></span></div>' +
+                '<div class="weblazem-ticket-chat__text"></div>' +
+                '<div class="weblazem-ticket-chat__files"></div>';
 
             bubble.querySelector('strong').textContent = reply.author_name || (isAdmin ? 'پشتیبانی' : 'شما');
             bubble.querySelector('span').textContent = reply.created_at || '';
             bubble.querySelector('.weblazem-ticket-chat__text').textContent = reply.message || '';
+            bubble.querySelector('.weblazem-ticket-chat__files').innerHTML = renderAttachments(reply.attachments || []);
             chatEl.appendChild(bubble);
         });
 
@@ -141,9 +193,8 @@
             showView('detail');
 
             var replyForm = document.getElementById('weblazem-ticket-reply-form');
-            var closed = ticket.status === 'closed';
             if (replyForm) {
-                replyForm.hidden = closed;
+                replyForm.hidden = ticket.status === 'closed';
             }
         });
     }
@@ -160,13 +211,13 @@
         event.preventDefault();
         var feedback = document.getElementById('weblazem-ticket-login-feedback');
         var form = event.currentTarget;
-        var username = form.username.value.trim();
+        var mobile = form.mobile.value.trim();
         var code = form.access_code.value.trim();
 
         setFeedback(feedback, 'در حال ورود...', null);
 
         post('weblazem_ticket_login', {
-            username: username,
+            mobile: mobile,
             access_code: code
         }).then(function (result) {
             if (!result.ok || !result.json.success) {
@@ -175,7 +226,8 @@
                 return;
             }
             setFeedback(feedback, '', null);
-            enterDashboard(result.json.data.username, result.json.data.tickets);
+            form.reset();
+            enterDashboard(result.json.data.mobile || result.json.data.username, result.json.data.tickets);
         }).catch(function () {
             setFeedback(feedback, weblazemTicket.errorMessage, 'error');
         });
@@ -191,6 +243,11 @@
     });
 
     document.getElementById('weblazem-ticket-new-btn').addEventListener('click', function () {
+        if (!state.username) {
+            showView('login');
+            setFeedback(document.getElementById('weblazem-ticket-login-feedback'), weblazemTicket.loginRequired, 'error');
+            return;
+        }
         document.getElementById('weblazem-ticket-create-form').reset();
         setFeedback(document.getElementById('weblazem-ticket-create-feedback'), '', null);
         showView('create');
@@ -205,20 +262,30 @@
 
     document.getElementById('weblazem-ticket-create-form').addEventListener('submit', function (event) {
         event.preventDefault();
+
+        if (!state.username) {
+            showView('login');
+            setFeedback(document.getElementById('weblazem-ticket-login-feedback'), weblazemTicket.loginRequired, 'error');
+            return;
+        }
+
         var form = event.currentTarget;
         var feedback = document.getElementById('weblazem-ticket-create-feedback');
+        var fileCheck = validateFile(form.attachment);
+        if (fileCheck !== true) {
+            setFeedback(feedback, fileCheck, 'error');
+            return;
+        }
 
+        var submitBtn = document.getElementById('weblazem-ticket-create-submit');
+        if (submitBtn) submitBtn.disabled = true;
         setFeedback(feedback, 'در حال ثبت...', null);
 
-        post('weblazem_ticket_create', {
-            title: form.title.value.trim(),
-            subject: form.subject.value,
-            priority: form.priority.value,
-            project_name: form.project_name.value.trim(),
-            mobile: form.mobile.value.trim(),
-            email: form.email.value.trim(),
-            message: form.message.value.trim()
-        }).then(function (result) {
+        var body = new FormData(form);
+
+        post('weblazem_ticket_create', body, true).then(function (result) {
+            if (submitBtn) submitBtn.disabled = false;
+
             if (!result.ok || !result.json.success) {
                 var msg = (result.json.data && result.json.data.message) || weblazemTicket.errorMessage;
                 setFeedback(feedback, msg, 'error');
@@ -226,11 +293,16 @@
             }
 
             state.tickets = result.json.data.tickets || [];
-            setFeedback(feedback, result.json.data.message || 'ثبت شد', 'success');
+            form.reset();
+            setFeedback(feedback, '', null);
+            showSuccess(result.json.data.message, result.json.data.ticket && result.json.data.ticket.code);
+
             window.setTimeout(function () {
+                hideSuccess();
                 openTicket(result.json.data.ticket.id);
-            }, 500);
+            }, 2200);
         }).catch(function () {
+            if (submitBtn) submitBtn.disabled = false;
             setFeedback(feedback, weblazemTicket.errorMessage, 'error');
         });
     });
@@ -240,14 +312,22 @@
         var form = event.currentTarget;
         var feedback = document.getElementById('weblazem-ticket-reply-feedback');
 
-        if (!state.currentTicketId) return;
+        if (!state.currentTicketId || !state.username) {
+            return;
+        }
+
+        var fileCheck = validateFile(form.attachment);
+        if (fileCheck !== true) {
+            setFeedback(feedback, fileCheck, 'error');
+            return;
+        }
 
         setFeedback(feedback, 'در حال ارسال...', null);
 
-        post('weblazem_ticket_reply', {
-            ticket_id: state.currentTicketId,
-            message: form.message.value.trim()
-        }).then(function (result) {
+        var body = new FormData(form);
+        body.append('ticket_id', state.currentTicketId);
+
+        post('weblazem_ticket_reply', body, true).then(function (result) {
             if (!result.ok || !result.json.success) {
                 var msg = (result.json.data && result.json.data.message) || weblazemTicket.errorMessage;
                 setFeedback(feedback, msg, 'error');
@@ -262,7 +342,6 @@
             statusEl.className = statusClass(result.json.data.ticket.status);
             statusEl.textContent = result.json.data.ticket.statusLabel;
 
-            // refresh list cache
             var updated = result.json.data.ticket;
             state.tickets = state.tickets.map(function (t) {
                 return t.id === updated.id ? updated : t;
@@ -272,10 +351,21 @@
         });
     });
 
-    // Restore session on load
+    var successClose = document.getElementById('weblazem-ticket-success-close');
+    if (successClose) {
+        successClose.addEventListener('click', hideSuccess);
+    }
+    if (successModal) {
+        successModal.addEventListener('click', function (event) {
+            if (event.target === successModal) {
+                hideSuccess();
+            }
+        });
+    }
+
     post('weblazem_ticket_session', {}).then(function (result) {
         if (result.ok && result.json.success && result.json.data.loggedIn) {
-            enterDashboard(result.json.data.username, result.json.data.tickets);
+            enterDashboard(result.json.data.mobile || result.json.data.username, result.json.data.tickets);
         } else {
             showView('login');
         }

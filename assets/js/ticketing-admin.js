@@ -21,8 +21,20 @@
         $meta.append($('<span>').text(reply.created_at || ''));
 
         var $text = $('<div>', { class: 'weblazem-ticket-chat__text' }).text(reply.message || '');
+        var $files = $('<div>', { class: 'weblazem-ticket-chat__files' });
 
-        $bubble.append($meta).append($text);
+        (reply.attachments || []).forEach(function (file) {
+            $files.append(
+                $('<a>', {
+                    class: 'weblazem-ticket-attach',
+                    href: file.url || '#',
+                    target: '_blank',
+                    rel: 'noopener noreferrer'
+                }).html('<i class="fas fa-paperclip"></i> ' + (file.name || 'پیوست'))
+            );
+        });
+
+        $bubble.append($meta).append($text).append($files);
         $chat.append($bubble);
         $chat.scrollTop($chat[0].scrollHeight);
     }

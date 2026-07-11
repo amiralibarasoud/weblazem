@@ -60,15 +60,27 @@ function weblazem_ticketing_settings_page() {
         update_option('weblazem_ticket_access_code', sanitize_text_field(wp_unslash($_POST['weblazem_ticket_access_code'] ?? '12345')));
         update_option('weblazem_ticket_section_title', sanitize_text_field(wp_unslash($_POST['weblazem_ticket_section_title'] ?? '')));
         update_option('weblazem_ticket_section_subtitle', sanitize_textarea_field(wp_unslash($_POST['weblazem_ticket_section_subtitle'] ?? '')));
+        update_option('weblazem_ticket_section_btn_text', sanitize_text_field(wp_unslash($_POST['weblazem_ticket_section_btn_text'] ?? '')));
+        update_option('weblazem_ticket_page_title', sanitize_text_field(wp_unslash($_POST['weblazem_ticket_page_title'] ?? '')));
+        update_option('weblazem_ticket_page_subtitle', sanitize_textarea_field(wp_unslash($_POST['weblazem_ticket_page_subtitle'] ?? '')));
+        update_option('weblazem_ticket_success_message', sanitize_textarea_field(wp_unslash($_POST['weblazem_ticket_success_message'] ?? '')));
         echo '<div class="notice notice-success is-dismissible"><p>تنظیمات ذخیره شد.</p></div>';
     }
 
     $code     = weblazem_get_ticket_access_code();
     $title    = get_option('weblazem_ticket_section_title', 'ثبت تیکت و پیگیری تسک');
     $subtitle = get_option('weblazem_ticket_section_subtitle', '');
+    $btn_text = get_option('weblazem_ticket_section_btn_text', 'ورود به پنل تیکت');
+    $page_title = get_option('weblazem_ticket_page_title', 'ثبت تیکت و پیگیری');
+    $page_subtitle = get_option('weblazem_ticket_page_subtitle', '');
+    $success = get_option('weblazem_ticket_success_message', 'تیکت شما با موفقیت ثبت شد.');
+    $page_url = function_exists('weblazem_get_ticket_page_url') ? weblazem_get_ticket_page_url() : '';
     ?>
     <div class="wrap" dir="rtl">
         <h1>تنظیمات سیستم تیکت</h1>
+        <?php if ($page_url) : ?>
+            <p>صفحه تیکت: <a href="<?php echo esc_url($page_url); ?>" target="_blank" rel="noopener"><?php echo esc_html($page_url); ?></a></p>
+        <?php endif; ?>
         <form method="post">
             <?php wp_nonce_field('weblazem_ticket_settings', 'weblazem_ticket_settings_nonce'); ?>
             <table class="form-table">
@@ -76,7 +88,7 @@ function weblazem_ticketing_settings_page() {
                     <th>کد ورود سندباکس</th>
                     <td>
                         <input type="text" name="weblazem_ticket_access_code" class="regular-text" dir="ltr" value="<?php echo esc_attr($code); ?>" />
-                        <p class="description">کاربران با این کد وارد بخش تیکت می‌شوند. پیش‌فرض: 12345</p>
+                        <p class="description">کاربران با شماره موبایل + این کد وارد می‌شوند. پیش‌فرض: 12345</p>
                     </td>
                 </tr>
                 <tr>
@@ -84,8 +96,24 @@ function weblazem_ticketing_settings_page() {
                     <td><input type="text" name="weblazem_ticket_section_title" class="large-text" value="<?php echo esc_attr($title); ?>" /></td>
                 </tr>
                 <tr>
-                    <th>توضیح سکشن</th>
+                    <th>توضیح سکشن صفحه اصلی</th>
                     <td><textarea name="weblazem_ticket_section_subtitle" class="large-text" rows="3"><?php echo esc_textarea($subtitle); ?></textarea></td>
+                </tr>
+                <tr>
+                    <th>متن دکمه صفحه اصلی</th>
+                    <td><input type="text" name="weblazem_ticket_section_btn_text" class="regular-text" value="<?php echo esc_attr($btn_text); ?>" /></td>
+                </tr>
+                <tr>
+                    <th>عنوان صفحه تیکت</th>
+                    <td><input type="text" name="weblazem_ticket_page_title" class="large-text" value="<?php echo esc_attr($page_title); ?>" /></td>
+                </tr>
+                <tr>
+                    <th>توضیح صفحه تیکت</th>
+                    <td><textarea name="weblazem_ticket_page_subtitle" class="large-text" rows="3"><?php echo esc_textarea($page_subtitle); ?></textarea></td>
+                </tr>
+                <tr>
+                    <th>پیام موفقیت ثبت تیکت</th>
+                    <td><textarea name="weblazem_ticket_success_message" class="large-text" rows="2"><?php echo esc_textarea($success); ?></textarea></td>
                 </tr>
             </table>
             <?php submit_button('ذخیره تنظیمات'); ?>
@@ -218,6 +246,16 @@ function weblazem_ticketing_admin_single($ticket_id) {
                                 <span><?php echo esc_html($reply['created_at'] ?? ''); ?></span>
                             </div>
                             <div class="weblazem-ticket-chat__text"><?php echo wp_kses_post(nl2br($reply['message'] ?? '')); ?></div>
+                            <?php if (!empty($reply['attachments']) && is_array($reply['attachments'])) : ?>
+                                <div class="weblazem-ticket-chat__files">
+                                    <?php foreach ($reply['attachments'] as $file) : ?>
+                                        <a class="weblazem-ticket-attach" href="<?php echo esc_url($file['url'] ?? '#'); ?>" target="_blank" rel="noopener noreferrer">
+                                            <i class="fas fa-paperclip" aria-hidden="true"></i>
+                                            <?php echo esc_html($file['name'] ?? 'پیوست'); ?>
+                                        </a>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -240,14 +278,28 @@ function weblazem_ticketing_admin_single($ticket_id) {
                 <h2>اطلاعات تیکت</h2>
                 <table class="form-table">
                     <tr><th>کد تیکت</th><td><code><?php echo esc_html($ticket['code']); ?></code></td></tr>
-                    <tr><th>نام کاربری</th><td><?php echo esc_html($ticket['username']); ?></td></tr>
-                    <tr><th>موبایل</th><td><?php echo esc_html($ticket['mobile'] ?: '—'); ?></td></tr>
+                    <tr><th>موبایل (کاربر)</th><td dir="ltr"><?php echo esc_html($ticket['mobile'] ?: $ticket['username']); ?></td></tr>
                     <tr><th>ایمیل</th><td><?php echo esc_html($ticket['email'] ?: '—'); ?></td></tr>
                     <tr><th>موضوع</th><td><?php echo esc_html($ticket['subjectLabel']); ?></td></tr>
                     <tr><th>اولویت</th><td><?php echo esc_html($ticket['priorityLabel']); ?></td></tr>
                     <tr><th>نام پروژه</th><td><?php echo esc_html($ticket['projectName'] ?: '—'); ?></td></tr>
                     <tr><th>تاریخ ایجاد</th><td><?php echo esc_html($ticket['createdAt']); ?></td></tr>
                     <tr><th>آخرین بروزرسانی</th><td><?php echo esc_html($ticket['updatedAt']); ?></td></tr>
+                    <tr>
+                        <th>پیوست‌ها</th>
+                        <td>
+                            <?php
+                            $files = $ticket['attachments'] ?? array();
+                            if (empty($files)) {
+                                echo '—';
+                            } else {
+                                foreach ($files as $file) {
+                                    echo '<div><a href="' . esc_url($file['url'] ?? '#') . '" target="_blank" rel="noopener">' . esc_html($file['name'] ?? 'فایل') . '</a></div>';
+                                }
+                            }
+                            ?>
+                        </td>
+                    </tr>
                 </table>
             </aside>
         </div>
