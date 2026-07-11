@@ -93,6 +93,7 @@ require_once get_template_directory() . '/inc/ticketing.php';
 require_once get_template_directory() . '/inc/ticketing-handler.php';
 require_once get_template_directory() . '/inc/ticketing-admin.php';
 require_once get_template_directory() . '/inc/ticketing-page-setup.php';
+require_once get_template_directory() . '/inc/growth-tools-shared.php';
 
 function weblazem_enqueue_assets() {
     // فونت‌ها

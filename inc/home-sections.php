@@ -16,6 +16,7 @@ function weblazem_get_home_sections_config() {
         'consultation' => 'بخش مشاوره',
         'faq'          => 'سوالات متداول',
         'ticketing'    => 'ثبت تیکت و پیگیری تسک',
+        'growth_tools' => 'ابزارهای رشد (قیمت، کیس‌استادی، رزرو، وضعیت، شروع پروژه)',
     );
 }
 

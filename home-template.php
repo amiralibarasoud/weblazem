@@ -271,6 +271,10 @@ endif;
     <?php get_template_part('template-parts/home/section', 'ticketing'); ?>
 <?php endif; ?>
 
+<?php if (weblazem_is_home_section_enabled('growth_tools')) : ?>
+    <?php get_template_part('template-parts/home/section', 'growth-tools'); ?>
+<?php endif; ?>
+
 
 <?php
 // محتوای صفحه

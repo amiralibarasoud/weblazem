@@ -109,6 +109,36 @@ function weblazem_internal_pages_hub_display() {
                         — بخش‌های ثابت: نمونه‌کارهای بیشتر، مشاوره و CTA پایانی
                     </li>
                     <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-price-estimator-options')); ?>">
+                            <strong>محاسبه‌گر قیمت</strong>
+                        </a>
+                        — تنظیمات برآورد هزینه و لیدها
+                    </li>
+                    <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-case-study-options')); ?>">
+                            <strong>کیس‌استادی</strong>
+                        </a>
+                        — عناوین صفحه و نمایش قبل/بعد در نمونه‌کار
+                    </li>
+                    <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-scheduling-options')); ?>">
+                            <strong>رزرو مشاوره</strong>
+                        </a>
+                        — ساعت‌های کاری، روزها و رزروها
+                    </li>
+                    <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-project-status-options')); ?>">
+                            <strong>وضعیت پروژه</strong>
+                        </a>
+                        — پنل مشتری و مدیریت پروژه‌ها
+                    </li>
+                    <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-start-project-options')); ?>">
+                            <strong>شروع پروژه</strong>
+                        </a>
+                        — بریف چندمرحله‌ای و درخواست‌های دریافتی
+                    </li>
+                    <li>
                         <a href="<?php echo esc_url(function_exists('weblazem_get_contentsupport_page_url') ? weblazem_get_contentsupport_page_url() : '#'); ?>" target="_blank" rel="noopener">
                             <strong>برگه تولید محتوا و پشتیبانی</strong>
                         </a>

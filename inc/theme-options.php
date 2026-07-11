@@ -109,6 +109,9 @@ function weblazem_register_settings() {
     register_setting('weblazem_homepage_options_group', 'weblazem_portfolio_more_text');
     register_setting('weblazem_homepage_options_group', 'weblazem_portfolio_card_button_text');
 
+    register_setting('weblazem_homepage_options_group', 'weblazem_growth_tools_title');
+    register_setting('weblazem_homepage_options_group', 'weblazem_growth_tools_subtitle');
+
     // تنظیمات بخش درباره ما
     register_setting('weblazem_homepage_options_group', 'weblazem_about_title');
     register_setting('weblazem_homepage_options_group', 'weblazem_about_text');
@@ -1459,6 +1462,7 @@ function weblazem_homepage_options_display() {
                 <button type="button" class="weblazem-tab" data-tab="testimonials">نظرات مشتریان</button>
                 <button type="button" class="weblazem-tab" data-tab="faq">سوالات متداول</button>
                 <button type="button" class="weblazem-tab" data-tab="outsourcing">بخش برون‌سپاری</button>
+                <button type="button" class="weblazem-tab" data-tab="growth">ابزارهای رشد</button>
             </div>
             
             <form method="post" action="<?php echo admin_url('admin-post.php'); ?>" enctype="multipart/form-data" id="weblazem-homepage-form">
@@ -1886,6 +1890,35 @@ function weblazem_homepage_options_display() {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="weblazem-tab-content" id="growth-tab">
+                    <div class="weblazem-admin-card">
+                        <div class="weblazem-admin-card-icon"><i class="fas fa-rocket"></i></div>
+                        <h3>سکشن ابزارهای رشد (صفحه اصلی)</h3>
+                        <p class="description">۵ ابزار: محاسبه‌گر قیمت، کیس‌استادی، رزرو مشاوره، وضعیت پروژه و شروع پروژه. تنظیمات جزئی هر ابزار از منوی قالب در دسترس است.</p>
+                        <table class="form-table">
+                            <tr>
+                                <th scope="row"><label for="weblazem_growth_tools_title">عنوان سکشن</label></th>
+                                <td>
+                                    <input type="text" id="weblazem_growth_tools_title" name="weblazem_growth_tools_title" class="regular-text" value="<?php echo esc_attr(get_option('weblazem_growth_tools_title', 'ابزارهای هوشمند وب‌لازم')); ?>" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="weblazem_growth_tools_subtitle">توضیح کوتاه</label></th>
+                                <td>
+                                    <input type="text" id="weblazem_growth_tools_subtitle" name="weblazem_growth_tools_subtitle" class="large-text" value="<?php echo esc_attr(get_option('weblazem_growth_tools_subtitle', 'از برآورد قیمت تا پیگیری پروژه — همه در یک مسیر شفاف')); ?>" />
+                                </td>
+                            </tr>
+                        </table>
+                        <ul style="list-style:disc;padding-right:22px;line-height:2;">
+                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-price-estimator-options')); ?>">تنظیمات محاسبه‌گر قیمت</a></li>
+                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-case-study-options')); ?>">تنظیمات کیس‌استادی</a></li>
+                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-scheduling-options')); ?>">تنظیمات رزرو مشاوره</a></li>
+                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-project-status-options')); ?>">تنظیمات وضعیت پروژه</a></li>
+                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-start-project-options')); ?>">تنظیمات شروع پروژه</a></li>
+                        </ul>
                     </div>
                 </div>
                 
@@ -2543,6 +2576,13 @@ function weblazem_save_homepage_options_ajax() {
     weblazem_save_testimonials_homepage_options();
     weblazem_save_faq_homepage_options();
     weblazem_save_home_section_toggles();
+
+    if (isset($_POST['weblazem_growth_tools_title'])) {
+        update_option('weblazem_growth_tools_title', sanitize_text_field(wp_unslash($_POST['weblazem_growth_tools_title'])));
+    }
+    if (isset($_POST['weblazem_growth_tools_subtitle'])) {
+        update_option('weblazem_growth_tools_subtitle', sanitize_text_field(wp_unslash($_POST['weblazem_growth_tools_subtitle'])));
+    }
     
     // ثبت زمان آخرین بروزرسانی
     update_option('weblazem_homepage_last_update', current_time('mysql'));
@@ -2746,6 +2786,13 @@ function handle_save_weblazem_homepage_options() {
     weblazem_save_testimonials_homepage_options();
     weblazem_save_faq_homepage_options();
     weblazem_save_home_section_toggles();
+
+    if (isset($_POST['weblazem_growth_tools_title'])) {
+        update_option('weblazem_growth_tools_title', sanitize_text_field(wp_unslash($_POST['weblazem_growth_tools_title'])));
+    }
+    if (isset($_POST['weblazem_growth_tools_subtitle'])) {
+        update_option('weblazem_growth_tools_subtitle', sanitize_text_field(wp_unslash($_POST['weblazem_growth_tools_subtitle'])));
+    }
     
     // ثبت زمان آخرین بروزرسانی
     update_option('weblazem_homepage_last_update', current_time('mysql'));

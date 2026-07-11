@@ -1890,3 +1890,109 @@ button.outsourcing-button {
     }
 
 }
+
+.weblazem-growth-tools {
+    padding: 72px 0 80px;
+    background:
+        radial-gradient(ellipse at 12% 20%, rgba(169, 143, 212, 0.18) 0%, transparent 50%),
+        linear-gradient(180deg, #faf7fd 0%, #f3eafd 100%);
+}
+
+.weblazem-growth-tools__header {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 40px;
+}
+
+.weblazem-growth-tools__title {
+    margin: 0 0 12px;
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 800;
+    color: #2a1238;
+}
+
+.weblazem-growth-tools__subtitle {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #64748b;
+}
+
+.weblazem-growth-tools__grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
+}
+
+.weblazem-growth-tools__card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 22px 18px 20px;
+    border-radius: 18px;
+    background: #fff;
+    border: 1px solid rgba(169, 143, 212, 0.22);
+    box-shadow: 0 10px 28px rgba(64, 22, 92, 0.08);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.weblazem-growth-tools__card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 40px rgba(64, 22, 92, 0.14);
+}
+
+.weblazem-growth-tools__icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--tool-accent, #4F1E60) 14%, #fff);
+    color: var(--tool-accent, #4F1E60);
+    font-size: 18px;
+}
+
+.weblazem-growth-tools__card-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.weblazem-growth-tools__card-desc {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #64748b;
+    flex: 1;
+}
+
+.weblazem-growth-tools__card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--tool-accent, #4F1E60);
+}
+
+@media (max-width: 1100px) {
+    .weblazem-growth-tools__grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .weblazem-growth-tools {
+        padding: 48px 0 56px;
+    }
+
+    .weblazem-growth-tools__grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+}
