@@ -151,11 +151,29 @@ function weblazem_enqueue_assets() {
             null
         );
 
+        $needs_device_mockups = is_page_template('home-template.php')
+            || is_front_page()
+            || $is_portfolio_listing
+            || is_singular('portfolio')
+            || $is_webdesign_page
+            || $is_devproject_page
+            || $is_contentsupport_page
+            || $is_service_landing_page;
+
+        if ($needs_device_mockups) {
+            wp_enqueue_style(
+                'weblazem-portfolio-devices',
+                get_template_directory_uri() . '/assets/css/portfolio-devices.css',
+                array('weblazem-home-style'),
+                '1.0.0'
+            );
+        }
+
         if ($is_portfolio_listing) {
             wp_enqueue_style(
                 'weblazem-portfolio-page-style',
                 get_template_directory_uri() . '/assets/css/portfolio-page.css',
-                array('weblazem-home-style'),
+                array('weblazem-home-style', 'weblazem-portfolio-devices'),
                 null
             );
         }
@@ -164,7 +182,7 @@ function weblazem_enqueue_assets() {
             wp_enqueue_style(
                 'weblazem-portfolio-single-style',
                 get_template_directory_uri() . '/assets/css/portfolio-single.css',
-                array('weblazem-home-style'),
+                array('weblazem-home-style', 'weblazem-portfolio-devices'),
                 null
             );
         }

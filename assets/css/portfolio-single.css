@@ -83,36 +83,8 @@
     position: relative;
     max-width: 920px;
     margin: 0 auto;
-    min-height: 320px;
-}
-
-.portfolio-single-hero__desktop img {
-    width: 100%;
-    border-radius: 16px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
-    display: block;
-}
-
-.portfolio-single-hero__mobile {
-    position: absolute;
-    left: 24px;
-    bottom: -20px;
-    width: min(28%, 180px);
-    z-index: 2;
-}
-
-.portfolio-single-hero__mobile-frame {
-    background: #111;
-    border-radius: 24px;
-    padding: 10px 8px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
-    border: 3px solid rgba(255, 255, 255, 0.15);
-}
-
-.portfolio-single-hero__mobile-frame img {
-    width: 100%;
-    border-radius: 16px;
-    display: block;
+    min-height: auto;
+    padding-bottom: 8px;
 }
 
 .portfolio-single-hero__actions {
@@ -846,14 +818,6 @@
     .portfolio-single-section.is-image-end .portfolio-single-section__media,
     .portfolio-single-section.is-image-end .portfolio-single-section__content {
         order: unset;
-    }
-
-    .portfolio-single-hero__mobile {
-        position: relative;
-        left: auto;
-        bottom: auto;
-        width: min(46%, 200px);
-        margin: -40px auto 0;
     }
 
     .portfolio-single-hero__devices {

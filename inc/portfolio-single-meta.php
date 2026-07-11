@@ -84,7 +84,7 @@ function weblazem_portfolio_single_hero_meta_render($post) {
             <th scope="row">تصویر نمایش موبایل (هیرو)</th>
             <td>
                 <?php weblazem_portfolio_single_image_field('weblazem_portfolio_mobile_image', $mobile_image, 'انتخاب تصویر موبایل'); ?>
-                <p class="description">نسخه موبایل سایت که روی تصویر دسکتاپ در هیرو نمایش داده می‌شود.</p>
+                <p class="description">اسکرین‌شات نسخه موبایل پروژه. در کارت‌های نمونه‌کار کنار مانیتور و در هیرو صفحه جزئیات نمایش داده می‌شود. اگر خالی باشد، همان تصویر دسکتاپ با برش موبایلی استفاده می‌شود.</p>
             </td>
         </tr>
     </table>

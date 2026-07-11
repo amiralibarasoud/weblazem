@@ -138,18 +138,28 @@ function weblazem_get_webdesign_portfolio_items() {
     if ($query->have_posts()) {
         while ($query->have_posts()) {
             $query->the_post();
-            $terms = wp_get_post_terms(get_the_ID(), 'portfolio_category', array('fields' => 'slugs'));
-            $logo  = get_post_meta(get_the_ID(), '_weblazem_portfolio_client', true);
+            $post_id = get_the_ID();
+            $terms   = wp_get_post_terms($post_id, 'portfolio_category', array('fields' => 'slugs'));
+            $logo    = get_post_meta($post_id, '_weblazem_portfolio_client', true);
+            $devices = function_exists('weblazem_get_portfolio_device_images')
+                ? weblazem_get_portfolio_device_images($post_id)
+                : array(
+                    'desktop'            => get_the_post_thumbnail_url($post_id, 'large'),
+                    'mobile'             => get_the_post_thumbnail_url($post_id, 'large'),
+                    'mobile_is_fallback' => true,
+                );
 
             $items[] = array(
-                'title'    => get_post_meta(get_the_ID(), '_weblazem_portfolio_subtitle', true) ?: get_the_title(),
-                'image'    => get_the_post_thumbnail_url(get_the_ID(), 'large'),
-                'logo'     => '',
-                'logo_text'=> $logo ?: get_the_title(),
-                'link'     => get_permalink(),
-                'tag'      => '',
-                'color'    => $colors[$i % count($colors)],
-                'category' => is_array($terms) ? implode(' ', $terms) : '',
+                'title'              => get_post_meta($post_id, '_weblazem_portfolio_subtitle', true) ?: get_the_title($post_id),
+                'image'              => $devices['desktop'],
+                'mobile_image'       => $devices['mobile'],
+                'mobile_is_fallback' => !empty($devices['mobile_is_fallback']),
+                'logo'               => '',
+                'logo_text'          => $logo ?: get_the_title($post_id),
+                'link'               => get_permalink($post_id),
+                'tag'                => '',
+                'color'              => $colors[$i % count($colors)],
+                'category'           => is_array($terms) ? implode(' ', $terms) : '',
             );
             $i++;
         }
@@ -166,14 +176,16 @@ function weblazem_get_webdesign_portfolio_items() {
                 continue;
             }
             $items[] = array(
-                'title'     => $item['title'] ?? '',
-                'image'     => $item['image'] ?? '',
-                'logo'      => $item['logo'] ?? '',
-                'logo_text' => $item['logo_text'] ?? ($item['title'] ?? ''),
-                'link'      => $item['link'] ?? '#',
-                'tag'       => $item['tag'] ?? '',
-                'color'     => !empty($item['color']) ? $item['color'] : $colors[$i % count($colors)],
-                'category'  => $item['category'] ?? '',
+                'title'              => $item['title'] ?? '',
+                'image'              => $item['image'] ?? '',
+                'mobile_image'       => $item['mobile_image'] ?? ($item['image'] ?? ''),
+                'mobile_is_fallback' => empty($item['mobile_image']),
+                'logo'               => $item['logo'] ?? '',
+                'logo_text'          => $item['logo_text'] ?? ($item['title'] ?? ''),
+                'link'               => $item['link'] ?? '#',
+                'tag'                => $item['tag'] ?? '',
+                'color'              => !empty($item['color']) ? $item['color'] : $colors[$i % count($colors)],
+                'category'           => $item['category'] ?? '',
             );
             $i++;
         }

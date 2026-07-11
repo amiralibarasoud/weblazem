@@ -5,13 +5,19 @@
 
 $post_id      = get_the_ID();
 $client_logo  = get_post_meta($post_id, '_weblazem_portfolio_client_logo', true);
-$hero_image   = weblazem_get_portfolio_single_hero_image($post_id);
-$mobile_image = get_post_meta($post_id, '_weblazem_portfolio_mobile_image', true);
+$devices      = function_exists('weblazem_get_portfolio_device_images')
+    ? weblazem_get_portfolio_device_images($post_id)
+    : array(
+        'desktop'            => weblazem_get_portfolio_single_hero_image($post_id),
+        'mobile'             => get_post_meta($post_id, '_weblazem_portfolio_mobile_image', true),
+        'mobile_is_fallback' => false,
+    );
 $title        = weblazem_get_portfolio_single_display_title($post_id);
 $intro        = weblazem_get_portfolio_single_intro($post_id);
 $phone        = weblazem_get_portfolio_single_option('weblazem_portfolio_single_sticky_phone');
 $btn_text     = weblazem_get_portfolio_single_option('weblazem_portfolio_single_sticky_btn_text');
 $btn_url      = weblazem_get_portfolio_single_option('weblazem_portfolio_single_sticky_btn_url', '#');
+$hero_image   = $devices['desktop'];
 ?>
 
 <section class="portfolio-single-hero" dir="rtl">
@@ -35,17 +41,17 @@ $btn_url      = weblazem_get_portfolio_single_option('weblazem_portfolio_single_
                 <span class="portfolio-single-hero__deco" aria-hidden="true">ART OF DESIGN</span>
 
                 <div class="portfolio-single-hero__devices">
-                    <div class="portfolio-single-hero__desktop">
-                        <img src="<?php echo esc_url($hero_image); ?>" alt="<?php echo esc_attr($title); ?>" />
-                    </div>
-
-                    <?php if (!empty($mobile_image)) : ?>
-                        <div class="portfolio-single-hero__mobile">
-                            <div class="portfolio-single-hero__mobile-frame">
-                                <img src="<?php echo esc_url($mobile_image); ?>" alt="<?php echo esc_attr($title); ?> — موبایل" />
-                            </div>
-                        </div>
-                    <?php endif; ?>
+                    <?php
+                    if (function_exists('weblazem_render_portfolio_device_mockup')) {
+                        weblazem_render_portfolio_device_mockup(array(
+                            'desktop'            => $devices['desktop'],
+                            'mobile'             => $devices['mobile'],
+                            'alt'                => $title,
+                            'variant'            => 'hero',
+                            'mobile_is_fallback' => !empty($devices['mobile_is_fallback']),
+                        ));
+                    }
+                    ?>
                 </div>
 
                 <div class="portfolio-single-hero__actions">

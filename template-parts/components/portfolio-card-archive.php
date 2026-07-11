@@ -20,21 +20,26 @@ if (!in_array($heading_tag, $allowed_headings, true)) {
 }
 
 $card_description = isset($card_description) ? $card_description : '';
+
+$devices = function_exists('weblazem_get_portfolio_device_images')
+    ? weblazem_get_portfolio_device_images(get_the_ID())
+    : array('desktop' => '', 'mobile' => '', 'mobile_is_fallback' => false);
 ?>
 
 <article <?php post_class('portfolio-page-card'); ?>>
     <div class="portfolio-page-card__media">
-        <div class="portfolio-page-card__image-frame">
-            <?php if (has_post_thumbnail()) : ?>
-                <?php the_post_thumbnail('large', array(
-                    'class' => 'portfolio-page-card__image',
-                    'alt'   => esc_attr($card_title),
-                )); ?>
-            <?php else : ?>
-                <div class="portfolio-page-card__image portfolio-page-card__image--placeholder">
-                    <i class="fas fa-laptop" aria-hidden="true"></i>
-                </div>
-            <?php endif; ?>
+        <div class="portfolio-page-card__image-frame portfolio-page-card__image-frame--devices">
+            <?php
+            if (function_exists('weblazem_render_portfolio_device_mockup')) {
+                weblazem_render_portfolio_device_mockup(array(
+                    'desktop'            => $devices['desktop'],
+                    'mobile'             => $devices['mobile'],
+                    'alt'                => $card_title,
+                    'variant'            => 'card',
+                    'mobile_is_fallback' => !empty($devices['mobile_is_fallback']),
+                ));
+            }
+            ?>
             <span class="portfolio-page-card__accent" aria-hidden="true"></span>
         </div>
     </div>

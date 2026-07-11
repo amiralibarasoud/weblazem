@@ -138,6 +138,87 @@ function weblazem_get_portfolio_card_description($post_id = null) {
 }
 
 /**
+ * Desktop + mobile screenshots for device mockups.
+ *
+ * @param int|null $post_id
+ * @return array{desktop:string,mobile:string,mobile_is_fallback:bool}
+ */
+function weblazem_get_portfolio_device_images($post_id = null) {
+    $post_id = $post_id ? (int) $post_id : (int) get_the_ID();
+
+    $desktop = '';
+
+    if (function_exists('weblazem_get_portfolio_single_hero_image')) {
+        $desktop = (string) weblazem_get_portfolio_single_hero_image($post_id);
+    }
+
+    if ($desktop === '' && has_post_thumbnail($post_id)) {
+        $desktop = (string) get_the_post_thumbnail_url($post_id, 'large');
+    }
+
+    $mobile_meta = (string) get_post_meta($post_id, '_weblazem_portfolio_mobile_image', true);
+    $has_mobile  = $mobile_meta !== '';
+
+    return array(
+        'desktop'            => $desktop,
+        'mobile'             => $has_mobile ? $mobile_meta : $desktop,
+        'mobile_is_fallback' => !$has_mobile && $desktop !== '',
+    );
+}
+
+/**
+ * Render monitor + phone device mockup.
+ *
+ * @param array $args {
+ *     @type string $desktop
+ *     @type string $mobile
+ *     @type string $alt
+ *     @type string $variant card|hero|showcase
+ *     @type bool   $mobile_is_fallback
+ * }
+ */
+function weblazem_render_portfolio_device_mockup($args = array()) {
+    $defaults = array(
+        'desktop'            => '',
+        'mobile'             => '',
+        'alt'                => '',
+        'variant'            => 'card',
+        'mobile_is_fallback' => false,
+    );
+
+    $args = wp_parse_args($args, $defaults);
+
+    if ($args['desktop'] === '' && $args['mobile'] === '') {
+        $args['desktop'] = '';
+        $args['mobile']  = '';
+    }
+
+    if ($args['mobile'] === '' && $args['desktop'] !== '') {
+        $args['mobile']             = $args['desktop'];
+        $args['mobile_is_fallback'] = true;
+    }
+
+    $variant = $args['variant'];
+    if (!in_array($variant, array('card', 'hero', 'showcase'), true)) {
+        $variant = 'card';
+    }
+    $args['variant'] = $variant;
+
+    $template = get_template_directory() . '/template-parts/components/portfolio-device-mockup.php';
+
+    if (!file_exists($template)) {
+        return;
+    }
+
+    $desktop            = (string) $args['desktop'];
+    $mobile             = (string) $args['mobile'];
+    $alt                = (string) $args['alt'];
+    $mobile_is_fallback = (bool) $args['mobile_is_fallback'];
+
+    include $template;
+}
+
+/**
  * Render a portfolio card with explicit template variables.
  *
  * @param array $args {

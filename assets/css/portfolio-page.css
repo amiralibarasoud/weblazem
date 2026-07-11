@@ -102,8 +102,8 @@
 /* ─── Cards grid ─── */
 .portfolio-page-cards {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
 }
 
 .portfolio-page-card {
@@ -131,6 +131,20 @@
     border-radius: 14px;
     overflow: hidden;
     line-height: 0;
+}
+
+.portfolio-page-card__image-frame--devices {
+    overflow: visible;
+    background:
+        radial-gradient(ellipse at 75% 15%, rgba(169, 143, 212, 0.28) 0%, transparent 50%),
+        linear-gradient(165deg, #f6f0fb 0%, #ebe0f4 100%);
+    padding: 16px 12px 20px;
+    border-radius: 16px;
+}
+
+.portfolio-page-card__image-frame--devices .weblazem-device-mockup {
+    position: relative;
+    z-index: 1;
 }
 
 .portfolio-page-card__image {

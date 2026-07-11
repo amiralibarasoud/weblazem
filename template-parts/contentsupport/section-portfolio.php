@@ -66,7 +66,17 @@ if (empty($items)) {
                                  style="--card-accent: <?php echo esc_attr($item['color']); ?>">
                             <a href="<?php echo esc_url($item['link']); ?>" class="webdesign-showcase-card__link">
                                 <div class="webdesign-showcase-card__media">
-                                    <?php if (!empty($item['image'])) : ?>
+                                    <?php if (function_exists('weblazem_render_portfolio_device_mockup') && !empty($item['image'])) : ?>
+                                        <?php
+                                        weblazem_render_portfolio_device_mockup(array(
+                                            'desktop'            => $item['image'],
+                                            'mobile'             => !empty($item['mobile_image']) ? $item['mobile_image'] : $item['image'],
+                                            'alt'                => $item['title'],
+                                            'variant'            => 'showcase',
+                                            'mobile_is_fallback' => !empty($item['mobile_is_fallback']) || empty($item['mobile_image']),
+                                        ));
+                                        ?>
+                                    <?php elseif (!empty($item['image'])) : ?>
                                         <img src="<?php echo esc_url($item['image']); ?>"
                                              alt="<?php echo esc_attr($item['title']); ?>"
                                              loading="lazy" />

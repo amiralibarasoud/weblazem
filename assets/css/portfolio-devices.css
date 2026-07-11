@@ -1,0 +1,416 @@
+/**
+ * Portfolio device mockups — monitor + phone vectors.
+ */
+
+.weblazem-device-mockup {
+    --device-bezel: #1c1f2a;
+    --device-bezel-edge: #2e3344;
+    --device-metal: linear-gradient(180deg, #3a4054 0%, #1c1f2a 55%, #12141c 100%);
+    --device-screen-glow: rgba(79, 30, 96, 0.18);
+    --device-stand: #c5cad6;
+    --device-stand-dark: #9aa1b2;
+    width: 100%;
+    direction: ltr;
+}
+
+.weblazem-device-mockup__stage {
+    position: relative;
+    width: 100%;
+    padding: 8px 8px 4px 18%;
+    box-sizing: border-box;
+}
+
+/* ─── Monitor ─── */
+.weblazem-device-mockup__monitor {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.weblazem-device-mockup__monitor-body {
+    background: var(--device-metal);
+    border-radius: 14px 14px 10px 10px;
+    padding: 10px 10px 0;
+    box-shadow:
+        0 18px 40px rgba(15, 23, 42, 0.28),
+        0 2px 0 rgba(255, 255, 255, 0.08) inset,
+        0 -1px 0 rgba(0, 0, 0, 0.35) inset;
+}
+
+.weblazem-device-mockup__monitor-bezel {
+    position: relative;
+    background: #0b0d12;
+    border-radius: 8px;
+    padding: 8px 8px 6px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+}
+
+.weblazem-device-mockup__monitor-camera {
+    display: block;
+    width: 6px;
+    height: 6px;
+    margin: 0 auto 6px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #4b5568 0%, #111827 70%);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.weblazem-device-mockup__monitor-screen {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #111827;
+    box-shadow: 0 0 24px var(--device-screen-glow);
+}
+
+.weblazem-device-mockup__monitor-screen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.weblazem-device-mockup__monitor-chin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 18px;
+}
+
+.weblazem-device-mockup__monitor-logo-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #64748b, #1e293b);
+    opacity: 0.7;
+}
+
+.weblazem-device-mockup__monitor-stand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -1px;
+}
+
+.weblazem-device-mockup__monitor-neck {
+    width: 42px;
+    height: 18px;
+    background: linear-gradient(180deg, #aeb4c2 0%, #8b93a5 100%);
+    clip-path: polygon(22% 0, 78% 0, 100% 100%, 0 100%);
+}
+
+.weblazem-device-mockup__monitor-base {
+    width: 58%;
+    max-width: 160px;
+    height: 10px;
+    margin-top: -2px;
+    border-radius: 0 0 40px 40px / 0 0 18px 18px;
+    background: linear-gradient(180deg, #d1d5de 0%, var(--device-stand-dark) 100%);
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.18);
+}
+
+/* ─── Phone ─── */
+.weblazem-device-mockup__phone {
+    position: absolute;
+    left: 0;
+    bottom: 6%;
+    width: 32%;
+    min-width: 72px;
+    max-width: 120px;
+    z-index: 2;
+    transform: translateY(0) rotate(-4deg);
+    transform-origin: center bottom;
+    animation: weblazem-device-phone-float 5.5s ease-in-out infinite;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.weblazem-device-mockup__phone-frame {
+    position: relative;
+    background: linear-gradient(160deg, #2a2f3d 0%, #0f1118 45%, #1a1d27 100%);
+    border-radius: 18px;
+    padding: 7px 6px 8px;
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+        0 16px 36px rgba(15, 23, 42, 0.4),
+        0 0 0 1px rgba(0, 0, 0, 0.4) inset;
+}
+
+.weblazem-device-mockup__phone-island {
+    position: absolute;
+    top: 11px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28%;
+    height: 7px;
+    border-radius: 20px;
+    background: #050608;
+    z-index: 3;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.weblazem-device-mockup__phone-screen {
+    position: relative;
+    aspect-ratio: 9 / 19.2;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #0f172a;
+}
+
+.weblazem-device-mockup__phone-screen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.weblazem-device-mockup__phone-screen.is-fallback-crop img {
+    object-fit: cover;
+    object-position: top center;
+    transform: scale(1.35);
+    transform-origin: top center;
+}
+
+.weblazem-device-mockup__phone-btn {
+    position: absolute;
+    background: #3b4152;
+    border-radius: 2px;
+}
+
+.weblazem-device-mockup__phone-btn--silent {
+    left: -2px;
+    top: 18%;
+    width: 2px;
+    height: 8%;
+}
+
+.weblazem-device-mockup__phone-btn--vol-up {
+    left: -2px;
+    top: 30%;
+    width: 2px;
+    height: 10%;
+}
+
+.weblazem-device-mockup__phone-btn--vol-down {
+    left: -2px;
+    top: 42%;
+    width: 2px;
+    height: 10%;
+}
+
+.weblazem-device-mockup__phone-btn--power {
+    right: -2px;
+    top: 34%;
+    width: 2px;
+    height: 14%;
+}
+
+.weblazem-device-mockup__placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, #2a1840 0%, #1a1028 100%);
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 28px;
+}
+
+.weblazem-device-mockup__placeholder--phone {
+    font-size: 18px;
+}
+
+/* Hover polish */
+.portfolio-card:hover .weblazem-device-mockup__monitor,
+.portfolio-page-card:hover .weblazem-device-mockup__monitor,
+.webdesign-showcase-card:hover .weblazem-device-mockup__monitor,
+.weblazem-device-mockup--hero:hover .weblazem-device-mockup__monitor {
+    transform: translateY(-4px);
+}
+
+.portfolio-card:hover .weblazem-device-mockup__phone,
+.portfolio-page-card:hover .weblazem-device-mockup__phone,
+.webdesign-showcase-card:hover .weblazem-device-mockup__phone,
+.weblazem-device-mockup--hero:hover .weblazem-device-mockup__phone {
+    animation: none;
+    transform: translateY(-8px) rotate(-2deg);
+}
+
+.portfolio-card:hover .weblazem-device-mockup__monitor-screen img,
+.portfolio-page-card:hover .weblazem-device-mockup__monitor-screen img,
+.webdesign-showcase-card:hover .weblazem-device-mockup__monitor-screen img {
+    transform: scale(1.04);
+}
+
+.portfolio-card:hover .weblazem-device-mockup__phone-screen:not(.is-fallback-crop) img,
+.portfolio-page-card:hover .weblazem-device-mockup__phone-screen:not(.is-fallback-crop) img,
+.webdesign-showcase-card:hover .weblazem-device-mockup__phone-screen:not(.is-fallback-crop) img {
+    transform: scale(1.05);
+}
+
+@keyframes weblazem-device-phone-float {
+    0%, 100% { transform: translateY(0) rotate(-4deg); }
+    50% { transform: translateY(-6px) rotate(-3deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .weblazem-device-mockup__phone {
+        animation: none;
+    }
+
+    .weblazem-device-mockup__monitor,
+    .weblazem-device-mockup__monitor-screen img,
+    .weblazem-device-mockup__phone-screen img,
+    .weblazem-device-mockup__phone {
+        transition: none;
+    }
+}
+
+/* ─── Card variant ─── */
+.weblazem-device-mockup--card .weblazem-device-mockup__stage {
+    padding: 10px 6px 2px 20%;
+}
+
+.weblazem-device-mockup--card .weblazem-device-mockup__monitor-body {
+    border-radius: 12px 12px 8px 8px;
+    padding: 7px 7px 0;
+}
+
+.weblazem-device-mockup--card .weblazem-device-mockup__monitor-bezel {
+    padding: 5px 5px 4px;
+}
+
+.weblazem-device-mockup--card .weblazem-device-mockup__monitor-camera {
+    width: 4px;
+    height: 4px;
+    margin-bottom: 4px;
+}
+
+.weblazem-device-mockup--card .weblazem-device-mockup__monitor-chin {
+    height: 12px;
+}
+
+.weblazem-device-mockup--card .weblazem-device-mockup__monitor-neck {
+    width: 28px;
+    height: 12px;
+}
+
+.weblazem-device-mockup--card .weblazem-device-mockup__monitor-base {
+    height: 7px;
+    max-width: 110px;
+}
+
+.weblazem-device-mockup--card .weblazem-device-mockup__phone {
+    max-width: 88px;
+    min-width: 64px;
+    width: 34%;
+}
+
+.weblazem-device-mockup--card .weblazem-device-mockup__phone-frame {
+    border-radius: 14px;
+    padding: 5px 4px 6px;
+}
+
+.weblazem-device-mockup--card .weblazem-device-mockup__phone-screen {
+    border-radius: 10px;
+}
+
+.weblazem-device-mockup--card .weblazem-device-mockup__phone-island {
+    top: 8px;
+    height: 5px;
+}
+
+/* ─── Showcase (service carousels) ─── */
+.weblazem-device-mockup--showcase .weblazem-device-mockup__stage {
+    padding: 14px 10px 6px 22%;
+}
+
+.weblazem-device-mockup--showcase .weblazem-device-mockup__phone {
+    max-width: 100px;
+    width: 30%;
+}
+
+/* ─── Hero (single portfolio) ─── */
+.weblazem-device-mockup--hero {
+    max-width: 920px;
+    margin: 0 auto;
+}
+
+.weblazem-device-mockup--hero .weblazem-device-mockup__stage {
+    padding: 12px 12px 8px 16%;
+}
+
+.weblazem-device-mockup--hero .weblazem-device-mockup__monitor-body {
+    border-radius: 18px 18px 12px 12px;
+    padding: 12px 12px 0;
+}
+
+.weblazem-device-mockup--hero .weblazem-device-mockup__monitor-bezel {
+    border-radius: 10px;
+    padding: 10px 10px 8px;
+}
+
+.weblazem-device-mockup--hero .weblazem-device-mockup__monitor-camera {
+    width: 7px;
+    height: 7px;
+    margin-bottom: 8px;
+}
+
+.weblazem-device-mockup--hero .weblazem-device-mockup__monitor-chin {
+    height: 22px;
+}
+
+.weblazem-device-mockup--hero .weblazem-device-mockup__monitor-neck {
+    width: 56px;
+    height: 26px;
+}
+
+.weblazem-device-mockup--hero .weblazem-device-mockup__monitor-base {
+    max-width: 220px;
+    height: 12px;
+}
+
+.weblazem-device-mockup--hero .weblazem-device-mockup__phone {
+    width: 26%;
+    max-width: 180px;
+    min-width: 110px;
+    bottom: 4%;
+}
+
+.weblazem-device-mockup--hero .weblazem-device-mockup__phone-frame {
+    border-radius: 28px;
+    padding: 10px 9px 11px;
+}
+
+.weblazem-device-mockup--hero .weblazem-device-mockup__phone-screen {
+    border-radius: 20px;
+}
+
+.weblazem-device-mockup--hero .weblazem-device-mockup__phone-island {
+    top: 14px;
+    width: 32%;
+    height: 9px;
+}
+
+@media (max-width: 640px) {
+    .weblazem-device-mockup--card .weblazem-device-mockup__stage,
+    .weblazem-device-mockup--showcase .weblazem-device-mockup__stage {
+        padding-left: 18%;
+    }
+
+    .weblazem-device-mockup--hero .weblazem-device-mockup__stage {
+        padding: 8px 4px 4px 14%;
+    }
+
+    .weblazem-device-mockup--hero .weblazem-device-mockup__phone {
+        width: 30%;
+        min-width: 88px;
+        max-width: 130px;
+    }
+}

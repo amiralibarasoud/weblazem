@@ -19,20 +19,25 @@ $allowed_headings = array('h2', 'h3', 'h4');
 if (!in_array($heading_tag, $allowed_headings, true)) {
     $heading_tag = 'h3';
 }
+
+$devices = function_exists('weblazem_get_portfolio_device_images')
+    ? weblazem_get_portfolio_device_images(get_the_ID())
+    : array('desktop' => '', 'mobile' => '', 'mobile_is_fallback' => false);
 ?>
 
 <article <?php post_class('portfolio-card'); ?>>
     <div class="portfolio-card-media">
-        <?php if (has_post_thumbnail()) : ?>
-            <?php the_post_thumbnail('large', array(
-                'class' => 'portfolio-card-image',
-                'alt'   => esc_attr($card_title),
-            )); ?>
-        <?php else : ?>
-            <div class="portfolio-card-image portfolio-card-image--placeholder">
-                <i class="fas fa-laptop" aria-hidden="true"></i>
-            </div>
-        <?php endif; ?>
+        <?php
+        if (function_exists('weblazem_render_portfolio_device_mockup')) {
+            weblazem_render_portfolio_device_mockup(array(
+                'desktop'            => $devices['desktop'],
+                'mobile'             => $devices['mobile'],
+                'alt'                => $card_title,
+                'variant'            => 'card',
+                'mobile_is_fallback' => !empty($devices['mobile_is_fallback']),
+            ));
+        }
+        ?>
 
         <svg class="portfolio-card-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 72" preserveAspectRatio="none" aria-hidden="true">
             <path fill="#4F1E60" d="M0,72 L0,14 C38,46 92,10 150,28 C205,44 252,34 320,48 L320,72 Z"/>
