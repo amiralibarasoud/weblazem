@@ -187,6 +187,7 @@ $weblazem_growth_feature_files = array(
     'plan-comparator.php',
     'resources-hub.php',
     'csat.php',
+    'leads-crm.php',
 );
 foreach ($weblazem_growth_feature_files as $weblazem_growth_feature_file) {
     $weblazem_growth_feature_path = get_template_directory() . '/inc/' . $weblazem_growth_feature_file;

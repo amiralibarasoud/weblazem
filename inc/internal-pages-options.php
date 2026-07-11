@@ -109,6 +109,12 @@ function weblazem_internal_pages_hub_display() {
                         — بخش‌های ثابت: نمونه‌کارهای بیشتر، مشاوره و CTA پایانی
                     </li>
                     <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-leads-crm')); ?>">
+                            <strong>CRM لیدها</strong>
+                        </a>
+                        — داشبورد یکپارچه همه درخواست‌های ورودی با وضعیت پیگیری
+                    </li>
+                    <li>
                         <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-price-estimator-options')); ?>">
                             <strong>محاسبه‌گر قیمت</strong>
                         </a>
