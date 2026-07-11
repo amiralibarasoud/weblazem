@@ -1,6 +1,7 @@
 <?php
 /**
- * Case studies — portfolio meta, listing page, options, enqueue.
+ * Success stories (case study listing) — portfolio meta, page, options, enqueue.
+ * Slug kept as keis-astadi; meta keys unchanged for compatibility.
  */
 
 define('WEBLAZEM_CASE_STUDY_SLUG', 'keis-astadi');
@@ -9,17 +10,19 @@ define('WEBLAZEM_CASE_STUDY_OPTION', 'weblazem_case_study_page_id');
 
 function weblazem_case_study_defaults() {
     return array(
-        'title'            => 'کیس‌استادی پروژه‌ها',
-        'subtitle'         => 'قبل و بعد واقعی پروژه‌های وب‌لازم با چالش، راه‌حل و نتایج قابل اندازه‌گیری',
-        'empty_text'       => 'هنوز کیس‌استادی‌ای منتشر نشده است.',
-        'card_button_text' => 'مشاهده جزئیات',
+        'title'            => 'داستان موفقیت پروژه‌ها',
+        'subtitle'         => 'از چالش واقعی تا رویکرد اجرا و نتایج قابل اندازه‌گیری — روایت شفاف پروژه‌های وب‌لازم',
+        'empty_text'       => 'هنوز داستان موفقیتی منتشر نشده است.',
+        'card_button_text' => 'خواندن داستان کامل',
         'show_on_single'   => '1',
-        'section_title'    => 'کیس‌استادی این پروژه',
+        'section_title'    => 'داستان موفقیت این پروژه',
         'before_label'     => 'قبل',
         'after_label'      => 'بعد',
         'challenge_title'  => 'چالش',
-        'solution_title'   => 'راه‌حل',
-        'result_title'     => 'نتیجه',
+        'solution_title'   => 'رویکرد',
+        'result_title'     => 'نتایج',
+        'metrics_title'    => 'شاخص‌های کلیدی',
+        'visuals_title'    => 'تصاویر پشتیبان (اختیاری)',
     );
 }
 
@@ -33,6 +36,21 @@ function weblazem_get_case_study_settings() {
 
     $settings = wp_parse_args($saved, $defaults);
     $settings['show_on_single'] = ($settings['show_on_single'] === '1') ? '1' : '0';
+
+    // Soft-migrate older vague defaults to success-story language.
+    $legacy_titles = array('کیس‌استادی پروژه‌ها', 'کیس استادی پروژه‌ها', 'کیس‌استادی');
+    if (in_array($settings['title'], $legacy_titles, true)) {
+        $settings['title'] = $defaults['title'];
+    }
+    if (($settings['solution_title'] ?? '') === 'راه‌حل') {
+        $settings['solution_title'] = $defaults['solution_title'];
+    }
+    if (($settings['result_title'] ?? '') === 'نتیجه') {
+        $settings['result_title'] = $defaults['result_title'];
+    }
+    if (($settings['section_title'] ?? '') === 'کیس‌استادی این پروژه') {
+        $settings['section_title'] = $defaults['section_title'];
+    }
 
     return $settings;
 }
@@ -65,7 +83,7 @@ function weblazem_ensure_case_study_page() {
         array(
             'slug'     => WEBLAZEM_CASE_STUDY_SLUG,
             'template' => WEBLAZEM_CASE_STUDY_TEMPLATE,
-            'title'    => 'کیس‌استادی',
+            'title'    => 'داستان موفقیت پروژه‌ها',
             'option'   => WEBLAZEM_CASE_STUDY_OPTION,
         )
     );
@@ -91,6 +109,8 @@ function weblazem_case_study_sanitize_settings($input) {
     $out['challenge_title']  = sanitize_text_field($input['challenge_title'] ?? $defaults['challenge_title']);
     $out['solution_title']   = sanitize_text_field($input['solution_title'] ?? $defaults['solution_title']);
     $out['result_title']     = sanitize_text_field($input['result_title'] ?? $defaults['result_title']);
+    $out['metrics_title']    = sanitize_text_field($input['metrics_title'] ?? $defaults['metrics_title']);
+    $out['visuals_title']    = sanitize_text_field($input['visuals_title'] ?? $defaults['visuals_title']);
 
     return $out;
 }
@@ -111,8 +131,8 @@ add_action('admin_init', 'weblazem_register_case_study_settings');
 function weblazem_case_study_admin_menu() {
     add_submenu_page(
         'weblazem-theme-options',
-        'کیس‌استادی',
-        'کیس‌استادی',
+        'داستان موفقیت',
+        'داستان موفقیت',
         'manage_options',
         'weblazem-case-study-options',
         'weblazem_case_study_options_display'
@@ -129,7 +149,8 @@ function weblazem_case_study_options_display() {
     $page_url = weblazem_get_case_study_page_url();
     ?>
     <div class="wrap" dir="rtl">
-        <h1>تنظیمات کیس‌استادی</h1>
+        <h1>تنظیمات داستان موفقیت پروژه‌ها</h1>
+        <p class="description">ساختار روایت: چالش → رویکرد → نتایج عددی. تصاویر قبل/بعد اختیاری و پشتیبان هستند.</p>
         <?php if ($page_url) : ?>
             <p>صفحه لیست: <a href="<?php echo esc_url($page_url); ?>" target="_blank" rel="noopener"><?php echo esc_html($page_url); ?></a></p>
         <?php endif; ?>
@@ -160,13 +181,20 @@ function weblazem_case_study_options_display() {
                     <td>
                         <label>
                             <input type="checkbox" name="weblazem_case_study_settings[show_on_single]" value="1" <?php checked($s['show_on_single'], '1'); ?> />
-                            نمایش سکشن کیس‌استادی در صفحه جزئیات نمونه کار (در صورت فعال بودن برای همان پروژه)
+                            نمایش سکشن داستان موفقیت در جزئیات نمونه کار (در صورت فعال بودن برای همان پروژه)
                         </label>
                     </td>
                 </tr>
                 <tr>
                     <th>عنوان سکشن تک‌صفحه</th>
                     <td><input type="text" class="large-text" name="weblazem_case_study_settings[section_title]" value="<?php echo esc_attr($s['section_title']); ?>" /></td>
+                </tr>
+                <tr>
+                    <th>عنوان شاخص‌ها / تصاویر</th>
+                    <td>
+                        <input type="text" class="regular-text" name="weblazem_case_study_settings[metrics_title]" value="<?php echo esc_attr($s['metrics_title']); ?>" placeholder="شاخص‌های کلیدی" />
+                        <input type="text" class="regular-text" name="weblazem_case_study_settings[visuals_title]" value="<?php echo esc_attr($s['visuals_title']); ?>" placeholder="تصاویر پشتیبان" />
+                    </td>
                 </tr>
                 <tr>
                     <th>برچسب قبل / بعد</th>
@@ -176,11 +204,11 @@ function weblazem_case_study_options_display() {
                     </td>
                 </tr>
                 <tr>
-                    <th>عناوین چالش / راه‌حل / نتیجه</th>
+                    <th>عناوین چالش / رویکرد / نتایج</th>
                     <td>
                         <input type="text" class="regular-text" name="weblazem_case_study_settings[challenge_title]" value="<?php echo esc_attr($s['challenge_title']); ?>" placeholder="چالش" />
-                        <input type="text" class="regular-text" name="weblazem_case_study_settings[solution_title]" value="<?php echo esc_attr($s['solution_title']); ?>" placeholder="راه‌حل" />
-                        <input type="text" class="regular-text" name="weblazem_case_study_settings[result_title]" value="<?php echo esc_attr($s['result_title']); ?>" placeholder="نتیجه" />
+                        <input type="text" class="regular-text" name="weblazem_case_study_settings[solution_title]" value="<?php echo esc_attr($s['solution_title']); ?>" placeholder="رویکرد" />
+                        <input type="text" class="regular-text" name="weblazem_case_study_settings[result_title]" value="<?php echo esc_attr($s['result_title']); ?>" placeholder="نتایج" />
                     </td>
                 </tr>
             </table>
@@ -194,7 +222,7 @@ function weblazem_case_study_options_display() {
 function weblazem_case_study_meta_boxes() {
     add_meta_box(
         'weblazem_case_study_meta',
-        'کیس‌استادی',
+        'داستان موفقیت (چالش → رویکرد → نتایج)',
         'weblazem_case_study_meta_render',
         'portfolio',
         'normal',
@@ -209,7 +237,6 @@ function weblazem_case_study_admin_scripts($hook) {
     if (($hook === 'post.php' || $hook === 'post-new.php') && $post_type === 'portfolio') {
         wp_enqueue_media();
 
-        // Reuse portfolio image uploader if already registered; otherwise add a minimal binder.
         if (!wp_script_is('weblazem-portfolio-single-admin', 'enqueued')) {
             wp_enqueue_script(
                 'weblazem-portfolio-single-admin',
@@ -233,19 +260,51 @@ function weblazem_case_study_meta_render($post) {
     $solution  = get_post_meta($post->ID, '_weblazem_case_solution', true);
     $result    = get_post_meta($post->ID, '_weblazem_case_result', true);
     ?>
+    <p style="margin:0 0 12px;color:#646970;">روایت موفقیت را با سه بخش متنی و حداکثر سه شاخص عددی بنویسید. تصاویر قبل/بعد اختیاری‌اند و جایگزین داستان نیستند.</p>
     <table class="form-table">
         <tr>
-            <th scope="row">فعال‌سازی کیس‌استادی</th>
+            <th scope="row">فعال‌سازی داستان موفقیت</th>
             <td>
                 <label>
                     <input type="checkbox" name="weblazem_case_enabled" value="1" <?php checked($enabled, '1'); ?> />
-                    این نمونه کار را در صفحه کیس‌استادی نمایش بده
+                    این نمونه کار را در صفحه «داستان موفقیت پروژه‌ها» نمایش بده
                 </label>
             </td>
         </tr>
         <tr>
-            <th scope="row">تصویر قبل</th>
+            <th scope="row">۱) چالش</th>
             <td>
+                <textarea class="large-text" rows="4" name="weblazem_case_challenge" placeholder="مشکل کسب‌وکار، محدودیت‌ها، یا هدف اولیه مشتری چه بود؟"><?php echo esc_textarea($challenge); ?></textarea>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">۲) رویکرد</th>
+            <td>
+                <textarea class="large-text" rows="4" name="weblazem_case_solution" placeholder="چه مسیری طی شد؟ تصمیم‌های کلیدی طراحی، فنی یا محتوایی چه بودند؟"><?php echo esc_textarea($solution); ?></textarea>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">۳) نتایج</th>
+            <td>
+                <textarea class="large-text" rows="4" name="weblazem_case_result" placeholder="چه تغییری ایجاد شد؟ خروجی کیفی را کوتاه بنویسید؛ اعداد را در متریک‌ها بگذارید."><?php echo esc_textarea($result); ?></textarea>
+            </td>
+        </tr>
+        <?php for ($i = 1; $i <= 3; $i++) :
+            $label = get_post_meta($post->ID, '_weblazem_case_metric_' . $i . '_label', true);
+            $value = get_post_meta($post->ID, '_weblazem_case_metric_' . $i . '_value', true);
+            ?>
+            <tr>
+                <th scope="row">شاخص عددی <?php echo (int) $i; ?></th>
+                <td>
+                    <input type="text" class="regular-text" name="weblazem_case_metric_<?php echo (int) $i; ?>_value" value="<?php echo esc_attr($value); ?>" placeholder="مقدار (مثلاً +۱۴۰٪ یا ۲٫۴×)" />
+                    <input type="text" class="regular-text" name="weblazem_case_metric_<?php echo (int) $i; ?>_label" value="<?php echo esc_attr($label); ?>" placeholder="برچسب (مثلاً افزایش ترافیک)" />
+                </td>
+            </tr>
+        <?php endfor; ?>
+        <tr>
+            <th scope="row">تصویر قبل (اختیاری)</th>
+            <td>
+                <p class="description">پشتیبان بصری — نه کل داستان.</p>
                 <?php
                 if (function_exists('weblazem_portfolio_single_image_field')) {
                     weblazem_portfolio_single_image_field('weblazem_case_before_image', $before, 'انتخاب تصویر قبل');
@@ -256,7 +315,7 @@ function weblazem_case_study_meta_render($post) {
             </td>
         </tr>
         <tr>
-            <th scope="row">تصویر بعد</th>
+            <th scope="row">تصویر بعد (اختیاری)</th>
             <td>
                 <?php
                 if (function_exists('weblazem_portfolio_single_image_field')) {
@@ -267,30 +326,6 @@ function weblazem_case_study_meta_render($post) {
                 ?>
             </td>
         </tr>
-        <tr>
-            <th scope="row">چالش</th>
-            <td><textarea class="large-text" rows="4" name="weblazem_case_challenge"><?php echo esc_textarea($challenge); ?></textarea></td>
-        </tr>
-        <tr>
-            <th scope="row">راه‌حل</th>
-            <td><textarea class="large-text" rows="4" name="weblazem_case_solution"><?php echo esc_textarea($solution); ?></textarea></td>
-        </tr>
-        <tr>
-            <th scope="row">نتیجه</th>
-            <td><textarea class="large-text" rows="4" name="weblazem_case_result"><?php echo esc_textarea($result); ?></textarea></td>
-        </tr>
-        <?php for ($i = 1; $i <= 3; $i++) :
-            $label = get_post_meta($post->ID, '_weblazem_case_metric_' . $i . '_label', true);
-            $value = get_post_meta($post->ID, '_weblazem_case_metric_' . $i . '_value', true);
-            ?>
-            <tr>
-                <th scope="row">متریک <?php echo (int) $i; ?></th>
-                <td>
-                    <input type="text" class="regular-text" name="weblazem_case_metric_<?php echo (int) $i; ?>_label" value="<?php echo esc_attr($label); ?>" placeholder="برچسب (مثلاً افزایش ترافیک)" />
-                    <input type="text" class="regular-text" name="weblazem_case_metric_<?php echo (int) $i; ?>_value" value="<?php echo esc_attr($value); ?>" placeholder="مقدار (مثلاً +۱۴۰٪)" />
-                </td>
-            </tr>
-        <?php endfor; ?>
     </table>
     <?php
 }
@@ -415,7 +450,7 @@ function weblazem_enqueue_case_study_assets() {
         'weblazem-case-study',
         get_template_directory_uri() . '/assets/css/case-study.css',
         array(),
-        '1.0.0'
+        '1.1.0'
     );
 }
 add_action('wp_enqueue_scripts', 'weblazem_enqueue_case_study_assets', 30);

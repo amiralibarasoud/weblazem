@@ -1913,11 +1913,16 @@ function weblazem_homepage_options_display() {
                             </tr>
                         </table>
                         <ul style="list-style:disc;padding-right:22px;line-height:2;">
-                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-price-estimator-options')); ?>">تنظیمات محاسبه‌گر قیمت</a></li>
-                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-case-study-options')); ?>">تنظیمات کیس‌استادی</a></li>
-                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-scheduling-options')); ?>">تنظیمات رزرو مشاوره</a></li>
-                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-project-status-options')); ?>">تنظیمات وضعیت پروژه</a></li>
-                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-start-project-options')); ?>">تنظیمات شروع پروژه</a></li>
+                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-price-estimator-options')); ?>">محاسبه‌گر قیمت</a></li>
+                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-live-demo-options')); ?>">دموی زنده</a></li>
+                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-case-study-options')); ?>">داستان موفقیت</a></li>
+                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-plan-comparator-options')); ?>">مقایسه پلن‌ها</a></li>
+                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-referral-options')); ?>">باشگاه معرفی</a></li>
+                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-resources-hub-options')); ?>">مرکز منابع</a></li>
+                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-csat-options')); ?>">نظرسنجی رضایت (CSAT)</a></li>
+                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-scheduling-options')); ?>">رزرو مشاوره</a></li>
+                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-project-status-options')); ?>">وضعیت پروژه</a></li>
+                            <li><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-start-project-options')); ?>">شروع پروژه</a></li>
                         </ul>
                     </div>
                 </div>

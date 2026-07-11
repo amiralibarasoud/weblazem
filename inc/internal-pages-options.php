@@ -115,10 +115,40 @@ function weblazem_internal_pages_hub_display() {
                         — تنظیمات برآورد هزینه و لیدها
                     </li>
                     <li>
-                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-case-study-options')); ?>">
-                            <strong>کیس‌استادی</strong>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-live-demo-options')); ?>">
+                            <strong>دموی زنده نمونه‌کارها</strong>
                         </a>
-                        — عناوین صفحه و نمایش قبل/بعد در نمونه‌کار
+                        — iframe / ویدیو و تنظیمات صفحه دمو
+                    </li>
+                    <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-case-study-options')); ?>">
+                            <strong>داستان موفقیت</strong>
+                        </a>
+                        — چالش، رویکرد، نتایج و متریک‌ها
+                    </li>
+                    <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-plan-comparator-options')); ?>">
+                            <strong>مقایسه پلن‌ها</strong>
+                        </a>
+                        — پلن‌ها، فیلترها و جدول مقایسه
+                    </li>
+                    <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-referral-options')); ?>">
+                            <strong>باشگاه معرفی</strong>
+                        </a>
+                        — کد معرف، پاداش و لیدهای معرفی
+                    </li>
+                    <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-resources-hub-options')); ?>">
+                            <strong>مرکز منابع</strong>
+                        </a>
+                        — چک‌لیست‌ها، فایل‌ها و لید دانلود
+                    </li>
+                    <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-csat-options')); ?>">
+                            <strong>نظرسنجی رضایت (CSAT)</strong>
+                        </a>
+                        — دعوت‌نامه، توکن، پاسخ‌ها و نمایش عمومی
                     </li>
                     <li>
                         <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-scheduling-options')); ?>">

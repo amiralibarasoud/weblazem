@@ -96,6 +96,22 @@ if (empty($title) && empty($items)) {
                     </button>
                 </div>
             <?php endif; ?>
+
+            <?php
+            if (function_exists('weblazem_get_csat_stats')) {
+                $csat_stats = weblazem_get_csat_stats();
+                if (!empty($csat_stats['count'])) {
+                    get_template_part(
+                        'template-parts/csat/public-stats',
+                        null,
+                        array(
+                            'stats' => $csat_stats,
+                            'full'  => false,
+                        )
+                    );
+                }
+            }
+            ?>
         </div>
     </div>
 </section>

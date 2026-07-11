@@ -1,6 +1,6 @@
 <?php
 /**
- * Shared helpers for growth tools (5 feature pages).
+ * Shared helpers for growth tools feature pages.
  */
 
 function weblazem_growth_client_ip() {
@@ -103,39 +103,74 @@ function weblazem_growth_format_toman($amount) {
 function weblazem_growth_tools_list() {
     return array(
         'price' => array(
-            'title'       => 'محاسبه‌گر قیمت',
-            'desc'        => 'برآورد هزینه طراحی سایت بر اساس نیاز شما',
-            'icon'        => 'fa-calculator',
-            'url'         => function_exists('weblazem_get_price_estimator_page_url') ? weblazem_get_price_estimator_page_url() : home_url('/mohasebe-gheymat/'),
-            'color'       => '#1d4ed8',
+            'title' => 'محاسبه‌گر قیمت',
+            'desc'  => 'برآورد هزینه طراحی سایت بر اساس نیاز شما',
+            'icon'  => 'fa-calculator',
+            'url'   => function_exists('weblazem_get_price_estimator_page_url') ? weblazem_get_price_estimator_page_url() : home_url('/mohasebe-gheymat/'),
+            'color' => '#1d4ed8',
+        ),
+        'demo' => array(
+            'title' => 'دموی زنده',
+            'desc'  => 'مشاهده نمونه‌کارها داخل فریم دسکتاپ و موبایل',
+            'icon'  => 'fa-desktop',
+            'url'   => function_exists('weblazem_get_live_demo_page_url') ? weblazem_get_live_demo_page_url() : home_url('/demo-zende/'),
+            'color' => '#4338ca',
         ),
         'case' => array(
-            'title'       => 'کیس‌استادی‌ها',
-            'desc'        => 'قبل و بعد پروژه‌ها با نتایج واقعی',
-            'icon'        => 'fa-chart-line',
-            'url'         => function_exists('weblazem_get_case_study_page_url') ? weblazem_get_case_study_page_url() : home_url('/keis-astadi/'),
-            'color'       => '#7c3aed',
+            'title' => 'داستان موفقیت',
+            'desc'  => 'چالش، رویکرد و نتایج عددی پروژه‌ها',
+            'icon'  => 'fa-chart-line',
+            'url'   => function_exists('weblazem_get_case_study_page_url') ? weblazem_get_case_study_page_url() : home_url('/keis-astadi/'),
+            'color' => '#7c3aed',
+        ),
+        'plans' => array(
+            'title' => 'مقایسه پلن‌ها',
+            'desc'  => 'فیلتر و مقایسه تعاملی تعرفه‌های طراحی سایت',
+            'icon'  => 'fa-table-columns',
+            'url'   => function_exists('weblazem_get_plan_comparator_page_url') ? weblazem_get_plan_comparator_page_url() : home_url('/moghayese-plan/'),
+            'color' => '#0369a1',
+        ),
+        'referral' => array(
+            'title' => 'باشگاه معرفی',
+            'desc'  => 'معرفی دوستان و دریافت اعتبار و تخفیف',
+            'icon'  => 'fa-handshake',
+            'url'   => function_exists('weblazem_get_referral_page_url') ? weblazem_get_referral_page_url() : home_url('/bashgah-moarefi/'),
+            'color' => '#c2410c',
+        ),
+        'resources' => array(
+            'title' => 'مرکز منابع',
+            'desc'  => 'چک‌لیست‌ها و راهنماهای قابل دانلود',
+            'icon'  => 'fa-book-open',
+            'url'   => function_exists('weblazem_get_resources_hub_page_url') ? weblazem_get_resources_hub_page_url() : home_url('/markaz-manabe/'),
+            'color' => '#0e7490',
+        ),
+        'csat' => array(
+            'title' => 'نظرسنجی رضایت',
+            'desc'  => 'امتیاز واقعی مشتریان پس از تحویل پروژه',
+            'icon'  => 'fa-star-half-stroke',
+            'url'   => function_exists('weblazem_get_csat_page_url') ? weblazem_get_csat_page_url() : home_url('/nazar-sanji/'),
+            'color' => '#a16207',
         ),
         'schedule' => array(
-            'title'       => 'رزرو مشاوره',
-            'desc'        => 'انتخاب روز و ساعت جلسه مشاوره',
-            'icon'        => 'fa-calendar-check',
-            'url'         => function_exists('weblazem_get_scheduling_page_url') ? weblazem_get_scheduling_page_url() : home_url('/rezerve-moshavere/'),
-            'color'       => '#0f766e',
+            'title' => 'رزرو مشاوره',
+            'desc'  => 'انتخاب روز و ساعت جلسه مشاوره',
+            'icon'  => 'fa-calendar-check',
+            'url'   => function_exists('weblazem_get_scheduling_page_url') ? weblazem_get_scheduling_page_url() : home_url('/rezerve-moshavere/'),
+            'color' => '#0f766e',
         ),
         'status' => array(
-            'title'       => 'وضعیت پروژه',
-            'desc'        => 'پیگیری مراحل پروژه برای مشتریان',
-            'icon'        => 'fa-tasks',
-            'url'         => function_exists('weblazem_get_project_status_page_url') ? weblazem_get_project_status_page_url() : home_url('/vaziat-proje/'),
-            'color'       => '#b45309',
+            'title' => 'وضعیت پروژه',
+            'desc'  => 'پیگیری مراحل پروژه برای مشتریان',
+            'icon'  => 'fa-tasks',
+            'url'   => function_exists('weblazem_get_project_status_page_url') ? weblazem_get_project_status_page_url() : home_url('/vaziat-proje/'),
+            'color' => '#b45309',
         ),
         'start' => array(
-            'title'       => 'شروع پروژه',
-            'desc'        => 'ارسال بریف چندمرحله‌ای پروژه جدید',
-            'icon'        => 'fa-rocket',
-            'url'         => function_exists('weblazem_get_start_project_page_url') ? weblazem_get_start_project_page_url() : home_url('/shoro-proje/'),
-            'color'       => '#be123c',
+            'title' => 'شروع پروژه',
+            'desc'  => 'ارسال بریف چندمرحله‌ای پروژه جدید',
+            'icon'  => 'fa-rocket',
+            'url'   => function_exists('weblazem_get_start_project_page_url') ? weblazem_get_start_project_page_url() : home_url('/shoro-proje/'),
+            'color' => '#be123c',
         ),
     );
 }
@@ -147,6 +182,11 @@ $weblazem_growth_feature_files = array(
     'scheduling.php',
     'project-status.php',
     'start-project.php',
+    'live-demo.php',
+    'referral.php',
+    'plan-comparator.php',
+    'resources-hub.php',
+    'csat.php',
 );
 foreach ($weblazem_growth_feature_files as $weblazem_growth_feature_file) {
     $weblazem_growth_feature_path = get_template_directory() . '/inc/' . $weblazem_growth_feature_file;

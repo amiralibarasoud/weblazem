@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: کیس استادی
+ * Template Name: داستان موفقیت پروژه‌ها
  */
 
 get_header();
