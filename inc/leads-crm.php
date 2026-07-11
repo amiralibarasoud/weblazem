@@ -67,6 +67,13 @@ function weblazem_crm_sources() {
             'mobile' => array('_contact_phone'),
             'detail' => '_contact_message',
         ),
+        'client_proposal' => array(
+            'label'  => 'پیشنهاد قیمت',
+            'color'  => '#4F1E60',
+            'name'   => array('_proposal_client_name'),
+            'mobile' => array('_proposal_mobile'),
+            'detail' => '_proposal_title',
+        ),
     );
 }
 
@@ -147,6 +154,19 @@ function weblazem_crm_format_detail($post_type, $post_id, $detail_key) {
 
     if ($post_type === 'contact_request' && is_string($raw) && $raw !== '') {
         return wp_trim_words(wp_strip_all_tags($raw), 12, '…');
+    }
+
+    if ($post_type === 'client_proposal') {
+        $total = (int) get_post_meta($post_id, '_proposal_total', true);
+        $status = get_post_meta($post_id, '_proposal_status', true);
+        $label  = $raw;
+        if ($total && function_exists('weblazem_growth_format_toman')) {
+            $label .= ($label ? ' — ' : '') . weblazem_growth_format_toman($total);
+        }
+        if ($status !== '') {
+            $label .= ' [' . $status . ']';
+        }
+        return $label;
     }
 
     return is_string($raw) ? $raw : '';

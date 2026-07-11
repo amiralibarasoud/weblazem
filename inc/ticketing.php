@@ -62,11 +62,11 @@ function weblazem_get_ticket_access_code() {
 function weblazem_ensure_ticket_defaults() {
     $defaults = array(
         'weblazem_ticket_access_code'      => '12345',
-        'weblazem_ticket_section_title'    => 'ثبت تیکت و پیگیری تسک',
-        'weblazem_ticket_section_subtitle' => 'پروژه طراحی سایت خود را پیگیری کنید، تیکت ثبت کنید و پاسخ تیم وب‌لازم را دریافت نمایید.',
-        'weblazem_ticket_section_btn_text' => 'ورود به پنل تیکت',
-        'weblazem_ticket_page_title'       => 'ثبت تیکت و پیگیری',
-        'weblazem_ticket_page_subtitle'    => 'با شماره موبایل وارد شوید، تیکت ثبت کنید و پاسخ تیم را به‌صورت گفتگو دریافت کنید.',
+        'weblazem_ticket_section_title'    => 'حساب کاربری مشتری',
+        'weblazem_ticket_section_subtitle' => 'تیکت‌ها، بریف‌ها، پیشنهادهای قیمت و وضعیت پروژه را از یک پنل پیگیری کنید.',
+        'weblazem_ticket_section_btn_text' => 'ورود به حساب کاربری',
+        'weblazem_ticket_page_title'       => 'حساب کاربری مشتری',
+        'weblazem_ticket_page_subtitle'    => 'با شماره موبایل وارد شوید؛ تیکت‌ها، بریف‌ها، پیشنهادها و وضعیت پروژه‌ها را مدیریت کنید.',
         'weblazem_ticket_success_message'  => 'تیکت شما با موفقیت ثبت شد. کارشناسان وب‌لازم به‌زودی پاسخ می‌دهند.',
     );
 
@@ -74,6 +74,24 @@ function weblazem_ensure_ticket_defaults() {
         if (get_option($key) === false) {
             update_option($key, $value);
         }
+    }
+
+    // Rename existing ticket page titles to client account (slug stays sabt-ticket).
+    $rename_map = array(
+        'weblazem_ticket_page_title'       => array('ثبت تیکت و پیگیری', 'حساب کاربری مشتری'),
+        'weblazem_ticket_section_title'    => array('ثبت تیکت و پیگیری تسک', 'حساب کاربری مشتری'),
+        'weblazem_ticket_section_btn_text' => array('ورود به پنل تیکت', 'ورود به حساب کاربری'),
+    );
+    foreach ($rename_map as $option_key => $pair) {
+        $current = get_option($option_key, '');
+        if ($current === $pair[0]) {
+            update_option($option_key, $pair[1]);
+        }
+    }
+
+    $old_sub = get_option('weblazem_ticket_page_subtitle', '');
+    if ($old_sub === 'با شماره موبایل وارد شوید، تیکت ثبت کنید و پاسخ تیم را به‌صورت گفتگو دریافت کنید.') {
+        update_option('weblazem_ticket_page_subtitle', $defaults['weblazem_ticket_page_subtitle']);
     }
 }
 add_action('init', 'weblazem_ensure_ticket_defaults', 12);

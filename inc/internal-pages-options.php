@@ -175,6 +175,12 @@ function weblazem_internal_pages_hub_display() {
                         — بریف چندمرحله‌ای و درخواست‌های دریافتی
                     </li>
                     <li>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-proposals')); ?>">
+                            <strong>پیشنهادهای قیمت</strong>
+                        </a>
+                        — ساخت و ارسال پیشنهاد به مشتری در حساب کاربری
+                    </li>
+                    <li>
                         <a href="<?php echo esc_url(function_exists('weblazem_get_contentsupport_page_url') ? weblazem_get_contentsupport_page_url() : '#'); ?>" target="_blank" rel="noopener">
                             <strong>برگه تولید محتوا و پشتیبانی</strong>
                         </a>

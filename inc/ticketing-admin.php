@@ -70,16 +70,16 @@ function weblazem_ticketing_settings_page() {
     $code     = weblazem_get_ticket_access_code();
     $title    = get_option('weblazem_ticket_section_title', 'ثبت تیکت و پیگیری تسک');
     $subtitle = get_option('weblazem_ticket_section_subtitle', '');
-    $btn_text = get_option('weblazem_ticket_section_btn_text', 'ورود به پنل تیکت');
-    $page_title = get_option('weblazem_ticket_page_title', 'ثبت تیکت و پیگیری');
+    $btn_text = get_option('weblazem_ticket_section_btn_text', 'ورود به حساب کاربری');
+    $page_title = get_option('weblazem_ticket_page_title', 'حساب کاربری مشتری');
     $page_subtitle = get_option('weblazem_ticket_page_subtitle', '');
     $success = get_option('weblazem_ticket_success_message', 'تیکت شما با موفقیت ثبت شد.');
     $page_url = function_exists('weblazem_get_ticket_page_url') ? weblazem_get_ticket_page_url() : '';
     ?>
     <div class="wrap" dir="rtl">
-        <h1>تنظیمات سیستم تیکت</h1>
+        <h1>تنظیمات حساب کاربری / تیکت</h1>
         <?php if ($page_url) : ?>
-            <p>صفحه تیکت: <a href="<?php echo esc_url($page_url); ?>" target="_blank" rel="noopener"><?php echo esc_html($page_url); ?></a></p>
+            <p>صفحه حساب کاربری: <a href="<?php echo esc_url($page_url); ?>" target="_blank" rel="noopener"><?php echo esc_html($page_url); ?></a></p>
         <?php endif; ?>
         <form method="post">
             <?php wp_nonce_field('weblazem_ticket_settings', 'weblazem_ticket_settings_nonce'); ?>
@@ -104,11 +104,11 @@ function weblazem_ticketing_settings_page() {
                     <td><input type="text" name="weblazem_ticket_section_btn_text" class="regular-text" value="<?php echo esc_attr($btn_text); ?>" /></td>
                 </tr>
                 <tr>
-                    <th>عنوان صفحه تیکت</th>
+                    <th>عنوان صفحه حساب کاربری</th>
                     <td><input type="text" name="weblazem_ticket_page_title" class="large-text" value="<?php echo esc_attr($page_title); ?>" /></td>
                 </tr>
                 <tr>
-                    <th>توضیح صفحه تیکت</th>
+                    <th>توضیح صفحه حساب کاربری</th>
                     <td><textarea name="weblazem_ticket_page_subtitle" class="large-text" rows="3"><?php echo esc_textarea($page_subtitle); ?></textarea></td>
                 </tr>
                 <tr>

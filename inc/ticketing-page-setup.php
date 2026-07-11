@@ -49,7 +49,7 @@ function weblazem_ensure_ticket_page() {
 
     $page_id = wp_insert_post(
         array(
-            'post_title'   => 'ثبت تیکت و پیگیری',
+            'post_title'   => 'حساب کاربری مشتری',
             'post_name'    => WEBLAZEM_TICKET_PAGE_SLUG,
             'post_status'  => 'publish',
             'post_type'    => 'page',
@@ -67,3 +67,28 @@ function weblazem_ensure_ticket_page() {
     flush_rewrite_rules(false);
 }
 add_action('init', 'weblazem_ensure_ticket_page', 37);
+
+/**
+ * Keep published ticket page title aligned with client account naming.
+ */
+function weblazem_maybe_rename_ticket_page_title() {
+    $page_id = weblazem_get_ticket_page_id();
+    if (!$page_id) {
+        return;
+    }
+
+    $post = get_post($page_id);
+    if (!$post) {
+        return;
+    }
+
+    if ($post->post_title === 'ثبت تیکت و پیگیری') {
+        wp_update_post(
+            array(
+                'ID'         => $page_id,
+                'post_title' => 'حساب کاربری مشتری',
+            )
+        );
+    }
+}
+add_action('init', 'weblazem_maybe_rename_ticket_page_title', 38);

@@ -53,6 +53,7 @@
     font-size: 24px;
 }
 
+.weblazem-ticket-login h2,
 .weblazem-ticket-login h3 {
     margin: 0 0 8px;
     color: #4f1c61;
@@ -127,12 +128,24 @@
 
 .weblazem-ticket-btn--primary {
     width: 100%;
-    background: #2563eb;
+    background: #4f1e60;
     color: #fff;
 }
 
 .weblazem-ticket-btn--primary:hover {
-    background: #1d4ed8;
+    background: #3d174c;
+    transform: translateY(-1px);
+}
+
+.weblazem-ticket-btn--accent {
+    width: auto;
+    min-width: 160px;
+    background: #f5c518;
+    color: #3d174c;
+}
+
+.weblazem-ticket-btn--accent:hover {
+    background: #e6b800;
     transform: translateY(-1px);
 }
 
@@ -473,6 +486,376 @@ body.weblazem-ticket-success-open {
     min-height: 70vh;
 }
 
+/* Account portal */
+.weblazem-account-panel {
+    max-width: 980px;
+}
+
+.weblazem-account-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding: 6px;
+    border-radius: 14px;
+    background: #f7f0fb;
+}
+
+.weblazem-account-tab {
+    border: none;
+    background: transparent;
+    color: #6b5a74;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.weblazem-account-tab:hover {
+    background: #eadcf3;
+    color: #4f1e60;
+}
+
+.weblazem-account-tab.is-active {
+    background: #4f1e60;
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(79, 30, 96, 0.2);
+}
+
+.weblazem-account-pane[hidden] {
+    display: none !important;
+}
+
+.weblazem-account-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.weblazem-account-stat {
+    border: 1px solid #efe4f4;
+    background: linear-gradient(180deg, #fff 0%, #fcfafd 100%);
+    border-radius: 14px;
+    padding: 16px 12px;
+    text-align: center;
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.weblazem-account-stat:hover {
+    border-color: #c9a9d8;
+    transform: translateY(-2px);
+}
+
+.weblazem-account-stat strong {
+    display: block;
+    color: #4f1e60;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.weblazem-account-stat span {
+    color: #7a6a84;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.weblazem-account-overview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.weblazem-account-block {
+    border: 1px solid #efe4f4;
+    border-radius: 14px;
+    padding: 14px;
+    background: #fcfafd;
+}
+
+.weblazem-account-block__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.weblazem-account-block__head h3 {
+    margin: 0;
+    color: #4f1e60;
+    font-size: 15px;
+}
+
+.weblazem-account-link {
+    border: none;
+    background: transparent;
+    color: #4f1e60;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.weblazem-account-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.weblazem-account-card {
+    border: 1px solid #efe4f4;
+    border-radius: 14px;
+    padding: 14px 16px;
+    background: #fcfafd;
+}
+
+.weblazem-account-card__row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.weblazem-account-card__title {
+    margin: 0 0 4px;
+    color: #2d1a36;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.weblazem-account-card__meta {
+    margin: 0 0 6px;
+    color: #7a6a84;
+    font-size: 12px;
+}
+
+.weblazem-account-card__desc {
+    margin: 0;
+    color: #5b4a66;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.weblazem-account-muted {
+    margin: 0;
+    color: #9a8aa4;
+    font-size: 13px;
+    text-align: center;
+    padding: 18px 8px;
+}
+
+.weblazem-proposal-card__total {
+    margin-top: 6px;
+    color: #4f1e60;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.weblazem-proposal-status--draft { background: #f3f4f6; color: #4b5563; }
+.weblazem-proposal-status--sent { background: #eff6ff; color: #1d4ed8; }
+.weblazem-proposal-status--viewed { background: #fefce8; color: #a16207; }
+.weblazem-proposal-status--accepted { background: #ecfdf5; color: #047857; }
+.weblazem-proposal-status--rejected { background: #fef2f2; color: #b91c1c; }
+.weblazem-proposal-status--changes_requested { background: #fff7ed; color: #c2410c; }
+
+.weblazem-proposal-detail__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.weblazem-proposal-detail__code {
+    margin: 0 0 4px;
+    color: #7a6a84;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.weblazem-proposal-detail__head h2 {
+    margin: 0 0 6px;
+    color: #4f1e60;
+    font-size: 20px;
+}
+
+.weblazem-proposal-detail__meta {
+    margin: 0;
+    color: #7a6a84;
+    font-size: 12px;
+}
+
+.weblazem-proposal-detail__intro {
+    margin-bottom: 16px;
+    padding: 14px;
+    border-radius: 12px;
+    background: #f7f0fb;
+    color: #4b5563;
+    line-height: 1.8;
+    white-space: pre-wrap;
+}
+
+.weblazem-proposal-detail__items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.weblazem-proposal-line {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid #efe4f4;
+    background: #fff;
+}
+
+.weblazem-proposal-line strong {
+    display: block;
+    color: #2d1a36;
+    margin-bottom: 4px;
+}
+
+.weblazem-proposal-line p {
+    margin: 0;
+    color: #7a6a84;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.weblazem-proposal-line > span {
+    flex-shrink: 0;
+    color: #4f1e60;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.weblazem-proposal-detail__totals {
+    border-radius: 14px;
+    background: linear-gradient(135deg, #4f1e60 0%, #6b2d82 100%);
+    color: #fff;
+    padding: 16px 18px;
+    margin-bottom: 18px;
+}
+
+.weblazem-proposal-detail__totals > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    opacity: 0.92;
+}
+
+.weblazem-proposal-detail__totals > div.is-total {
+    margin: 10px 0 0;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 16px;
+    opacity: 1;
+}
+
+.weblazem-proposal-detail__totals > div.is-total strong {
+    color: #f5c518;
+}
+
+.weblazem-proposal-detail__terms {
+    margin-bottom: 18px;
+}
+
+.weblazem-proposal-detail__terms h3 {
+    margin: 0 0 8px;
+    color: #4f1e60;
+    font-size: 15px;
+}
+
+.weblazem-proposal-detail__terms > div {
+    white-space: pre-wrap;
+    color: #5b4a66;
+    font-size: 13px;
+    line-height: 1.8;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #fcfafd;
+    border: 1px solid #efe4f4;
+}
+
+.weblazem-proposal-detail__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.weblazem-proposal-detail__actions .weblazem-ticket-btn--ghost,
+.weblazem-proposal-detail__actions .weblazem-ticket-btn--primary,
+.weblazem-proposal-detail__actions .weblazem-ticket-btn--accent {
+    width: auto;
+}
+
+.weblazem-proposal-changes {
+    border: 1px dashed #c9a9d8;
+    border-radius: 14px;
+    padding: 14px;
+    background: #fbf7fd;
+    margin-bottom: 12px;
+}
+
+.weblazem-proposal-changes label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #4f1e60;
+}
+
+.weblazem-proposal-changes textarea {
+    width: 100%;
+    border: 1px solid #dccfe4;
+    border-radius: 12px;
+    padding: 11px 14px;
+    font-family: inherit;
+    font-size: 14px;
+    background: #fff;
+    margin-bottom: 10px;
+}
+
+.weblazem-proposal-changes__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.weblazem-proposal-changes__actions .weblazem-ticket-btn {
+    width: auto;
+    min-width: 140px;
+}
+
+.weblazem-project-progress {
+    height: 8px;
+    border-radius: 999px;
+    background: #efe4f4;
+    overflow: hidden;
+    margin: 8px 0;
+}
+
+.weblazem-project-progress span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #4f1e60, #f5c518);
+}
+
 @media (max-width: 768px) {
     .weblazem-ticket-panel {
         padding: 18px;
@@ -500,5 +883,35 @@ body.weblazem-ticket-success-open {
     .weblazem-ticket-cta__btn {
         width: 100%;
         justify-content: center;
+    }
+
+    .weblazem-account-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .weblazem-account-overview-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .weblazem-account-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .weblazem-account-tab {
+        flex-shrink: 0;
+    }
+
+    .weblazem-proposal-line {
+        flex-direction: column;
+    }
+
+    .weblazem-proposal-detail__actions {
+        flex-direction: column;
+    }
+
+    .weblazem-proposal-detail__actions .weblazem-ticket-btn {
+        width: 100%;
     }
 }

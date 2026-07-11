@@ -1,15 +1,15 @@
 <?php
 /**
- * Dedicated ticketing portal page markup.
+ * Client account portal — overview, tickets, briefs, proposals, projects.
  */
 
-$page_title    = get_option('weblazem_ticket_page_title', 'ثبت تیکت و پیگیری');
-$page_subtitle = get_option('weblazem_ticket_page_subtitle', 'با شماره موبایل وارد شوید، تیکت ثبت کنید و پاسخ تیم را به‌صورت گفتگو دریافت کنید.');
+$page_title    = get_option('weblazem_ticket_page_title', 'حساب کاربری مشتری');
+$page_subtitle = get_option('weblazem_ticket_page_subtitle', 'با شماره موبایل وارد شوید؛ تیکت‌ها، بریف‌ها، پیشنهادها و وضعیت پروژه‌ها را مدیریت کنید.');
 $subjects      = weblazem_ticket_subjects();
 $priorities    = weblazem_ticket_priorities();
 ?>
 
-<section class="weblazem-ticket-section weblazem-ticket-section--page" id="weblazem-ticket-portal" dir="rtl">
+<section class="weblazem-ticket-section weblazem-ticket-section--page weblazem-account" id="weblazem-ticket-portal" dir="rtl">
     <div class="container">
         <div class="weblazem-ticket-section__header">
             <?php if (!empty($page_title)) : ?>
@@ -20,12 +20,13 @@ $priorities    = weblazem_ticket_priorities();
             <?php endif; ?>
         </div>
 
-        <div class="weblazem-ticket-panel" id="weblazem-ticket-panel">
+        <div class="weblazem-ticket-panel weblazem-account-panel" id="weblazem-ticket-panel">
+            <!-- Login -->
             <div class="weblazem-ticket-view" id="weblazem-ticket-login-view" data-view="login">
                 <div class="weblazem-ticket-login">
-                    <div class="weblazem-ticket-login__icon"><i class="fas fa-ticket" aria-hidden="true"></i></div>
-                    <h2>ورود به پنل تیکت</h2>
-                    <p class="weblazem-ticket-login__hint">بدون ورود امکان ثبت تیکت وجود ندارد. شماره موبایل همان شناسه کاربری شماست.</p>
+                    <div class="weblazem-ticket-login__icon"><i class="fas fa-user-circle" aria-hidden="true"></i></div>
+                    <h2>ورود به حساب کاربری</h2>
+                    <p class="weblazem-ticket-login__hint">با شماره موبایل و کد ورود وارد شوید تا تیکت‌ها، بریف‌ها، پیشنهادهای قیمت و وضعیت پروژه را ببینید.</p>
                     <form id="weblazem-ticket-login-form" class="weblazem-ticket-form" autocomplete="off" novalidate>
                         <div class="weblazem-ticket-field">
                             <label for="weblazem-ticket-mobile-login">شماره موبایل</label>
@@ -36,13 +37,14 @@ $priorities    = weblazem_ticket_priorities();
                             <input type="password" id="weblazem-ticket-code" name="access_code" required inputmode="numeric" dir="ltr" autocomplete="current-password" placeholder="•••••" maxlength="32" />
                         </div>
                         <p class="weblazem-ticket-feedback" id="weblazem-ticket-login-feedback" role="status" aria-live="polite"></p>
-                        <button type="submit" class="weblazem-ticket-btn weblazem-ticket-btn--primary">ورود به سیستم تیکت</button>
+                        <button type="submit" class="weblazem-ticket-btn weblazem-ticket-btn--primary">ورود به حساب کاربری</button>
                     </form>
                 </div>
             </div>
 
+            <!-- Account shell -->
             <div class="weblazem-ticket-view" id="weblazem-ticket-dash-view" data-view="dash" hidden>
-                <div class="weblazem-ticket-dash-bar">
+                <div class="weblazem-ticket-dash-bar weblazem-account-bar">
                     <div>
                         <span class="weblazem-ticket-dash-bar__label">موبایل:</span>
                         <strong id="weblazem-ticket-current-user" dir="ltr"></strong>
@@ -55,12 +57,63 @@ $priorities    = weblazem_ticket_priorities();
                     </div>
                 </div>
 
-                <div class="weblazem-ticket-list" id="weblazem-ticket-list"></div>
-                <p class="weblazem-ticket-empty" id="weblazem-ticket-empty" hidden>هنوز تیکتی ثبت نکرده‌اید. اولین تیکت خود را بسازید.</p>
+                <nav class="weblazem-account-tabs" id="weblazem-account-tabs" aria-label="بخش‌های حساب کاربری">
+                    <button type="button" class="weblazem-account-tab is-active" data-account-tab="overview">خلاصه</button>
+                    <button type="button" class="weblazem-account-tab" data-account-tab="tickets">تیکت‌ها</button>
+                    <button type="button" class="weblazem-account-tab" data-account-tab="briefs">بریف‌ها</button>
+                    <button type="button" class="weblazem-account-tab" data-account-tab="proposals">پیشنهادها</button>
+                    <button type="button" class="weblazem-account-tab" data-account-tab="projects">پروژه‌ها</button>
+                </nav>
+
+                <!-- Overview -->
+                <div class="weblazem-account-pane is-active" id="weblazem-account-pane-overview" data-pane="overview">
+                    <div class="weblazem-account-stats" id="weblazem-account-stats"></div>
+                    <div class="weblazem-account-overview-grid">
+                        <div class="weblazem-account-block">
+                            <div class="weblazem-account-block__head">
+                                <h3>آخرین تیکت‌ها</h3>
+                                <button type="button" class="weblazem-account-link" data-goto-tab="tickets">همه</button>
+                            </div>
+                            <div id="weblazem-account-overview-tickets"></div>
+                        </div>
+                        <div class="weblazem-account-block">
+                            <div class="weblazem-account-block__head">
+                                <h3>آخرین پیشنهادها</h3>
+                                <button type="button" class="weblazem-account-link" data-goto-tab="proposals">همه</button>
+                            </div>
+                            <div id="weblazem-account-overview-proposals"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tickets list -->
+                <div class="weblazem-account-pane" id="weblazem-account-pane-tickets" data-pane="tickets" hidden>
+                    <div class="weblazem-ticket-list" id="weblazem-ticket-list"></div>
+                    <p class="weblazem-ticket-empty" id="weblazem-ticket-empty" hidden>هنوز تیکتی ثبت نکرده‌اید. اولین تیکت خود را بسازید.</p>
+                </div>
+
+                <!-- Briefs -->
+                <div class="weblazem-account-pane" id="weblazem-account-pane-briefs" data-pane="briefs" hidden>
+                    <div class="weblazem-account-list" id="weblazem-account-briefs-list"></div>
+                    <p class="weblazem-ticket-empty" id="weblazem-account-briefs-empty" hidden>بریفی ثبت نشده است. از صفحه «شروع پروژه» بریف بفرستید.</p>
+                </div>
+
+                <!-- Proposals list -->
+                <div class="weblazem-account-pane" id="weblazem-account-pane-proposals" data-pane="proposals" hidden>
+                    <div class="weblazem-account-list" id="weblazem-account-proposals-list"></div>
+                    <p class="weblazem-ticket-empty" id="weblazem-account-proposals-empty" hidden>هنوز پیشنهادی برای شما ارسال نشده است.</p>
+                </div>
+
+                <!-- Projects -->
+                <div class="weblazem-account-pane" id="weblazem-account-pane-projects" data-pane="projects" hidden>
+                    <div class="weblazem-account-list" id="weblazem-account-projects-list"></div>
+                    <p class="weblazem-ticket-empty" id="weblazem-account-projects-empty" hidden>پروژه‌ای برای این شماره ثبت نشده است.</p>
+                </div>
             </div>
 
+            <!-- Create ticket -->
             <div class="weblazem-ticket-view" id="weblazem-ticket-create-view" data-view="create" hidden>
-                <button type="button" class="weblazem-ticket-back" data-ticket-back>&rarr; بازگشت</button>
+                <button type="button" class="weblazem-ticket-back" data-ticket-back data-back-to="tickets">&rarr; بازگشت</button>
                 <h2>ثبت تیکت جدید</h2>
                 <form id="weblazem-ticket-create-form" class="weblazem-ticket-form" enctype="multipart/form-data" novalidate>
                     <div class="weblazem-ticket-grid">
@@ -107,8 +160,9 @@ $priorities    = weblazem_ticket_priorities();
                 </form>
             </div>
 
+            <!-- Ticket detail -->
             <div class="weblazem-ticket-view" id="weblazem-ticket-detail-view" data-view="detail" hidden>
-                <button type="button" class="weblazem-ticket-back" data-ticket-back>&rarr; بازگشت به لیست</button>
+                <button type="button" class="weblazem-ticket-back" data-ticket-back data-back-to="tickets">&rarr; بازگشت به تیکت‌ها</button>
                 <div class="weblazem-ticket-detail-head">
                     <div>
                         <h2 id="weblazem-ticket-detail-title"></h2>
@@ -128,6 +182,42 @@ $priorities    = weblazem_ticket_priorities();
                         <button type="submit" class="weblazem-ticket-btn weblazem-ticket-btn--primary">ارسال پیام</button>
                     </div>
                 </form>
+            </div>
+
+            <!-- Proposal detail -->
+            <div class="weblazem-ticket-view" id="weblazem-proposal-detail-view" data-view="proposal" hidden>
+                <button type="button" class="weblazem-ticket-back" data-ticket-back data-back-to="proposals">&rarr; بازگشت به پیشنهادها</button>
+                <div class="weblazem-proposal-detail" id="weblazem-proposal-detail">
+                    <div class="weblazem-proposal-detail__head">
+                        <div>
+                            <p class="weblazem-proposal-detail__code" id="weblazem-proposal-detail-code" dir="ltr"></p>
+                            <h2 id="weblazem-proposal-detail-title"></h2>
+                            <p class="weblazem-proposal-detail__meta" id="weblazem-proposal-detail-meta"></p>
+                        </div>
+                        <span class="weblazem-ticket-status" id="weblazem-proposal-detail-status"></span>
+                    </div>
+                    <div class="weblazem-proposal-detail__intro" id="weblazem-proposal-detail-intro"></div>
+                    <div class="weblazem-proposal-detail__items" id="weblazem-proposal-detail-items"></div>
+                    <div class="weblazem-proposal-detail__totals" id="weblazem-proposal-detail-totals"></div>
+                    <div class="weblazem-proposal-detail__terms">
+                        <h3>شرایط و ضوابط</h3>
+                        <div id="weblazem-proposal-detail-terms"></div>
+                    </div>
+                    <div class="weblazem-proposal-detail__actions" id="weblazem-proposal-detail-actions" hidden>
+                        <button type="button" class="weblazem-ticket-btn weblazem-ticket-btn--accent" id="weblazem-proposal-accept-btn">پذیرش پیشنهاد</button>
+                        <button type="button" class="weblazem-ticket-btn weblazem-ticket-btn--ghost" id="weblazem-proposal-changes-btn">درخواست تغییر</button>
+                    </div>
+                    <div class="weblazem-proposal-changes" id="weblazem-proposal-changes-box" hidden>
+                        <label for="weblazem-proposal-changes-note">توضیح تغییرات مورد نظر</label>
+                        <textarea id="weblazem-proposal-changes-note" rows="4" maxlength="2000" placeholder="مثلاً: کاهش هزینه بخش فروشگاه یا افزودن پنل کاربری..."></textarea>
+                        <p class="weblazem-ticket-feedback" id="weblazem-proposal-action-feedback" role="status" aria-live="polite"></p>
+                        <div class="weblazem-proposal-changes__actions">
+                            <button type="button" class="weblazem-ticket-btn weblazem-ticket-btn--primary" id="weblazem-proposal-changes-submit">ثبت درخواست تغییر</button>
+                            <button type="button" class="weblazem-ticket-btn weblazem-ticket-btn--ghost" id="weblazem-proposal-changes-cancel">انصراف</button>
+                        </div>
+                    </div>
+                    <p class="weblazem-ticket-feedback" id="weblazem-proposal-result-feedback" role="status" aria-live="polite"></p>
+                </div>
             </div>
         </div>
     </div>

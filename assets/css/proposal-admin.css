@@ -1,0 +1,136 @@
+.weblazem-proposal-admin__filters {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 16px 0 20px;
+}
+
+.weblazem-proposal-admin__hint {
+    background: #f7f0fb;
+    border: 1px solid #e4d4ef;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+
+.weblazem-proposal-admin__hint p {
+    margin: 0 0 6px;
+}
+
+.weblazem-proposal-admin__hint p:last-child {
+    margin-bottom: 0;
+}
+
+.weblazem-proposal-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+.weblazem-proposal-badge--draft { background: #f3f4f6; color: #4b5563; }
+.weblazem-proposal-badge--sent { background: #eff6ff; color: #1d4ed8; }
+.weblazem-proposal-badge--viewed { background: #fefce8; color: #a16207; }
+.weblazem-proposal-badge--accepted { background: #ecfdf5; color: #047857; }
+.weblazem-proposal-badge--rejected { background: #fef2f2; color: #b91c1c; }
+.weblazem-proposal-badge--changes_requested { background: #fff7ed; color: #c2410c; }
+
+.weblazem-proposal-form__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.9fr);
+    gap: 24px;
+    margin-top: 12px;
+    align-items: start;
+}
+
+.weblazem-proposal-form__side {
+    position: sticky;
+    top: 40px;
+}
+
+.weblazem-proposal-totals {
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+.weblazem-proposal-totals h3 {
+    margin: 0 0 12px;
+    color: #4f1c61;
+}
+
+.weblazem-proposal-totals label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.weblazem-proposal-totals input[type="number"],
+.weblazem-proposal-totals textarea {
+    width: 100%;
+}
+
+.weblazem-proposal-totals__total {
+    font-size: 16px;
+    padding: 10px 0;
+    border-top: 1px dashed #e4d4ef;
+    border-bottom: 1px dashed #e4d4ef;
+    color: #4f1c61;
+}
+
+.weblazem-proposal-form__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.weblazem-proposal-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.weblazem-proposal-item {
+    background: #fcfafd;
+    border: 1px solid #e4d4ef;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.weblazem-proposal-item__row {
+    display: grid;
+    grid-template-columns: 1fr 160px 40px;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.weblazem-proposal-item textarea {
+    width: 100%;
+}
+
+.weblazem-proposal-item__remove {
+    min-width: 36px !important;
+    color: #b91c1c !important;
+}
+
+@media (max-width: 960px) {
+    .weblazem-proposal-form__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .weblazem-proposal-form__side {
+        position: static;
+    }
+
+    .weblazem-proposal-item__row {
+        grid-template-columns: 1fr 120px 40px;
+    }
+}

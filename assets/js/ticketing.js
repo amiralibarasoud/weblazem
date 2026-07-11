@@ -9,13 +9,20 @@
     var state = {
         username: '',
         tickets: [],
-        currentTicketId: null
+        briefs: [],
+        proposals: [],
+        projects: [],
+        counts: {},
+        currentTicketId: null,
+        currentProposalId: null,
+        activeTab: 'overview'
     };
 
     var loginView = document.getElementById('weblazem-ticket-login-view');
     var dashView = document.getElementById('weblazem-ticket-dash-view');
     var createView = document.getElementById('weblazem-ticket-create-view');
     var detailView = document.getElementById('weblazem-ticket-detail-view');
+    var proposalView = document.getElementById('weblazem-proposal-detail-view');
     var listEl = document.getElementById('weblazem-ticket-list');
     var emptyEl = document.getElementById('weblazem-ticket-empty');
     var userEl = document.getElementById('weblazem-ticket-current-user');
@@ -23,7 +30,7 @@
     var successModal = document.getElementById('weblazem-ticket-success');
 
     function showView(name) {
-        [loginView, dashView, createView, detailView].forEach(function (view) {
+        [loginView, dashView, createView, detailView, proposalView].forEach(function (view) {
             if (!view) return;
             view.hidden = view.getAttribute('data-view') !== name;
         });
@@ -99,10 +106,52 @@
         return 'weblazem-ticket-status weblazem-ticket-status--' + (status || 'open');
     }
 
+    function proposalStatusClass(status) {
+        return 'weblazem-ticket-status weblazem-proposal-status--' + (status || 'sent');
+    }
+
     function escapeHtml(str) {
         var div = document.createElement('div');
         div.textContent = str || '';
         return div.innerHTML;
+    }
+
+    function applyDashboard(data) {
+        state.username = data.mobile || data.username || state.username;
+        state.tickets = data.tickets || [];
+        state.briefs = data.briefs || [];
+        state.proposals = data.proposals || [];
+        state.projects = data.projects || [];
+        state.counts = data.counts || {
+            tickets: state.tickets.length,
+            briefs: state.briefs.length,
+            proposals: state.proposals.length,
+            projects: state.projects.length
+        };
+        if (userEl) userEl.textContent = state.username;
+        renderAll();
+    }
+
+    function loadDashboard() {
+        return post('weblazem_client_dashboard', {}).then(function (result) {
+            if (!result.ok || !result.json.success) {
+                return false;
+            }
+            applyDashboard(result.json.data);
+            return true;
+        });
+    }
+
+    function setTab(tab) {
+        state.activeTab = tab || 'overview';
+        panel.querySelectorAll('.weblazem-account-tab').forEach(function (btn) {
+            btn.classList.toggle('is-active', btn.getAttribute('data-account-tab') === state.activeTab);
+        });
+        panel.querySelectorAll('.weblazem-account-pane').forEach(function (pane) {
+            var match = pane.getAttribute('data-pane') === state.activeTab;
+            pane.hidden = !match;
+            pane.classList.toggle('is-active', match);
+        });
     }
 
     function renderAttachments(attachments) {
@@ -128,25 +177,182 @@
         if (emptyEl) emptyEl.hidden = true;
 
         state.tickets.forEach(function (ticket) {
-            var btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'weblazem-ticket-card';
-            btn.innerHTML =
-                '<div>' +
-                    '<p class="weblazem-ticket-card__title"></p>' +
-                    '<div class="weblazem-ticket-card__meta"></div>' +
-                '</div>' +
-                '<span class="' + statusClass(ticket.status) + '"></span>';
-
-            btn.querySelector('.weblazem-ticket-card__title').textContent = ticket.title;
-            btn.querySelector('.weblazem-ticket-card__meta').textContent =
-                (ticket.code || '') + ' · ' + (ticket.subjectLabel || '') + ' · ' + (ticket.updatedAt || '');
-            btn.querySelector('span').textContent = ticket.statusLabel || ticket.status;
-            btn.addEventListener('click', function () {
-                openTicket(ticket.id);
-            });
-            listEl.appendChild(btn);
+            listEl.appendChild(buildTicketCard(ticket));
         });
+    }
+
+    function buildTicketCard(ticket) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'weblazem-ticket-card';
+        btn.innerHTML =
+            '<div>' +
+                '<p class="weblazem-ticket-card__title"></p>' +
+                '<div class="weblazem-ticket-card__meta"></div>' +
+            '</div>' +
+            '<span class="' + statusClass(ticket.status) + '"></span>';
+
+        btn.querySelector('.weblazem-ticket-card__title').textContent = ticket.title;
+        btn.querySelector('.weblazem-ticket-card__meta').textContent =
+            (ticket.code || '') + ' · ' + (ticket.subjectLabel || '') + ' · ' + (ticket.updatedAt || '');
+        btn.querySelector('span').textContent = ticket.statusLabel || ticket.status;
+        btn.addEventListener('click', function () {
+            openTicket(ticket.id);
+        });
+        return btn;
+    }
+
+    function renderBriefs() {
+        var list = document.getElementById('weblazem-account-briefs-list');
+        var empty = document.getElementById('weblazem-account-briefs-empty');
+        if (!list) return;
+        list.innerHTML = '';
+
+        if (!state.briefs.length) {
+            if (empty) empty.hidden = false;
+            return;
+        }
+        if (empty) empty.hidden = true;
+
+        state.briefs.forEach(function (brief) {
+            var card = document.createElement('div');
+            card.className = 'weblazem-account-card';
+            card.innerHTML =
+                '<div class="weblazem-account-card__body">' +
+                    '<p class="weblazem-account-card__title"></p>' +
+                    '<p class="weblazem-account-card__meta"></p>' +
+                    '<p class="weblazem-account-card__desc"></p>' +
+                '</div>';
+            card.querySelector('.weblazem-account-card__title').textContent = brief.projectLabel || brief.title || 'بریف پروژه';
+            card.querySelector('.weblazem-account-card__meta').textContent =
+                (brief.budgetLabel || '') + (brief.deadline ? ' · مهلت: ' + brief.deadline : '') + (brief.createdAt ? ' · ' + brief.createdAt : '');
+            card.querySelector('.weblazem-account-card__desc').textContent = brief.goal || '';
+            list.appendChild(card);
+        });
+    }
+
+    function renderProposals() {
+        var list = document.getElementById('weblazem-account-proposals-list');
+        var empty = document.getElementById('weblazem-account-proposals-empty');
+        if (!list) return;
+        list.innerHTML = '';
+
+        if (!state.proposals.length) {
+            if (empty) empty.hidden = false;
+            return;
+        }
+        if (empty) empty.hidden = true;
+
+        state.proposals.forEach(function (proposal) {
+            list.appendChild(buildProposalCard(proposal));
+        });
+    }
+
+    function buildProposalCard(proposal) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'weblazem-ticket-card weblazem-proposal-card';
+        btn.innerHTML =
+            '<div>' +
+                '<p class="weblazem-ticket-card__title"></p>' +
+                '<div class="weblazem-ticket-card__meta"></div>' +
+                '<div class="weblazem-proposal-card__total"></div>' +
+            '</div>' +
+            '<span class="' + proposalStatusClass(proposal.status) + '"></span>';
+
+        btn.querySelector('.weblazem-ticket-card__title').textContent = proposal.title;
+        btn.querySelector('.weblazem-ticket-card__meta').textContent =
+            (proposal.code || '') + (proposal.deliveryDays ? ' · تحویل ' + proposal.deliveryDays + ' روزه' : '') + (proposal.sentAt ? ' · ' + proposal.sentAt : '');
+        btn.querySelector('.weblazem-proposal-card__total').textContent = proposal.totalLabel || '';
+        btn.querySelector('span').textContent = proposal.statusLabel || proposal.status;
+        btn.addEventListener('click', function () {
+            openProposal(proposal.id);
+        });
+        return btn;
+    }
+
+    function renderProjects() {
+        var list = document.getElementById('weblazem-account-projects-list');
+        var empty = document.getElementById('weblazem-account-projects-empty');
+        if (!list) return;
+        list.innerHTML = '';
+
+        if (!state.projects.length) {
+            if (empty) empty.hidden = false;
+            return;
+        }
+        if (empty) empty.hidden = true;
+
+        state.projects.forEach(function (project) {
+            var card = document.createElement('div');
+            card.className = 'weblazem-account-card weblazem-project-card';
+            var progress = Math.max(0, Math.min(100, parseInt(project.progress, 10) || 0));
+            card.innerHTML =
+                '<div class="weblazem-account-card__body">' +
+                    '<div class="weblazem-account-card__row">' +
+                        '<p class="weblazem-account-card__title"></p>' +
+                        '<span class="weblazem-ticket-status"></span>' +
+                    '</div>' +
+                    '<p class="weblazem-account-card__meta"></p>' +
+                    '<div class="weblazem-project-progress"><span style="width:' + progress + '%"></span></div>' +
+                    '<p class="weblazem-account-card__desc"></p>' +
+                '</div>';
+            card.querySelector('.weblazem-account-card__title').textContent = project.title;
+            card.querySelector('.weblazem-ticket-status').textContent = project.stageLabel || project.stage || '';
+            card.querySelector('.weblazem-account-card__meta').textContent =
+                (project.code || '') + (project.updatedAt ? ' · ' + project.updatedAt : '');
+            card.querySelector('.weblazem-account-card__desc').textContent = 'پیشرفت: ' + progress + '٪';
+            list.appendChild(card);
+        });
+    }
+
+    function renderOverview() {
+        var stats = document.getElementById('weblazem-account-stats');
+        if (stats) {
+            var c = state.counts || {};
+            stats.innerHTML =
+                '<button type="button" class="weblazem-account-stat" data-goto-tab="tickets">' +
+                    '<strong>' + (c.tickets || 0) + '</strong><span>تیکت</span></button>' +
+                '<button type="button" class="weblazem-account-stat" data-goto-tab="briefs">' +
+                    '<strong>' + (c.briefs || 0) + '</strong><span>بریف</span></button>' +
+                '<button type="button" class="weblazem-account-stat" data-goto-tab="proposals">' +
+                    '<strong>' + (c.proposals || 0) + '</strong><span>پیشنهاد</span></button>' +
+                '<button type="button" class="weblazem-account-stat" data-goto-tab="projects">' +
+                    '<strong>' + (c.projects || 0) + '</strong><span>پروژه</span></button>';
+        }
+
+        var ovTickets = document.getElementById('weblazem-account-overview-tickets');
+        var ovProposals = document.getElementById('weblazem-account-overview-proposals');
+
+        if (ovTickets) {
+            ovTickets.innerHTML = '';
+            if (!state.tickets.length) {
+                ovTickets.innerHTML = '<p class="weblazem-account-muted">تیکتی نیست.</p>';
+            } else {
+                state.tickets.slice(0, 3).forEach(function (ticket) {
+                    ovTickets.appendChild(buildTicketCard(ticket));
+                });
+            }
+        }
+
+        if (ovProposals) {
+            ovProposals.innerHTML = '';
+            if (!state.proposals.length) {
+                ovProposals.innerHTML = '<p class="weblazem-account-muted">پیشنهادی نیست.</p>';
+            } else {
+                state.proposals.slice(0, 3).forEach(function (proposal) {
+                    ovProposals.appendChild(buildProposalCard(proposal));
+                });
+            }
+        }
+    }
+
+    function renderAll() {
+        renderOverview();
+        renderTickets();
+        renderBriefs();
+        renderProposals();
+        renderProjects();
     }
 
     function renderChat(ticket) {
@@ -199,13 +405,109 @@
         });
     }
 
+    function openProposal(proposalId) {
+        post('weblazem_proposal_get', { proposal_id: proposalId }).then(function (result) {
+            if (!result.ok || !result.json.success) {
+                return;
+            }
+
+            var proposal = result.json.data.proposal;
+            state.currentProposalId = proposal.id;
+            renderProposalDetail(proposal);
+            showView('proposal');
+
+            // Refresh list status (viewed)
+            state.proposals = state.proposals.map(function (p) {
+                return p.id === proposal.id ? proposal : p;
+            });
+            renderProposals();
+            renderOverview();
+        });
+    }
+
+    function renderProposalDetail(proposal) {
+        document.getElementById('weblazem-proposal-detail-code').textContent = proposal.code || '';
+        document.getElementById('weblazem-proposal-detail-title').textContent = proposal.title || '';
+        document.getElementById('weblazem-proposal-detail-meta').textContent =
+            (proposal.deliveryDays ? 'تحویل در ' + proposal.deliveryDays + ' روز کاری' : '') +
+            (proposal.sentAt ? ' · ارسال: ' + proposal.sentAt : '');
+
+        var statusEl = document.getElementById('weblazem-proposal-detail-status');
+        statusEl.className = proposalStatusClass(proposal.status);
+        statusEl.textContent = proposal.statusLabel || proposal.status;
+
+        var introEl = document.getElementById('weblazem-proposal-detail-intro');
+        introEl.textContent = proposal.intro || '';
+        introEl.hidden = !proposal.intro;
+
+        var itemsEl = document.getElementById('weblazem-proposal-detail-items');
+        itemsEl.innerHTML = (proposal.items || []).map(function (item) {
+            return '<div class="weblazem-proposal-line">' +
+                '<div><strong>' + escapeHtml(item.title || '') + '</strong>' +
+                (item.description ? '<p>' + escapeHtml(item.description) + '</p>' : '') +
+                '</div><span dir="ltr">' + escapeHtml(formatMaybeLabel(item.price)) + '</span></div>';
+        }).join('');
+
+        var totalsEl = document.getElementById('weblazem-proposal-detail-totals');
+        totalsEl.innerHTML =
+            '<div><span>جمع جزء</span><strong>' + escapeHtml(proposal.subtotalLabel || '') + '</strong></div>' +
+            (proposal.discount ? '<div><span>تخفیف</span><strong>' + escapeHtml(proposal.discountLabel || '') + '</strong></div>' : '') +
+            '<div class="is-total"><span>مبلغ نهایی</span><strong>' + escapeHtml(proposal.totalLabel || '') + '</strong></div>';
+
+        var termsEl = document.getElementById('weblazem-proposal-detail-terms');
+        termsEl.textContent = proposal.terms || '';
+
+        var actions = document.getElementById('weblazem-proposal-detail-actions');
+        var changesBox = document.getElementById('weblazem-proposal-changes-box');
+        var canRespond = !!proposal.canRespond;
+        if (actions) actions.hidden = !canRespond;
+        if (changesBox) changesBox.hidden = true;
+        setFeedback(document.getElementById('weblazem-proposal-action-feedback'), '', null);
+        setFeedback(document.getElementById('weblazem-proposal-result-feedback'), '', null);
+
+        if (proposal.clientNote && proposal.status === 'changes_requested') {
+            setFeedback(
+                document.getElementById('weblazem-proposal-result-feedback'),
+                'درخواست تغییر شما: ' + proposal.clientNote,
+                'success'
+            );
+        }
+        if (proposal.status === 'accepted') {
+            setFeedback(
+                document.getElementById('weblazem-proposal-result-feedback'),
+                'این پیشنهاد پذیرفته شده است.',
+                'success'
+            );
+        }
+    }
+
+    function formatMaybeLabel(price) {
+        var n = parseInt(price, 10) || 0;
+        try {
+            return n.toLocaleString('fa-IR') + ' تومان';
+        } catch (e) {
+            return n + ' تومان';
+        }
+    }
+
     function enterDashboard(username, tickets) {
         state.username = username;
         state.tickets = tickets || [];
         if (userEl) userEl.textContent = username;
-        renderTickets();
         showView('dash');
+        setTab('overview');
+        loadDashboard().catch(function () {
+            renderAll();
+        });
     }
+
+    function goBackToAccount(tab) {
+        showView('dash');
+        setTab(tab || state.activeTab || 'overview');
+        renderAll();
+    }
+
+    /* Events */
 
     document.getElementById('weblazem-ticket-login-form').addEventListener('submit', function (event) {
         event.preventDefault();
@@ -237,7 +539,11 @@
         post('weblazem_ticket_logout', {}).then(function () {
             state.username = '';
             state.tickets = [];
+            state.briefs = [];
+            state.proposals = [];
+            state.projects = [];
             state.currentTicketId = null;
+            state.currentProposalId = null;
             showView('login');
         });
     });
@@ -255,9 +561,21 @@
 
     panel.querySelectorAll('[data-ticket-back]').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            renderTickets();
-            showView('dash');
+            var tab = btn.getAttribute('data-back-to') || 'tickets';
+            goBackToAccount(tab);
         });
+    });
+
+    panel.addEventListener('click', function (event) {
+        var tabBtn = event.target.closest('[data-account-tab]');
+        if (tabBtn) {
+            setTab(tabBtn.getAttribute('data-account-tab'));
+            return;
+        }
+        var goto = event.target.closest('[data-goto-tab]');
+        if (goto) {
+            setTab(goto.getAttribute('data-goto-tab'));
+        }
     });
 
     document.getElementById('weblazem-ticket-create-form').addEventListener('submit', function (event) {
@@ -296,6 +614,7 @@
             form.reset();
             setFeedback(feedback, '', null);
             showSuccess(result.json.data.message, result.json.data.ticket && result.json.data.ticket.code);
+            loadDashboard();
 
             window.setTimeout(function () {
                 hideSuccess();
@@ -350,6 +669,88 @@
             setFeedback(feedback, weblazemTicket.errorMessage, 'error');
         });
     });
+
+    var acceptBtn = document.getElementById('weblazem-proposal-accept-btn');
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', function () {
+            if (!state.currentProposalId) return;
+            if (!window.confirm('آیا از پذیرش این پیشنهاد مطمئن هستید؟')) return;
+
+            var feedback = document.getElementById('weblazem-proposal-result-feedback');
+            setFeedback(feedback, 'در حال ثبت...', null);
+            acceptBtn.disabled = true;
+
+            post('weblazem_proposal_accept', { proposal_id: state.currentProposalId }).then(function (result) {
+                acceptBtn.disabled = false;
+                if (!result.ok || !result.json.success) {
+                    var msg = (result.json.data && result.json.data.message) || weblazemTicket.errorMessage;
+                    setFeedback(feedback, msg, 'error');
+                    return;
+                }
+                renderProposalDetail(result.json.data.proposal);
+                setFeedback(feedback, result.json.data.message, 'success');
+                loadDashboard();
+            }).catch(function () {
+                acceptBtn.disabled = false;
+                setFeedback(feedback, weblazemTicket.errorMessage, 'error');
+            });
+        });
+    }
+
+    var changesBtn = document.getElementById('weblazem-proposal-changes-btn');
+    var changesBox = document.getElementById('weblazem-proposal-changes-box');
+    var changesCancel = document.getElementById('weblazem-proposal-changes-cancel');
+    var changesSubmit = document.getElementById('weblazem-proposal-changes-submit');
+
+    if (changesBtn && changesBox) {
+        changesBtn.addEventListener('click', function () {
+            changesBox.hidden = false;
+            var note = document.getElementById('weblazem-proposal-changes-note');
+            if (note) note.focus();
+        });
+    }
+    if (changesCancel && changesBox) {
+        changesCancel.addEventListener('click', function () {
+            changesBox.hidden = true;
+            setFeedback(document.getElementById('weblazem-proposal-action-feedback'), '', null);
+        });
+    }
+    if (changesSubmit) {
+        changesSubmit.addEventListener('click', function () {
+            if (!state.currentProposalId) return;
+            var noteEl = document.getElementById('weblazem-proposal-changes-note');
+            var note = noteEl ? noteEl.value.trim() : '';
+            var feedback = document.getElementById('weblazem-proposal-action-feedback');
+
+            if (!note) {
+                setFeedback(feedback, 'لطفاً توضیحات درخواست تغییر را بنویسید.', 'error');
+                return;
+            }
+
+            setFeedback(feedback, 'در حال ارسال...', null);
+            changesSubmit.disabled = true;
+
+            post('weblazem_proposal_request_changes', {
+                proposal_id: state.currentProposalId,
+                note: note
+            }).then(function (result) {
+                changesSubmit.disabled = false;
+                if (!result.ok || !result.json.success) {
+                    var msg = (result.json.data && result.json.data.message) || weblazemTicket.errorMessage;
+                    setFeedback(feedback, msg, 'error');
+                    return;
+                }
+                if (noteEl) noteEl.value = '';
+                if (changesBox) changesBox.hidden = true;
+                renderProposalDetail(result.json.data.proposal);
+                setFeedback(document.getElementById('weblazem-proposal-result-feedback'), result.json.data.message, 'success');
+                loadDashboard();
+            }).catch(function () {
+                changesSubmit.disabled = false;
+                setFeedback(feedback, weblazemTicket.errorMessage, 'error');
+            });
+        });
+    }
 
     var successClose = document.getElementById('weblazem-ticket-success-close');
     if (successClose) {

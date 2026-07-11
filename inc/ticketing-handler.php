@@ -77,7 +77,7 @@ function weblazem_ticket_clear_session_user() {
 function weblazem_ticket_require_login() {
     $user = weblazem_ticket_get_session_user();
     if ($user === '') {
-        wp_send_json_error(array('message' => 'برای ثبت و پیگیری تیکت ابتدا وارد شوید.'), 401);
+        wp_send_json_error(array('message' => 'برای دسترسی به حساب کاربری ابتدا وارد شوید.'), 401);
     }
 
     return $user;
@@ -153,6 +153,51 @@ function weblazem_ajax_ticket_session() {
 }
 add_action('wp_ajax_weblazem_ticket_session', 'weblazem_ajax_ticket_session');
 add_action('wp_ajax_nopriv_weblazem_ticket_session', 'weblazem_ajax_ticket_session');
+
+/**
+ * Full client account dashboard payload.
+ */
+function weblazem_build_client_dashboard($mobile) {
+    $mobile = weblazem_ticket_normalize_mobile($mobile);
+
+    $tickets = array_map('weblazem_format_ticket_for_api', weblazem_get_tickets_by_username($mobile));
+
+    $briefs = function_exists('weblazem_get_briefs_by_mobile')
+        ? weblazem_get_briefs_by_mobile($mobile)
+        : array();
+
+    $proposals = function_exists('weblazem_get_proposals_by_mobile')
+        ? weblazem_get_proposals_by_mobile($mobile, true)
+        : array();
+
+    $projects = function_exists('weblazem_get_client_projects_by_mobile')
+        ? weblazem_get_client_projects_by_mobile($mobile)
+        : array();
+
+    return array(
+        'mobile'    => $mobile,
+        'username'  => $mobile,
+        'tickets'   => $tickets,
+        'briefs'    => $briefs,
+        'proposals' => $proposals,
+        'projects'  => $projects,
+        'counts'    => array(
+            'tickets'   => count($tickets),
+            'briefs'    => count($briefs),
+            'proposals' => count($proposals),
+            'projects'  => count($projects),
+        ),
+    );
+}
+
+function weblazem_ajax_client_dashboard() {
+    check_ajax_referer('weblazem_ticketing', 'nonce');
+
+    $mobile = weblazem_ticket_require_login();
+    wp_send_json_success(weblazem_build_client_dashboard($mobile));
+}
+add_action('wp_ajax_weblazem_client_dashboard', 'weblazem_ajax_client_dashboard');
+add_action('wp_ajax_nopriv_weblazem_client_dashboard', 'weblazem_ajax_client_dashboard');
 
 function weblazem_ajax_ticket_create() {
     check_ajax_referer('weblazem_ticketing', 'nonce');
@@ -341,7 +386,7 @@ function weblazem_enqueue_ticketing_assets() {
         'weblazem-ticketing',
         get_template_directory_uri() . '/assets/css/ticketing.css',
         array(),
-        '1.1.0'
+        '1.3.0'
     );
 
     if (!$is_ticket_page) {
@@ -352,7 +397,7 @@ function weblazem_enqueue_ticketing_assets() {
         'weblazem-ticketing',
         get_template_directory_uri() . '/assets/js/ticketing.js',
         array(),
-        '1.1.0',
+        '1.3.0',
         true
     );
 
@@ -360,15 +405,16 @@ function weblazem_enqueue_ticketing_assets() {
         'weblazem-ticketing',
         'weblazemTicket',
         array(
-            'ajaxUrl'        => admin_url('admin-ajax.php'),
-            'nonce'          => wp_create_nonce('weblazem_ticketing'),
-            'subjects'       => weblazem_ticket_subjects(),
-            'priorities'     => weblazem_ticket_priorities(),
-            'statuses'       => weblazem_ticket_statuses(),
-            'maxUploadMb'    => 3,
-            'successMessage' => get_option('weblazem_ticket_success_message', 'تیکت شما با موفقیت ثبت شد.'),
-            'errorMessage'   => 'خطایی رخ داد. لطفاً دوباره تلاش کنید.',
-            'loginRequired'  => 'برای ثبت تیکت ابتدا با شماره موبایل وارد شوید.',
+            'ajaxUrl'          => admin_url('admin-ajax.php'),
+            'nonce'            => wp_create_nonce('weblazem_ticketing'),
+            'subjects'         => weblazem_ticket_subjects(),
+            'priorities'       => weblazem_ticket_priorities(),
+            'statuses'         => weblazem_ticket_statuses(),
+            'proposalStatuses' => function_exists('weblazem_proposal_statuses') ? weblazem_proposal_statuses() : array(),
+            'maxUploadMb'      => 3,
+            'successMessage'   => get_option('weblazem_ticket_success_message', 'تیکت شما با موفقیت ثبت شد.'),
+            'errorMessage'     => 'خطایی رخ داد. لطفاً دوباره تلاش کنید.',
+            'loginRequired'    => 'برای ورود به حساب کاربری ابتدا با شماره موبایل وارد شوید.',
         )
     );
 }
