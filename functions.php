@@ -89,6 +89,9 @@ require_once get_template_directory() . '/inc/consultation-requests.php';
 require_once get_template_directory() . '/inc/consultation-handler.php';
 require_once get_template_directory() . '/inc/nav-menu-icons.php';
 require_once get_template_directory() . '/inc/home-sections.php';
+require_once get_template_directory() . '/inc/ticketing.php';
+require_once get_template_directory() . '/inc/ticketing-handler.php';
+require_once get_template_directory() . '/inc/ticketing-admin.php';
 
 function weblazem_enqueue_assets() {
     // فونت‌ها

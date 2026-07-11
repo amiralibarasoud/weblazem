@@ -1,0 +1,107 @@
+.weblazem-ticket-admin__filters {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 16px 0 20px;
+}
+
+.weblazem-ticket-admin__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.9fr);
+    gap: 20px;
+    margin-top: 16px;
+}
+
+.weblazem-ticket-admin__chat-panel,
+.weblazem-ticket-admin__info {
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+.weblazem-ticket-admin__chat-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.weblazem-ticket-admin__chat-head h1 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.weblazem-ticket-admin .weblazem-ticket-chat {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 480px;
+    overflow-y: auto;
+    padding: 14px;
+    border-radius: 12px;
+    background: #f6f7f7;
+    margin-bottom: 14px;
+}
+
+.weblazem-ticket-admin .weblazem-ticket-chat__bubble {
+    max-width: 80%;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: #fff;
+    border: 1px solid #dcdcde;
+}
+
+.weblazem-ticket-admin .weblazem-ticket-chat__bubble.is-user {
+    align-self: flex-start;
+}
+
+.weblazem-ticket-admin .weblazem-ticket-chat__bubble.is-admin {
+    align-self: flex-end;
+    background: #4f1c61;
+    color: #fff;
+    border-color: transparent;
+}
+
+.weblazem-ticket-admin .weblazem-ticket-chat__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 6px;
+    font-size: 11px;
+    opacity: 0.85;
+}
+
+.weblazem-ticket-admin__reply-form textarea {
+    width: 100%;
+    min-height: 100px;
+    margin-bottom: 10px;
+}
+
+.weblazem-ticket-admin__reply-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.weblazem-ticket-status {
+    display: inline-flex;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.weblazem-ticket-status--open { background: #eff6ff; color: #1d4ed8; }
+.weblazem-ticket-status--in_progress { background: #fff7ed; color: #c2410c; }
+.weblazem-ticket-status--answered { background: #ecfdf5; color: #047857; }
+.weblazem-ticket-status--waiting { background: #fefce8; color: #a16207; }
+.weblazem-ticket-status--closed { background: #f3f4f6; color: #4b5563; }
+
+@media (max-width: 960px) {
+    .weblazem-ticket-admin__layout {
+        grid-template-columns: 1fr;
+    }
+}

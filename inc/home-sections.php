@@ -15,6 +15,7 @@ function weblazem_get_home_sections_config() {
         'testimonials' => 'نظرات مشتریان',
         'consultation' => 'بخش مشاوره',
         'faq'          => 'سوالات متداول',
+        'ticketing'    => 'ثبت تیکت و پیگیری تسک',
     );
 }
 

@@ -1,0 +1,357 @@
+.weblazem-ticket-section {
+    padding: 70px 0 90px;
+    background: linear-gradient(180deg, #f7f0fb 0%, #efdef5 100%);
+}
+
+.weblazem-ticket-section__header {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.weblazem-ticket-section__title {
+    margin: 0 0 12px;
+    color: #4f1c61;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.weblazem-ticket-section__subtitle {
+    margin: 0 auto;
+    max-width: 640px;
+    color: #5b4a66;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.weblazem-ticket-panel {
+    max-width: 920px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid rgba(79, 28, 97, 0.08);
+    box-shadow: 0 18px 40px rgba(79, 28, 97, 0.08);
+    padding: 28px;
+    min-height: 420px;
+}
+
+.weblazem-ticket-login {
+    max-width: 420px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.weblazem-ticket-login__icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px;
+    border-radius: 18px;
+    background: #4f1c61;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.weblazem-ticket-login h3 {
+    margin: 0 0 8px;
+    color: #4f1c61;
+    font-size: 22px;
+}
+
+.weblazem-ticket-login__hint {
+    margin: 0 0 22px;
+    color: #6b5a74;
+    font-size: 14px;
+}
+
+.weblazem-ticket-form {
+    text-align: right;
+}
+
+.weblazem-ticket-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.weblazem-ticket-field {
+    margin-bottom: 14px;
+}
+
+.weblazem-ticket-field label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #4f1c61;
+}
+
+.weblazem-ticket-field input,
+.weblazem-ticket-field select,
+.weblazem-ticket-field textarea,
+.weblazem-ticket-reply-form textarea {
+    width: 100%;
+    border: 1px solid #dccfe4;
+    border-radius: 12px;
+    padding: 11px 14px;
+    font-family: inherit;
+    font-size: 14px;
+    background: #fcfafd;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.weblazem-ticket-field input:focus,
+.weblazem-ticket-field select:focus,
+.weblazem-ticket-field textarea:focus,
+.weblazem-ticket-reply-form textarea:focus {
+    outline: none;
+    border-color: #4f1c61;
+    box-shadow: 0 0 0 3px rgba(79, 28, 97, 0.12);
+}
+
+.weblazem-ticket-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.weblazem-ticket-btn--primary {
+    width: 100%;
+    background: #2563eb;
+    color: #fff;
+}
+
+.weblazem-ticket-btn--primary:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.weblazem-ticket-btn--ghost {
+    background: #f3eaf8;
+    color: #4f1c61;
+}
+
+.weblazem-ticket-btn--ghost:hover {
+    background: #eadcf3;
+}
+
+.weblazem-ticket-feedback {
+    min-height: 20px;
+    margin: 8px 0;
+    font-size: 13px;
+}
+
+.weblazem-ticket-feedback.is-error {
+    color: #b91c1c;
+}
+
+.weblazem-ticket-feedback.is-success {
+    color: #15803d;
+}
+
+.weblazem-ticket-dash-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #efe4f4;
+}
+
+.weblazem-ticket-dash-bar__label {
+    color: #7a6a84;
+    font-size: 13px;
+}
+
+.weblazem-ticket-dash-bar__actions {
+    display: flex;
+    gap: 8px;
+}
+
+.weblazem-ticket-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.weblazem-ticket-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid #efe4f4;
+    background: #fcfafd;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    text-align: right;
+    width: 100%;
+    font-family: inherit;
+}
+
+.weblazem-ticket-card:hover {
+    border-color: #c9a9d8;
+    box-shadow: 0 8px 20px rgba(79, 28, 97, 0.08);
+}
+
+.weblazem-ticket-card__title {
+    margin: 0 0 4px;
+    color: #2d1a36;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.weblazem-ticket-card__meta {
+    color: #7a6a84;
+    font-size: 12px;
+}
+
+.weblazem-ticket-empty {
+    text-align: center;
+    color: #7a6a84;
+    padding: 40px 10px;
+}
+
+.weblazem-ticket-back {
+    border: none;
+    background: transparent;
+    color: #4f1c61;
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 12px;
+    padding: 0;
+}
+
+.weblazem-ticket-detail-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.weblazem-ticket-detail-head h3 {
+    margin: 0 0 6px;
+    color: #4f1c61;
+    font-size: 18px;
+}
+
+.weblazem-ticket-detail-meta {
+    color: #7a6a84;
+    font-size: 12px;
+}
+
+.weblazem-ticket-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    background: #eef2ff;
+    color: #3730a3;
+}
+
+.weblazem-ticket-status--open { background: #eff6ff; color: #1d4ed8; }
+.weblazem-ticket-status--in_progress { background: #fff7ed; color: #c2410c; }
+.weblazem-ticket-status--answered { background: #ecfdf5; color: #047857; }
+.weblazem-ticket-status--waiting { background: #fefce8; color: #a16207; }
+.weblazem-ticket-status--closed { background: #f3f4f6; color: #4b5563; }
+
+.weblazem-ticket-chat {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 360px;
+    overflow-y: auto;
+    padding: 14px;
+    border-radius: 16px;
+    background: #f8f4fb;
+    margin-bottom: 14px;
+}
+
+.weblazem-ticket-chat__bubble {
+    max-width: 82%;
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: #fff;
+    border: 1px solid #efe4f4;
+}
+
+.weblazem-ticket-chat__bubble.is-user {
+    align-self: flex-start;
+    border-bottom-right-radius: 4px;
+}
+
+.weblazem-ticket-chat__bubble.is-admin {
+    align-self: flex-end;
+    background: #4f1c61;
+    color: #fff;
+    border-color: transparent;
+    border-bottom-left-radius: 4px;
+}
+
+.weblazem-ticket-chat__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 6px;
+    font-size: 11px;
+    opacity: 0.8;
+}
+
+.weblazem-ticket-chat__text {
+    font-size: 14px;
+    line-height: 1.7;
+    word-break: break-word;
+}
+
+.weblazem-ticket-reply-form textarea {
+    margin-bottom: 10px;
+}
+
+.weblazem-ticket-reply-form__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.weblazem-ticket-reply-form__actions .weblazem-ticket-btn {
+    width: auto;
+    min-width: 140px;
+}
+
+@media (max-width: 768px) {
+    .weblazem-ticket-panel {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .weblazem-ticket-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .weblazem-ticket-section__title {
+        font-size: 22px;
+    }
+
+    .weblazem-ticket-chat__bubble {
+        max-width: 92%;
+    }
+}
