@@ -96,7 +96,8 @@ iframe {
 @media (max-width: 1024px) {
     .weblazem-consult-trigger,
     button,
-    a.weblazem-header-consult-btn {
+    a.weblazem-header-consult-btn,
+    a.weblazem-header-ticket-btn {
         min-height: 44px;
     }
 }

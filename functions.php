@@ -396,7 +396,7 @@ function weblazem_enqueue_assets() {
         'weblazem-header-style',
         get_template_directory_uri() . '/assets/css/header.css',
         array('weblazem-responsive-core'),
-        '1.2.1'
+        '1.2.2'
     );
 
     wp_enqueue_style(

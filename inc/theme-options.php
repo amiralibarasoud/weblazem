@@ -71,6 +71,8 @@ function weblazem_register_settings() {
     register_setting('weblazem_options_group', 'weblazem_phone_number');
     register_setting('weblazem_options_group', 'weblazem_header_consult_enabled', array('sanitize_callback' => 'weblazem_sanitize_header_consult_checkbox'));
     register_setting('weblazem_options_group', 'weblazem_header_consult_btn_text');
+    register_setting('weblazem_options_group', 'weblazem_header_ticket_enabled', array('sanitize_callback' => 'weblazem_sanitize_header_consult_checkbox'));
+    register_setting('weblazem_options_group', 'weblazem_header_ticket_btn_text');
     register_setting('weblazem_options_group', 'weblazem_logo', 'weblazem_handle_logo_upload');
     register_setting('weblazem_options_group', 'weblazem_primary_color');
     register_setting('weblazem_options_group', 'weblazem_background_image', 'weblazem_handle_background_upload');
@@ -1001,6 +1003,24 @@ function weblazem_theme_options_display() {
                                     ?>
                                     <input type="text" name="weblazem_header_consult_btn_text" class="regular-text" value="<?php echo esc_attr(get_option('weblazem_header_consult_btn_text', '')); ?>" placeholder="<?php echo esc_attr($header_consult_btn_default); ?>" />
                                     <p class="description">در صورت خالی بودن، از متن دکمه مشاوره در <a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-consultation-options')); ?>">تنظیمات مودال مشاوره</a> استفاده می‌شود.</p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <th scope="row">دکمه ثبت تیکت</th>
+                                <td>
+                                    <input type="hidden" name="weblazem_header_ticket_enabled" value="0" />
+                                    <label>
+                                        <input type="checkbox" name="weblazem_header_ticket_enabled" value="1" <?php checked(get_option('weblazem_header_ticket_enabled', '1'), '1'); ?> />
+                                        نمایش دکمه «ورود به ثبت تیکت» در هدر
+                                    </label>
+                                    <p class="description">کنار دکمه مشاوره نمایش داده می‌شود و به صفحه ثبت تیکت لینک می‌دهد.</p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <th scope="row">متن دکمه تیکت</th>
+                                <td>
+                                    <input type="text" name="weblazem_header_ticket_btn_text" class="regular-text" value="<?php echo esc_attr(get_option('weblazem_header_ticket_btn_text', '')); ?>" placeholder="ورود به ثبت تیکت" />
+                                    <p class="description">در صورت خالی بودن، از متن دکمه سکشن تیکت استفاده می‌شود.</p>
                                 </td>
                             </tr>
                             <tr valign="top">

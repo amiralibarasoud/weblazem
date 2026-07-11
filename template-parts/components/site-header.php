@@ -57,6 +57,31 @@
                     </button>
                 <?php endif; ?>
 
+                <?php
+                $header_ticket_enabled = get_option('weblazem_header_ticket_enabled', '1') === '1';
+                $header_ticket_text    = get_option('weblazem_header_ticket_btn_text', '');
+                if ($header_ticket_text === '') {
+                    $header_ticket_text = get_option('weblazem_ticket_section_btn_text', 'ورود به ثبت تیکت');
+                }
+                if ($header_ticket_text === '') {
+                    $header_ticket_text = 'ورود به ثبت تیکت';
+                }
+                $ticket_page_url = function_exists('weblazem_get_ticket_page_url')
+                    ? weblazem_get_ticket_page_url()
+                    : home_url('/sabt-ticket/');
+
+                if ($header_ticket_enabled && !empty($ticket_page_url)) :
+                    ?>
+                    <a
+                        href="<?php echo esc_url($ticket_page_url); ?>"
+                        class="weblazem-header-ticket-btn"
+                        aria-label="<?php echo esc_attr($header_ticket_text); ?>"
+                    >
+                        <i class="fas fa-ticket" aria-hidden="true"></i>
+                        <span class="weblazem-header-ticket-btn__label"><?php echo esc_html($header_ticket_text); ?></span>
+                    </a>
+                <?php endif; ?>
+
                 <button
                     type="button"
                     class="weblazem-header__toggle"
@@ -99,12 +124,21 @@
             ?>
         </nav>
 
-        <?php if ($header_consult_enabled && $consult_system_enabled && !empty($header_btn_text)) : ?>
+        <?php if (($header_consult_enabled && $consult_system_enabled && !empty($header_btn_text)) || ($header_ticket_enabled && !empty($ticket_page_url))) : ?>
             <div class="weblazem-header__drawer-cta">
-                <button type="button" class="weblazem-header__drawer-consult weblazem-consult-trigger">
-                    <i class="fas fa-pen-to-square" aria-hidden="true"></i>
-                    <?php echo esc_html($header_btn_text); ?>
-                </button>
+                <?php if ($header_consult_enabled && $consult_system_enabled && !empty($header_btn_text)) : ?>
+                    <button type="button" class="weblazem-header__drawer-consult weblazem-consult-trigger">
+                        <i class="fas fa-pen-to-square" aria-hidden="true"></i>
+                        <?php echo esc_html($header_btn_text); ?>
+                    </button>
+                <?php endif; ?>
+
+                <?php if ($header_ticket_enabled && !empty($ticket_page_url)) : ?>
+                    <a href="<?php echo esc_url($ticket_page_url); ?>" class="weblazem-header__drawer-ticket">
+                        <i class="fas fa-ticket" aria-hidden="true"></i>
+                        <?php echo esc_html($header_ticket_text); ?>
+                    </a>
+                <?php endif; ?>
             </div>
         <?php endif; ?>
     </div>
