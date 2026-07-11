@@ -516,6 +516,14 @@ function weblazem_crm_admin_page() {
                                     <?php if (!empty($lead['edit_link'])) : ?>
                                         <a class="button button-small" href="<?php echo esc_url($lead['edit_link']); ?>" target="_blank" rel="noopener">جزئیات</a>
                                     <?php endif; ?>
+                                    <?php
+                                    if (function_exists('weblazem_project_convert_button_html') && function_exists('weblazem_project_convert_sources')) {
+                                        $convertible = weblazem_project_convert_sources();
+                                        if (isset($convertible[$lead['type']])) {
+                                            echo ' ' . weblazem_project_convert_button_html($lead['type'], $lead['id']);
+                                        }
+                                    }
+                                    ?>
                                     <span class="wl-crm__flash" data-crm-flash hidden></span>
                                 </td>
                             </tr>

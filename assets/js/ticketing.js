@@ -23,6 +23,7 @@
     var createView = document.getElementById('weblazem-ticket-create-view');
     var detailView = document.getElementById('weblazem-ticket-detail-view');
     var proposalView = document.getElementById('weblazem-proposal-detail-view');
+    var projectView = document.getElementById('weblazem-project-detail-view');
     var listEl = document.getElementById('weblazem-ticket-list');
     var emptyEl = document.getElementById('weblazem-ticket-empty');
     var userEl = document.getElementById('weblazem-ticket-current-user');
@@ -30,7 +31,7 @@
     var successModal = document.getElementById('weblazem-ticket-success');
 
     function showView(name) {
-        [loginView, dashView, createView, detailView, proposalView].forEach(function (view) {
+        [loginView, dashView, createView, detailView, proposalView, projectView].forEach(function (view) {
             if (!view) return;
             view.hidden = view.getAttribute('data-view') !== name;
         });
@@ -219,14 +220,34 @@
             card.className = 'weblazem-account-card';
             card.innerHTML =
                 '<div class="weblazem-account-card__body">' +
-                    '<p class="weblazem-account-card__title"></p>' +
+                    '<div class="weblazem-account-card__row">' +
+                        '<p class="weblazem-account-card__title"></p>' +
+                        '<span class="weblazem-ticket-status"></span>' +
+                    '</div>' +
                     '<p class="weblazem-account-card__meta"></p>' +
                     '<p class="weblazem-account-card__desc"></p>' +
+                    '<div class="weblazem-account-card__actions"></div>' +
                 '</div>';
             card.querySelector('.weblazem-account-card__title').textContent = brief.projectLabel || brief.title || 'بریف پروژه';
+            card.querySelector('.weblazem-ticket-status').textContent = brief.statusLabel || brief.status || 'در انتظار بررسی';
             card.querySelector('.weblazem-account-card__meta').textContent =
                 (brief.budgetLabel || '') + (brief.deadline ? ' · مهلت: ' + brief.deadline : '') + (brief.createdAt ? ' · ' + brief.createdAt : '');
             card.querySelector('.weblazem-account-card__desc').textContent = brief.goal || '';
+            if (brief.projectId) {
+                var go = document.createElement('button');
+                go.type = 'button';
+                go.className = 'weblazem-account-link';
+                go.textContent = 'مشاهده پروژه';
+                go.addEventListener('click', function () {
+                    var project = state.projects.find(function (p) { return String(p.id) === String(brief.projectId); });
+                    if (project) {
+                        openProject(project);
+                    } else {
+                        setTab('projects');
+                    }
+                });
+                card.querySelector('.weblazem-account-card__actions').appendChild(go);
+            }
             list.appendChild(card);
         });
     }
@@ -284,26 +305,89 @@
         if (empty) empty.hidden = true;
 
         state.projects.forEach(function (project) {
-            var card = document.createElement('div');
-            card.className = 'weblazem-account-card weblazem-project-card';
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'weblazem-ticket-card weblazem-project-card';
             var progress = Math.max(0, Math.min(100, parseInt(project.progress, 10) || 0));
-            card.innerHTML =
-                '<div class="weblazem-account-card__body">' +
-                    '<div class="weblazem-account-card__row">' +
-                        '<p class="weblazem-account-card__title"></p>' +
-                        '<span class="weblazem-ticket-status"></span>' +
-                    '</div>' +
-                    '<p class="weblazem-account-card__meta"></p>' +
+            btn.innerHTML =
+                '<div>' +
+                    '<p class="weblazem-ticket-card__title"></p>' +
+                    '<div class="weblazem-ticket-card__meta"></div>' +
                     '<div class="weblazem-project-progress"><span style="width:' + progress + '%"></span></div>' +
                     '<p class="weblazem-account-card__desc"></p>' +
-                '</div>';
-            card.querySelector('.weblazem-account-card__title').textContent = project.title;
-            card.querySelector('.weblazem-ticket-status').textContent = project.stageLabel || project.stage || '';
-            card.querySelector('.weblazem-account-card__meta').textContent =
+                '</div>' +
+                '<span class="weblazem-ticket-status"></span>';
+            btn.querySelector('.weblazem-ticket-card__title').textContent = project.title;
+            btn.querySelector('.weblazem-ticket-card__meta').textContent =
                 (project.code || '') + (project.updatedAt ? ' · ' + project.updatedAt : '');
-            card.querySelector('.weblazem-account-card__desc').textContent = 'پیشرفت: ' + progress + '٪';
-            list.appendChild(card);
+            btn.querySelector('.weblazem-account-card__desc').textContent =
+                (project.statusLabel || 'در حال انجام') + ' · پیشرفت ' + progress + '٪';
+            btn.querySelector('.weblazem-ticket-status').textContent = project.stageLabel || project.stage || '';
+            btn.addEventListener('click', function () {
+                openProject(project);
+            });
+            list.appendChild(btn);
         });
+    }
+
+    function openProject(project) {
+        state.currentProjectId = project.id;
+        document.getElementById('weblazem-project-detail-code').textContent = project.code || '';
+        document.getElementById('weblazem-project-detail-title').textContent = project.title || '';
+        document.getElementById('weblazem-project-detail-meta').textContent =
+            (project.statusLabel || 'در حال انجام') +
+            (project.updatedAt ? ' · آخرین بروزرسانی: ' + project.updatedAt : '');
+
+        var statusEl = document.getElementById('weblazem-project-detail-status');
+        statusEl.textContent = project.stageLabel || project.stage || '';
+        statusEl.className = 'weblazem-ticket-status';
+
+        var progress = Math.max(0, Math.min(100, parseInt(project.progress, 10) || 0));
+        document.getElementById('weblazem-project-detail-progress-text').textContent = progress + '٪';
+        document.getElementById('weblazem-project-detail-progress-bar').style.width = progress + '%';
+
+        var stagesEl = document.getElementById('weblazem-project-detail-stages');
+        stagesEl.innerHTML = '';
+        (project.stages || []).forEach(function (stage) {
+            var li = document.createElement('li');
+            li.className = 'weblazem-project-stages__item' + (stage.done ? ' is-done' : '');
+            li.innerHTML =
+                '<div class="weblazem-project-stages__dot" aria-hidden="true"></div>' +
+                '<div class="weblazem-project-stages__body">' +
+                    '<strong></strong>' +
+                    '<span class="weblazem-project-stages__date"></span>' +
+                    '<p class="weblazem-project-stages__note"></p>' +
+                '</div>';
+            li.querySelector('strong').textContent = stage.label || stage.key || '';
+            li.querySelector('.weblazem-project-stages__date').textContent = stage.date || (stage.done ? 'انجام شده' : 'در انتظار');
+            var note = li.querySelector('.weblazem-project-stages__note');
+            if (stage.note) {
+                note.textContent = stage.note;
+            } else {
+                note.hidden = true;
+            }
+            stagesEl.appendChild(li);
+        });
+
+        var filesWrap = document.getElementById('weblazem-project-detail-files-wrap');
+        var filesEl = document.getElementById('weblazem-project-detail-files');
+        filesEl.innerHTML = '';
+        if (project.files && project.files.length) {
+            filesWrap.hidden = false;
+            project.files.forEach(function (file) {
+                var a = document.createElement('a');
+                a.className = 'weblazem-ticket-attach';
+                a.href = file.url || '#';
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                a.innerHTML = '<i class="fas fa-paperclip" aria-hidden="true"></i> ' + escapeHtml(file.title || 'فایل');
+                filesEl.appendChild(a);
+            });
+        } else {
+            filesWrap.hidden = true;
+        }
+
+        showView('project');
     }
 
     function renderOverview() {
@@ -323,6 +407,39 @@
 
         var ovTickets = document.getElementById('weblazem-account-overview-tickets');
         var ovProposals = document.getElementById('weblazem-account-overview-proposals');
+        var ovProjects = document.getElementById('weblazem-account-overview-projects');
+
+        if (ovProjects) {
+            ovProjects.innerHTML = '';
+            var activeProjects = state.projects.filter(function (p) {
+                return (p.status || 'active') !== 'done';
+            });
+            if (!activeProjects.length && !state.projects.length) {
+                ovProjects.innerHTML = '<p class="weblazem-account-muted">هنوز پروژه‌ای شروع نشده است.</p>';
+            } else {
+                (activeProjects.length ? activeProjects : state.projects).slice(0, 3).forEach(function (project) {
+                    var btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'weblazem-ticket-card weblazem-project-card weblazem-project-card--compact';
+                    var progress = Math.max(0, Math.min(100, parseInt(project.progress, 10) || 0));
+                    btn.innerHTML =
+                        '<div>' +
+                            '<p class="weblazem-ticket-card__title"></p>' +
+                            '<div class="weblazem-ticket-card__meta"></div>' +
+                            '<div class="weblazem-project-progress"><span style="width:' + progress + '%"></span></div>' +
+                        '</div>' +
+                        '<span class="weblazem-ticket-status"></span>';
+                    btn.querySelector('.weblazem-ticket-card__title').textContent = project.title;
+                    btn.querySelector('.weblazem-ticket-card__meta').textContent =
+                        (project.code || '') + ' · پیشرفت ' + progress + '٪';
+                    btn.querySelector('.weblazem-ticket-status').textContent = project.stageLabel || project.statusLabel || '';
+                    btn.addEventListener('click', function () {
+                        openProject(project);
+                    });
+                    ovProjects.appendChild(btn);
+                });
+            }
+        }
 
         if (ovTickets) {
             ovTickets.innerHTML = '';

@@ -856,6 +856,120 @@ body.weblazem-ticket-success-open {
     background: linear-gradient(90deg, #4f1e60, #f5c518);
 }
 
+.weblazem-project-progress--lg {
+    height: 12px;
+    margin: 0;
+}
+
+.weblazem-account-block--projects {
+    margin-bottom: 20px;
+}
+
+.weblazem-project-detail {
+    display: grid;
+    gap: 22px;
+}
+
+.weblazem-project-detail__head {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.weblazem-project-detail__code {
+    margin: 0 0 6px;
+    color: #7a6a82;
+    font-size: 0.9rem;
+}
+
+.weblazem-project-detail__meta {
+    margin: 8px 0 0;
+    color: #6b5a72;
+}
+
+.weblazem-project-detail__progress-wrap {
+    display: grid;
+    gap: 10px;
+}
+
+.weblazem-project-detail__progress-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+}
+
+.weblazem-project-detail__section-title {
+    margin: 0 0 12px;
+    font-size: 1.05rem;
+}
+
+.weblazem-project-stages {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+    border-right: 2px solid #efe4f4;
+}
+
+.weblazem-project-stages__item {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 12px;
+    position: relative;
+    padding: 0 0 18px 0;
+    margin-right: -10px;
+}
+
+.weblazem-project-stages__item:last-child {
+    padding-bottom: 0;
+}
+
+.weblazem-project-stages__dot {
+    width: 14px;
+    height: 14px;
+    margin-top: 4px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #c9b4d4;
+    box-shadow: 0 0 0 4px #fff;
+}
+
+.weblazem-project-stages__item.is-done .weblazem-project-stages__dot {
+    background: #4f1e60;
+    border-color: #4f1e60;
+}
+
+.weblazem-project-stages__body strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.weblazem-project-stages__date {
+    display: block;
+    color: #7a6a82;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+}
+
+.weblazem-project-stages__note {
+    margin: 0;
+    color: #5a4a62;
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.weblazem-project-detail__files {
+    display: grid;
+    gap: 10px;
+}
+
+.weblazem-account-card__actions {
+    margin-top: 10px;
+}
+
 @media (max-width: 768px) {
     .weblazem-ticket-panel {
         padding: 18px;

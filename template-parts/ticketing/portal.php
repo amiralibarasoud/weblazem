@@ -68,6 +68,13 @@ $priorities    = weblazem_ticket_priorities();
                 <!-- Overview -->
                 <div class="weblazem-account-pane is-active" id="weblazem-account-pane-overview" data-pane="overview">
                     <div class="weblazem-account-stats" id="weblazem-account-stats"></div>
+                    <div class="weblazem-account-block weblazem-account-block--projects" id="weblazem-account-overview-projects-wrap">
+                        <div class="weblazem-account-block__head">
+                            <h3>پروژه‌های در حال انجام</h3>
+                            <button type="button" class="weblazem-account-link" data-goto-tab="projects">همه</button>
+                        </div>
+                        <div id="weblazem-account-overview-projects"></div>
+                    </div>
                     <div class="weblazem-account-overview-grid">
                         <div class="weblazem-account-block">
                             <div class="weblazem-account-block__head">
@@ -107,7 +114,37 @@ $priorities    = weblazem_ticket_priorities();
                 <!-- Projects -->
                 <div class="weblazem-account-pane" id="weblazem-account-pane-projects" data-pane="projects" hidden>
                     <div class="weblazem-account-list" id="weblazem-account-projects-list"></div>
-                    <p class="weblazem-ticket-empty" id="weblazem-account-projects-empty" hidden>پروژه‌ای برای این شماره ثبت نشده است.</p>
+                    <p class="weblazem-ticket-empty" id="weblazem-account-projects-empty" hidden>پروژه‌ای برای این شماره ثبت نشده است. پس از تبدیل درخواست/بریف به پروژه توسط تیم وب‌لازم، اینجا نمایش داده می‌شود.</p>
+                </div>
+            </div>
+
+            <!-- Project detail -->
+            <div class="weblazem-ticket-view" id="weblazem-project-detail-view" data-view="project" hidden>
+                <button type="button" class="weblazem-ticket-back" data-ticket-back data-back-to="projects">&rarr; بازگشت به پروژه‌ها</button>
+                <div class="weblazem-project-detail" id="weblazem-project-detail">
+                    <div class="weblazem-project-detail__head">
+                        <div>
+                            <p class="weblazem-project-detail__code" id="weblazem-project-detail-code" dir="ltr"></p>
+                            <h2 id="weblazem-project-detail-title"></h2>
+                            <p class="weblazem-project-detail__meta" id="weblazem-project-detail-meta"></p>
+                        </div>
+                        <span class="weblazem-ticket-status" id="weblazem-project-detail-status"></span>
+                    </div>
+                    <div class="weblazem-project-detail__progress-wrap">
+                        <div class="weblazem-project-detail__progress-label">
+                            <span>پیشرفت پروژه</span>
+                            <strong id="weblazem-project-detail-progress-text">0٪</strong>
+                        </div>
+                        <div class="weblazem-project-progress weblazem-project-progress--lg">
+                            <span id="weblazem-project-detail-progress-bar" style="width:0%"></span>
+                        </div>
+                    </div>
+                    <h3 class="weblazem-project-detail__section-title">مراحل انجام</h3>
+                    <ol class="weblazem-project-stages" id="weblazem-project-detail-stages"></ol>
+                    <div class="weblazem-project-detail__files" id="weblazem-project-detail-files-wrap" hidden>
+                        <h3 class="weblazem-project-detail__section-title">فایل‌ها و خروجی‌ها</h3>
+                        <div id="weblazem-project-detail-files"></div>
+                    </div>
                 </div>
             </div>
 

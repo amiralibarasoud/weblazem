@@ -386,7 +386,7 @@ function weblazem_enqueue_ticketing_assets() {
         'weblazem-ticketing',
         get_template_directory_uri() . '/assets/css/ticketing.css',
         array(),
-        '1.3.0'
+        '1.4.0'
     );
 
     if (!$is_ticket_page) {
@@ -397,7 +397,7 @@ function weblazem_enqueue_ticketing_assets() {
         'weblazem-ticketing',
         get_template_directory_uri() . '/assets/js/ticketing.js',
         array(),
-        '1.3.0',
+        '1.4.0',
         true
     );
 

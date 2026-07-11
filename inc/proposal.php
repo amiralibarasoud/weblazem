@@ -271,6 +271,14 @@ function weblazem_format_brief_for_client_api($post) {
     $bud   = (string) get_post_meta($id, '_brief_budget', true);
     $buds  = function_exists('weblazem_start_project_default_budgets') ? weblazem_start_project_default_budgets() : array();
 
+    $status = (string) (get_post_meta($id, '_brief_status', true) ?: 'new');
+    $status_labels = array(
+        'new'       => 'در انتظار بررسی',
+        'converted' => 'تبدیل‌شده به پروژه',
+        'closed'    => 'بسته',
+    );
+    $project_id = (int) get_post_meta($id, '_brief_project_id', true);
+
     return array(
         'id'           => $id,
         'title'        => get_the_title($id),
@@ -283,7 +291,9 @@ function weblazem_format_brief_for_client_api($post) {
         'budgetLabel'  => isset($buds[$bud]) ? $buds[$bud] : $bud,
         'deadline'     => (string) get_post_meta($id, '_brief_deadline', true),
         'goal'         => (string) get_post_meta($id, '_brief_goal', true),
-        'status'       => (string) (get_post_meta($id, '_brief_status', true) ?: 'new'),
+        'status'       => $status,
+        'statusLabel'  => isset($status_labels[$status]) ? $status_labels[$status] : $status,
+        'projectId'    => $project_id,
         'crmStatus'    => function_exists('weblazem_crm_get_status') ? weblazem_crm_get_status($id) : '',
         'createdAt'    => get_the_date('Y-m-d H:i', $id),
     );
@@ -365,6 +375,11 @@ function weblazem_proposal_get_brief_choices() {
  * Create client_project from accepted proposal when helpers exist.
  */
 function weblazem_proposal_maybe_create_project($proposal_id) {
+    if (function_exists('weblazem_convert_source_to_project')) {
+        $result = weblazem_convert_source_to_project('client_proposal', $proposal_id);
+        return is_wp_error($result) ? 0 : (int) $result;
+    }
+
     if (!post_type_exists('client_project')) {
         return 0;
     }
@@ -374,47 +389,7 @@ function weblazem_proposal_maybe_create_project($proposal_id) {
         return $existing;
     }
 
-    $title  = get_post_meta($proposal_id, '_proposal_title', true) ?: get_the_title($proposal_id);
-    $mobile = weblazem_proposal_normalize_mobile(get_post_meta($proposal_id, '_proposal_mobile', true));
-    $name   = get_post_meta($proposal_id, '_proposal_client_name', true);
-    $code   = function_exists('weblazem_project_status_generate_code')
-        ? weblazem_project_status_generate_code()
-        : ('PRJ-' . strtoupper(wp_generate_password(6, false, false)));
-
-    $stages = function_exists('weblazem_project_status_default_stages')
-        ? weblazem_project_status_default_stages()
-        : array();
-
-    if (!empty($stages) && isset($stages[0])) {
-        $stages[0]['done'] = true;
-        $stages[0]['date'] = current_time('Y-m-d');
-        $stages[0]['note'] = 'ایجاد شده از پیشنهاد پذیرفته‌شده ' . get_post_meta($proposal_id, '_proposal_code', true);
-    }
-
-    $project_id = wp_insert_post(
-        array(
-            'post_type'   => 'client_project',
-            'post_status' => 'publish',
-            'post_title'  => $title,
-        ),
-        true
-    );
-
-    if (is_wp_error($project_id) || !$project_id) {
-        return 0;
-    }
-
-    update_post_meta($project_id, '_project_code', $code);
-    update_post_meta($project_id, '_project_client_name', $name);
-    update_post_meta($project_id, '_project_client_mobile', $mobile);
-    update_post_meta($project_id, '_project_stage', 'briefing');
-    update_post_meta($project_id, '_project_progress', 10);
-    update_post_meta($project_id, '_project_stages', $stages);
-    update_post_meta($project_id, '_project_files', array());
-    update_post_meta($project_id, '_project_proposal_id', $proposal_id);
-    update_post_meta($proposal_id, '_proposal_project_id', $project_id);
-
-    return (int) $project_id;
+    return 0;
 }
 
 function weblazem_proposal_user_owns($proposal_id, $mobile) {
@@ -730,6 +705,11 @@ function weblazem_proposal_admin_list_ui($status_filter = '') {
                             <a href="<?php echo esc_url($base . '&action=edit&id=' . $id); ?>">ویرایش</a>
                             |
                             <a href="<?php echo esc_url(wp_nonce_url($base . '&delete=' . $id, 'weblazem_proposal_delete_' . $id)); ?>" onclick="return confirm('حذف شود؟');">حذف</a>
+                            <?php
+                            if (function_exists('weblazem_project_convert_button_html')) {
+                                echo ' | ' . weblazem_project_convert_button_html('client_proposal', $id);
+                            }
+                            ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

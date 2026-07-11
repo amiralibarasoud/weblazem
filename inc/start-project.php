@@ -313,19 +313,26 @@ function weblazem_start_project_admin_briefs_table() {
                 <th>نوع</th>
                 <th>بودجه</th>
                 <th>مهلت</th>
+                <th>وضعیت</th>
                 <th>تاریخ</th>
-                <th></th>
+                <th>اقدام</th>
             </tr>
         </thead>
         <tbody>
             <?php if (!$query->have_posts()) : ?>
-                <tr><td colspan="8">بریفی ثبت نشده است.</td></tr>
+                <tr><td colspan="9">بریفی ثبت نشده است.</td></tr>
             <?php else : ?>
                 <?php while ($query->have_posts()) : $query->the_post(); ?>
                     <?php
-                    $id   = get_the_ID();
-                    $type = get_post_meta($id, '_brief_project_type', true);
-                    $bud  = get_post_meta($id, '_brief_budget', true);
+                    $id     = get_the_ID();
+                    $type   = get_post_meta($id, '_brief_project_type', true);
+                    $bud    = get_post_meta($id, '_brief_budget', true);
+                    $status = get_post_meta($id, '_brief_status', true) ?: 'new';
+                    $status_labels = array(
+                        'new'       => 'جدید',
+                        'converted' => 'تبدیل‌شده به پروژه',
+                        'closed'    => 'بسته',
+                    );
                     ?>
                     <tr>
                         <td><?php echo esc_html(get_post_meta($id, '_brief_name', true)); ?></td>
@@ -334,8 +341,16 @@ function weblazem_start_project_admin_briefs_table() {
                         <td><?php echo esc_html(isset($types[$type]) ? $types[$type] : $type); ?></td>
                         <td><?php echo esc_html(isset($buds[$bud]) ? $buds[$bud] : $bud); ?></td>
                         <td><?php echo esc_html(get_post_meta($id, '_brief_deadline', true)); ?></td>
+                        <td><?php echo esc_html(isset($status_labels[$status]) ? $status_labels[$status] : $status); ?></td>
                         <td><?php echo esc_html(get_the_date('Y-m-d H:i')); ?></td>
-                        <td><a href="<?php echo esc_url(get_edit_post_link($id)); ?>">مشاهده</a></td>
+                        <td style="white-space:nowrap;">
+                            <a class="button button-small" href="<?php echo esc_url(get_edit_post_link($id)); ?>">مشاهده</a>
+                            <?php
+                            if (function_exists('weblazem_project_convert_button_html')) {
+                                echo weblazem_project_convert_button_html('project_brief', $id);
+                            }
+                            ?>
+                        </td>
                     </tr>
                 <?php endwhile; ?>
             <?php endif; ?>

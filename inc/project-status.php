@@ -219,6 +219,7 @@ function weblazem_format_client_project_for_api($post) {
     $stages   = weblazem_project_status_sanitize_stages($stages);
     $files    = weblazem_project_status_sanitize_files(get_post_meta($id, '_project_files', true));
     $progress = max(0, min(100, (int) get_post_meta($id, '_project_progress', true)));
+    $status   = get_post_meta($id, '_project_status', true) ?: 'active';
 
     return array(
         'id'          => $id,
@@ -229,8 +230,12 @@ function weblazem_format_client_project_for_api($post) {
         'progress'    => $progress,
         'stage'       => $stage,
         'stageLabel'  => isset($labels[$stage]) ? $labels[$stage] : $stage,
+        'status'      => $status,
+        'statusLabel' => $status === 'done' ? 'تکمیل‌شده' : 'در حال انجام',
         'stages'      => $stages,
         'files'       => $files,
+        'briefId'     => (int) get_post_meta($id, '_project_brief_id', true),
+        'proposalId'  => (int) get_post_meta($id, '_project_proposal_id', true),
         'updatedAt'   => get_the_modified_date('Y-m-d H:i', $id),
     );
 }
@@ -355,6 +360,7 @@ function weblazem_project_status_admin_save_project($data) {
     $name       = isset($data['client_name']) ? sanitize_text_field(wp_unslash($data['client_name'])) : '';
     $progress   = isset($data['progress']) ? max(0, min(100, absint($data['progress']))) : 0;
     $stage      = isset($data['stage']) ? sanitize_key($data['stage']) : 'briefing';
+    $status     = isset($data['project_status']) ? sanitize_key($data['project_status']) : 'active';
     $labels     = weblazem_project_status_stage_labels();
 
     if ($title === '') {
@@ -365,6 +371,9 @@ function weblazem_project_status_admin_save_project($data) {
     }
     if (!isset($labels[$stage])) {
         $stage = 'briefing';
+    }
+    if (!in_array($status, array('active', 'done'), true)) {
+        $status = 'active';
     }
 
     $stages = weblazem_project_status_default_stages();
@@ -430,6 +439,7 @@ function weblazem_project_status_admin_save_project($data) {
     update_post_meta($project_id, '_project_code', $code);
     update_post_meta($project_id, '_project_progress', $progress);
     update_post_meta($project_id, '_project_stage', $stage);
+    update_post_meta($project_id, '_project_status', $status);
     update_post_meta($project_id, '_project_stages', $stages);
     update_post_meta($project_id, '_project_files', $files);
 
@@ -457,6 +467,10 @@ function weblazem_project_status_admin_projects_ui() {
     $progress = $edit ? (int) get_post_meta($edit_id, '_project_progress', true) : 0;
     $stage   = $edit ? get_post_meta($edit_id, '_project_stage', true) : 'briefing';
     $code    = $edit ? get_post_meta($edit_id, '_project_code', true) : '';
+    $status  = $edit ? (get_post_meta($edit_id, '_project_status', true) ?: 'active') : 'active';
+    $source_type = $edit ? get_post_meta($edit_id, '_project_source_type', true) : '';
+    $source_id   = $edit ? (int) get_post_meta($edit_id, '_project_source_id', true) : 0;
+    $source_labels = function_exists('weblazem_project_convert_sources') ? weblazem_project_convert_sources() : array();
     ?>
     <h2><?php echo $edit ? 'ویرایش پروژه' : 'افزودن پروژه جدید'; ?></h2>
     <form method="post" style="margin-bottom:28px;background:#fff;padding:16px;border:1px solid #ccd0d4;">
@@ -481,6 +495,30 @@ function weblazem_project_status_admin_projects_ui() {
                     <td><code dir="ltr"><?php echo esc_html($code); ?></code></td>
                 </tr>
             <?php endif; ?>
+            <?php if ($source_type && $source_id) : ?>
+                <tr>
+                    <th>منبع</th>
+                    <td>
+                        <?php
+                        $src_label = isset($source_labels[$source_type]['label']) ? $source_labels[$source_type]['label'] : $source_type;
+                        $edit_link = get_edit_post_link($source_id);
+                        echo esc_html($src_label) . ' #' . (int) $source_id;
+                        if ($edit_link) {
+                            echo ' — <a href="' . esc_url($edit_link) . '">مشاهده درخواست</a>';
+                        }
+                        ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+            <tr>
+                <th>وضعیت پروژه</th>
+                <td>
+                    <select name="project_status">
+                        <option value="active" <?php selected($status, 'active'); ?>>در حال انجام</option>
+                        <option value="done" <?php selected($status, 'done'); ?>>تکمیل‌شده</option>
+                    </select>
+                </td>
+            </tr>
             <tr>
                 <th>پیشرفت (%)</th>
                 <td><input type="number" name="progress" min="0" max="100" value="<?php echo esc_attr($progress); ?>" /></td>
@@ -549,17 +587,19 @@ function weblazem_project_status_admin_projects_ui() {
                 <th>موبایل</th>
                 <th>پیشرفت</th>
                 <th>مرحله</th>
+                <th>وضعیت</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             <?php if (!$query->have_posts()) : ?>
-                <tr><td colspan="7">پروژه‌ای ثبت نشده است.</td></tr>
+                <tr><td colspan="8">پروژه‌ای ثبت نشده است.</td></tr>
             <?php else : ?>
                 <?php while ($query->have_posts()) : $query->the_post(); ?>
                     <?php
                     $id = get_the_ID();
                     $st = get_post_meta($id, '_project_stage', true);
+                    $ps = get_post_meta($id, '_project_status', true) ?: 'active';
                     ?>
                     <tr>
                         <td><?php the_title(); ?></td>
@@ -568,6 +608,7 @@ function weblazem_project_status_admin_projects_ui() {
                         <td dir="ltr"><?php echo esc_html(get_post_meta($id, '_project_client_mobile', true)); ?></td>
                         <td><?php echo esc_html((int) get_post_meta($id, '_project_progress', true)); ?>%</td>
                         <td><?php echo esc_html(isset($labels[$st]) ? $labels[$st] : $st); ?></td>
+                        <td><?php echo esc_html($ps === 'done' ? 'تکمیل‌شده' : 'در حال انجام'); ?></td>
                         <td><a href="<?php echo esc_url(admin_url('admin.php?page=weblazem-project-status-options&tab=projects&edit=' . $id)); ?>">ویرایش</a></td>
                     </tr>
                 <?php endwhile; ?>

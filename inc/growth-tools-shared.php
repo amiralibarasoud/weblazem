@@ -189,6 +189,7 @@ $weblazem_growth_feature_files = array(
     'csat.php',
     'leads-crm.php',
     'proposal.php',
+    'project-convert.php',
 );
 foreach ($weblazem_growth_feature_files as $weblazem_growth_feature_file) {
     $weblazem_growth_feature_path = get_template_directory() . '/inc/' . $weblazem_growth_feature_file;
