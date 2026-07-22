@@ -70,7 +70,7 @@ function weblazem_ticketing_settings_page() {
     $code     = weblazem_get_ticket_access_code();
     $title    = get_option('weblazem_ticket_section_title', 'ثبت تیکت و پیگیری تسک');
     $subtitle = get_option('weblazem_ticket_section_subtitle', '');
-    $btn_text = get_option('weblazem_ticket_section_btn_text', 'ورود به حساب کاربری');
+    $btn_text = get_option('weblazem_ticket_section_btn_text',  ورود');
     $page_title = get_option('weblazem_ticket_page_title', 'حساب کاربری مشتری');
     $page_subtitle = get_option('weblazem_ticket_page_subtitle', '');
     $success = get_option('weblazem_ticket_success_message', 'تیکت شما با موفقیت ثبت شد.');
