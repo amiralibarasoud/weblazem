@@ -465,8 +465,8 @@ body.weblazem-consult-modal-open {
 .weblazem-header-consult-btn:hover {
     background: #a059b8;
     transform: translateY(-1px);
-    color: #000000;
-    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+    color: #ffffff;
+    box-shadow: 0 6px 18px rgba(215, 139, 245, 0.4);
 }
 
 .weblazem-header-consult-btn i {
