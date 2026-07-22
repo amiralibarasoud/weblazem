@@ -25,7 +25,7 @@ function weblazem_homepage_shortcodes($atts, $content = null, $tag = '')
             $order_button_url = get_option('weblazem_order_button_url', 'https://weblazem.com/khadamat-va-tarafeha/');
             return '<div class="flex gap-4 items-center">
                 <a href="' . esc_url($button_url) . '" class="hero-button">' . esc_html($button_text) . ' <i class="fas fa-arrow-left"></i></a>
-                <a href="' . esc_url($order_button_url) . '" class="bg-white/10 backdrop-blur-sm border border-white text-white px-6 py-3 font-medium transition-all duration-300 hover:bg-white/20 hover:-translate-y-1" style="border-radius: 8px;">' . esc_html($order_button_text) . '</a>
+                <a href="' . esc_url($order_button_url) . '" class="bg-white/10 backdrop-blur-sm border border-white text-white px-6 py-3 font-medium transition-all duration-300 hover:bg-white/20 hover:-translate-y-1 hover: text-black hover:bg-f3b93d hover:border-f3b93d" style="border-radius: 8px;">' . esc_html($order_button_text) . '</a>
             </div>';
 
         case 'weblazem_services_title':
