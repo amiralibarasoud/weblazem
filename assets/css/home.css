@@ -662,7 +662,7 @@ button.about-button {
 .team-member--col-left {
     flex-direction: row-reverse;
     justify-content: flex-end;
-    border-radius: 9999px 0 0 9999px;
+    border-radius: 0 90000px 90000px 0;
     padding: 20px 16px 20px 52px;
 }
 
@@ -670,7 +670,7 @@ button.about-button {
 .team-member--col-right {
     flex-direction: row;
     justify-content: flex-start;
-    border-radius: 0 9999px 9999px 0;
+    border-radius: 9999px 0 9999px 0;
     padding: 20px 52px 20px 16px;
 }
 
